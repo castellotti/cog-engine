@@ -1160,7 +1160,7 @@ public class Text2Cog {
 
 		// Read in Preferred Room Graphic Dimensions (x,y) :
       returnedString =
-         parseMultiLines(lineArray, numLines, currentLine, "Preferred Room Graphic Dimensions (x,y) :", "Show Statistal Display :", ":");
+         parseMultiLines(lineArray, numLines, currentLine, "Preferred Room Graphic Dimensions (x,y) :", "Show Statistical Display :", ":");
       try {
          if (returnedString != null) {
             StringTokenizer numTokens = new StringTokenizer(returnedString, ",");
@@ -1177,7 +1177,7 @@ public class Text2Cog {
 
 		// Read in Statistal Display
       returnedString =
-         parseMultiLines(lineArray, numLines, currentLine, "Show Statistal Display :", "Show Inventory Display :", ":");
+         parseMultiLines(lineArray, numLines, currentLine, "Show Statistical Display :", "Show Inventory Display :", ":");
       if (returnedString != null) {
          if(returnedString.equals("true"))
             gameInfo.ShowStats = true;
@@ -1186,7 +1186,7 @@ public class Text2Cog {
       }         
       else
          returnError("Error on line: " + (CurrentStreamLine - (numLines - currentLine[0])) + "\n" + 
-                     "Required field \"Show Statistal Display :\" missing");
+                     "Required field \"Show Statistical Display :\" missing");
   
 		// Read in Inventory Display
       returnedString =
