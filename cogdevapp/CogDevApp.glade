@@ -352,58 +352,11 @@
     </child>
 
     <widget>
-      <class>GnomeDockItem</class>
-      <name>dockitem2</name>
-      <border_width>2</border_width>
-      <placement>GNOME_DOCK_TOP</placement>
-      <band>0</band>
-      <position>0</position>
-      <offset>0</offset>
-      <locked>False</locked>
-      <exclusive>True</exclusive>
-      <never_floating>False</never_floating>
-      <never_vertical>True</never_vertical>
-      <never_horizontal>False</never_horizontal>
-      <shadow_type>GTK_SHADOW_OUT</shadow_type>
-
-      <widget>
-	<class>GtkToolbar</class>
-	<name>toolbar2</name>
-	<orientation>GTK_ORIENTATION_HORIZONTAL</orientation>
-	<type>GTK_TOOLBAR_BOTH</type>
-	<space_size>5</space_size>
-	<space_style>GTK_TOOLBAR_SPACE_EMPTY</space_style>
-	<relief>GTK_RELIEF_NORMAL</relief>
-	<tooltips>True</tooltips>
-
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-      </widget>
-    </widget>
-
-    <widget>
       <class>GtkScrolledWindow</class>
       <child_name>GnomeDock:contents</child_name>
       <name>scrolledwindow3</name>
       <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
-      <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+      <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
       <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
       <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
 
@@ -755,20 +708,6 @@
 	  </widget>
 
 	  <widget>
-	    <class>GtkRadioButton</class>
-	    <name>debug_mode_false_radiobutton</name>
-	    <x>184</x>
-	    <y>408</y>
-	    <width>56</width>
-	    <height>24</height>
-	    <can_focus>True</can_focus>
-	    <label>False</label>
-	    <active>False</active>
-	    <draw_indicator>True</draw_indicator>
-	    <group>debug_mode_radiobutton_group</group>
-	  </widget>
-
-	  <widget>
 	    <class>GtkCheckButton</class>
 	    <name>show_statistical_display_checkbutton</name>
 	    <x>16</x>
@@ -893,20 +832,6 @@
 	  </widget>
 
 	  <widget>
-	    <class>GtkRadioButton</class>
-	    <name>debug_mode_true_radiobutton</name>
-	    <x>128</x>
-	    <y>408</y>
-	    <width>56</width>
-	    <height>24</height>
-	    <can_focus>True</can_focus>
-	    <label>True</label>
-	    <active>False</active>
-	    <draw_indicator>True</draw_indicator>
-	    <group>debug_mode_radiobutton_group</group>
-	  </widget>
-
-	  <widget>
 	    <class>GtkScrolledWindow</class>
 	    <name>scrolledwindow22</name>
 	    <x>144</x>
@@ -951,6 +876,34 @@
 	      <text></text>
 	    </widget>
 	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>debug_mode_true_radiobutton</name>
+	    <x>136</x>
+	    <y>408</y>
+	    <width>56</width>
+	    <height>24</height>
+	    <can_focus>True</can_focus>
+	    <label>True</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>debug_mode_radiobutton_group</group>
+	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>debug_mode_false_radiobutton</name>
+	    <x>200</x>
+	    <y>408</y>
+	    <width>64</width>
+	    <height>24</height>
+	    <can_focus>True</can_focus>
+	    <label>False</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>debug_mode_radiobutton_group</group>
+	  </widget>
 	</widget>
       </widget>
     </widget>
@@ -986,53 +939,6 @@
       <expand>True</expand>
       <fill>True</fill>
     </child>
-
-    <widget>
-      <class>GnomeDockItem</class>
-      <name>dockitem4</name>
-      <border_width>2</border_width>
-      <placement>GNOME_DOCK_TOP</placement>
-      <band>0</band>
-      <position>0</position>
-      <offset>0</offset>
-      <locked>False</locked>
-      <exclusive>True</exclusive>
-      <never_floating>False</never_floating>
-      <never_vertical>True</never_vertical>
-      <never_horizontal>False</never_horizontal>
-      <shadow_type>GTK_SHADOW_OUT</shadow_type>
-
-      <widget>
-	<class>GtkToolbar</class>
-	<name>toolbar3</name>
-	<orientation>GTK_ORIENTATION_HORIZONTAL</orientation>
-	<type>GTK_TOOLBAR_BOTH</type>
-	<space_size>5</space_size>
-	<space_style>GTK_TOOLBAR_SPACE_EMPTY</space_style>
-	<relief>GTK_RELIEF_NORMAL</relief>
-	<tooltips>True</tooltips>
-
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-      </widget>
-    </widget>
 
     <widget>
       <class>GtkScrolledWindow</class>
@@ -1073,21 +979,7 @@
 	    <name>player_name_textentry</name>
 	    <x>64</x>
 	    <y>16</y>
-	    <width>158</width>
-	    <height>26</height>
-	    <can_focus>True</can_focus>
-	    <editable>True</editable>
-	    <text_visible>True</text_visible>
-	    <text_max_length>0</text_max_length>
-	    <text></text>
-	  </widget>
-
-	  <widget>
-	    <class>GtkEntry</class>
-	    <name>email_address_textentry</name>
-	    <x>128</x>
-	    <y>56</y>
-	    <width>216</width>
+	    <width>144</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
@@ -1098,10 +990,10 @@
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>inventory_textentry</name>
-	    <x>88</x>
-	    <y>96</y>
-	    <width>408</width>
+	    <name>email_address_textentry</name>
+	    <x>272</x>
+	    <y>16</y>
+	    <width>216</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
@@ -1114,7 +1006,7 @@
 	    <class>GtkEntry</class>
 	    <name>points_textentry</name>
 	    <x>64</x>
-	    <y>152</y>
+	    <y>312</y>
 	    <width>158</width>
 	    <height>26</height>
 	    <can_focus>True</can_focus>
@@ -1128,7 +1020,7 @@
 	    <class>GtkEntry</class>
 	    <name>experience_textentry</name>
 	    <x>104</x>
-	    <y>192</y>
+	    <y>352</y>
 	    <width>152</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -1141,8 +1033,8 @@
 	  <widget>
 	    <class>GtkEntry</class>
 	    <name>experience_level_textentry</name>
-	    <x>424</x>
-	    <y>192</y>
+	    <x>432</x>
+	    <y>352</y>
 	    <width>56</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -1156,7 +1048,7 @@
 	    <class>GtkEntry</class>
 	    <name>hp_textentry</name>
 	    <x>160</x>
-	    <y>224</y>
+	    <y>400</y>
 	    <width>72</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -1169,8 +1061,8 @@
 	  <widget>
 	    <class>GtkEntry</class>
 	    <name>mp_textentry</name>
-	    <x>424</x>
-	    <y>224</y>
+	    <x>416</x>
+	    <y>400</y>
 	    <width>72</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -1184,7 +1076,7 @@
 	    <class>GtkEntry</class>
 	    <name>strength_textentry</name>
 	    <x>80</x>
-	    <y>264</y>
+	    <y>448</y>
 	    <width>56</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -1198,7 +1090,7 @@
 	    <class>GtkEntry</class>
 	    <name>intelligence_textentry</name>
 	    <x>256</x>
-	    <y>264</y>
+	    <y>448</y>
 	    <width>56</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -1211,8 +1103,8 @@
 	  <widget>
 	    <class>GtkEntry</class>
 	    <name>dexterity_textentry</name>
-	    <x>424</x>
-	    <y>264</y>
+	    <x>432</x>
+	    <y>448</y>
 	    <width>56</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -1226,7 +1118,7 @@
 	    <class>GtkEntry</class>
 	    <name>agility_textentry</name>
 	    <x>80</x>
-	    <y>296</y>
+	    <y>488</y>
 	    <width>56</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -1240,7 +1132,7 @@
 	    <class>GtkEntry</class>
 	    <name>charisma_textentry</name>
 	    <x>256</x>
-	    <y>296</y>
+	    <y>488</y>
 	    <width>56</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -1253,8 +1145,8 @@
 	  <widget>
 	    <class>GtkEntry</class>
 	    <name>armor_level_textentry</name>
-	    <x>424</x>
-	    <y>296</y>
+	    <x>432</x>
+	    <y>488</y>
 	    <width>56</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -1268,7 +1160,7 @@
 	    <class>GtkEntry</class>
 	    <name>max_weight_textentry</name>
 	    <x>136</x>
-	    <y>352</y>
+	    <y>552</y>
 	    <width>80</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -1282,7 +1174,7 @@
 	    <class>GtkEntry</class>
 	    <name>max_bulk_textentry</name>
 	    <x>336</x>
-	    <y>352</y>
+	    <y>552</y>
 	    <width>80</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -1296,7 +1188,7 @@
 	    <class>GtkEntry</class>
 	    <name>current_weight_textentry</name>
 	    <x>136</x>
-	    <y>392</y>
+	    <y>592</y>
 	    <width>80</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -1310,7 +1202,7 @@
 	    <class>GtkEntry</class>
 	    <name>current_bulk_textentry</name>
 	    <x>336</x>
-	    <y>392</y>
+	    <y>592</y>
 	    <width>80</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -1321,40 +1213,10 @@
 	  </widget>
 
 	  <widget>
-	    <class>GtkEntry</class>
-	    <name>current_room_textentry</name>
-	    <x>440</x>
-	    <y>16</y>
-	    <width>54</width>
-	    <height>26</height>
-	    <can_focus>True</can_focus>
-	    <editable>True</editable>
-	    <text_visible>True</text_visible>
-	    <text_max_length>0</text_max_length>
-	    <text></text>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label141</name>
-	    <x>320</x>
-	    <y>16</y>
-	    <width>112</width>
-	    <height>24</height>
-	    <label>Current Room:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label140</name>
 	    <x>232</x>
-	    <y>392</y>
+	    <y>592</y>
 	    <width>96</width>
 	    <height>24</height>
 	    <label>Current Bulk:</label>
@@ -1367,19 +1229,99 @@
 	  </widget>
 
 	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label139</name>
+	    <x>16</x>
+	    <y>592</y>
+	    <width>112</width>
+	    <height>24</height>
+	    <label>Current Weight:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label137</name>
+	    <x>16</x>
+	    <y>552</y>
+	    <width>96</width>
+	    <height>24</height>
+	    <label>Max Weight:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label138</name>
+	    <x>256</x>
+	    <y>552</y>
+	    <width>72</width>
+	    <height>24</height>
+	    <label>Max Bulk:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
 	    <class>GtkHSeparator</class>
 	    <name>hseparator5</name>
 	    <x>8</x>
-	    <y>328</y>
+	    <y>520</y>
 	    <width>488</width>
 	    <height>16</height>
 	  </widget>
 
 	  <widget>
 	    <class>GtkLabel</class>
+	    <name>label136</name>
+	    <x>328</x>
+	    <y>488</y>
+	    <width>96</width>
+	    <height>24</height>
+	    <label>Armor Level:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label135</name>
+	    <x>168</x>
+	    <y>488</y>
+	    <width>72</width>
+	    <height>24</height>
+	    <label>Charisma:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
 	    <name>label134</name>
 	    <x>8</x>
-	    <y>296</y>
+	    <y>488</y>
 	    <width>48</width>
 	    <height>24</height>
 	    <label>Agility:</label>
@@ -1395,7 +1337,7 @@
 	    <class>GtkLabel</class>
 	    <name>label130</name>
 	    <x>8</x>
-	    <y>264</y>
+	    <y>448</y>
 	    <width>64</width>
 	    <height>24</height>
 	    <label>Strength:</label>
@@ -1409,25 +1351,9 @@
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>label135</name>
-	    <x>176</x>
-	    <y>296</y>
-	    <width>72</width>
-	    <height>24</height>
-	    <label>Charisma:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
 	    <name>label131</name>
 	    <x>160</x>
-	    <y>264</y>
+	    <y>448</y>
 	    <width>88</width>
 	    <height>24</height>
 	    <label>Intelligence:</label>
@@ -1441,25 +1367,9 @@
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>label136</name>
-	    <x>320</x>
-	    <y>296</y>
-	    <width>96</width>
-	    <height>24</height>
-	    <label>Armor Level:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
 	    <name>label133</name>
-	    <x>344</x>
-	    <y>264</y>
+	    <x>352</x>
+	    <y>448</y>
 	    <width>72</width>
 	    <height>24</height>
 	    <label>Dexterity:</label>
@@ -1473,25 +1383,9 @@
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>label129</name>
-	    <x>280</x>
-	    <y>224</y>
-	    <width>136</width>
-	    <height>24</height>
-	    <label>Magic Points (MP):</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
 	    <name>label128</name>
 	    <x>8</x>
-	    <y>224</y>
+	    <y>400</y>
 	    <width>144</width>
 	    <height>24</height>
 	    <label>Health Points (HP):</label>
@@ -1505,37 +1399,12 @@
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>label126</name>
-	    <x>8</x>
-	    <y>152</y>
-	    <width>48</width>
+	    <name>label129</name>
+	    <x>272</x>
+	    <y>400</y>
+	    <width>136</width>
 	    <height>24</height>
-	    <label>Points:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkHSeparator</class>
-	    <name>hseparator3</name>
-	    <x>8</x>
-	    <y>128</y>
-	    <width>488</width>
-	    <height>16</height>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label132</name>
-	    <x>8</x>
-	    <y>96</y>
-	    <width>72</width>
-	    <height>24</height>
-	    <label>Inventory:</label>
+	    <label>Magic Points (MP):</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
@@ -1546,60 +1415,12 @@
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>label124</name>
-	    <x>8</x>
-	    <y>56</y>
-	    <width>112</width>
-	    <height>24</height>
-	    <label>Email Address:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label138</name>
-	    <x>256</x>
+	    <name>label127</name>
+	    <x>296</x>
 	    <y>352</y>
-	    <width>72</width>
+	    <width>128</width>
 	    <height>24</height>
-	    <label>Max Bulk:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label139</name>
-	    <x>8</x>
-	    <y>392</y>
-	    <width>112</width>
-	    <height>24</height>
-	    <label>Current Weight:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label137</name>
-	    <x>24</x>
-	    <y>352</y>
-	    <width>96</width>
-	    <height>24</height>
-	    <label>Max Weight:</label>
+	    <label>Experience Level:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
@@ -1612,7 +1433,7 @@
 	    <class>GtkLabel</class>
 	    <name>label125</name>
 	    <x>8</x>
-	    <y>192</y>
+	    <y>352</y>
 	    <width>88</width>
 	    <height>24</height>
 	    <label>Experience:</label>
@@ -1626,18 +1447,192 @@
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>label127</name>
-	    <x>288</x>
-	    <y>192</y>
-	    <width>128</width>
+	    <name>label126</name>
+	    <x>8</x>
+	    <y>312</y>
+	    <width>48</width>
 	    <height>24</height>
-	    <label>Experience Level:</label>
+	    <label>Points:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkButton</class>
+	    <name>add_item_button</name>
+	    <x>408</x>
+	    <y>240</y>
+	    <width>77</width>
+	    <height>24</height>
+	    <can_focus>True</can_focus>
+	    <signal>
+	      <name>clicked</name>
+	      <handler>on_player_editor_add_item_button_clicked</handler>
+	      <last_modification_time>Wed, 13 Jun 2001 16:23:46 GMT</last_modification_time>
+	    </signal>
+	    <label>Add Item</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label233</name>
+	    <x>8</x>
+	    <y>240</y>
+	    <width>112</width>
+	    <height>24</height>
+	    <label>Available Items:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkHSeparator</class>
+	    <name>hseparator3</name>
+	    <x>8</x>
+	    <y>280</y>
+	    <width>488</width>
+	    <height>16</height>
+	  </widget>
+
+	  <widget>
+	    <class>GtkHSeparator</class>
+	    <name>hseparator9</name>
+	    <x>8</x>
+	    <y>88</y>
+	    <width>488</width>
+	    <height>16</height>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label132</name>
+	    <x>16</x>
+	    <y>112</y>
+	    <width>72</width>
+	    <height>24</height>
+	    <label>Inventory:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkScrolledWindow</class>
+	    <name>scrolledwindow29</name>
+	    <x>104</x>
+	    <y>112</y>
+	    <width>384</width>
+	    <height>112</height>
+	    <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
+	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+
+	    <widget>
+	      <class>GtkText</class>
+	      <name>inventory_text</name>
+	      <width>384</width>
+	      <height>112</height>
+	      <can_focus>True</can_focus>
+	      <editable>True</editable>
+	      <text></text>
+	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCombo</class>
+	    <name>item_list_combo</name>
+	    <x>128</x>
+	    <y>240</y>
+	    <width>272</width>
+	    <height>24</height>
+	    <value_in_list>False</value_in_list>
+	    <ok_if_empty>True</ok_if_empty>
+	    <case_sensitive>False</case_sensitive>
+	    <use_arrows>True</use_arrows>
+	    <use_arrows_always>False</use_arrows_always>
+	    <items></items>
+
+	    <widget>
+	      <class>GtkEntry</class>
+	      <child_name>GtkCombo:entry</child_name>
+	      <name>item_list_combo-entry</name>
+	      <can_focus>True</can_focus>
+	      <editable>True</editable>
+	      <text_visible>True</text_visible>
+	      <text_max_length>0</text_max_length>
+	      <text></text>
+	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label124</name>
+	    <x>216</x>
+	    <y>16</y>
+	    <width>48</width>
+	    <height>24</height>
+	    <label>Email:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label141</name>
+	    <x>8</x>
+	    <y>56</y>
+	    <width>112</width>
+	    <height>24</height>
+	    <label>Current Room:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCombo</class>
+	    <name>current_room_combo</name>
+	    <x>128</x>
+	    <y>56</y>
+	    <width>360</width>
+	    <height>24</height>
+	    <value_in_list>False</value_in_list>
+	    <ok_if_empty>True</ok_if_empty>
+	    <case_sensitive>False</case_sensitive>
+	    <use_arrows>True</use_arrows>
+	    <use_arrows_always>False</use_arrows_always>
+	    <items></items>
+
+	    <widget>
+	      <class>GtkEntry</class>
+	      <child_name>GtkCombo:entry</child_name>
+	      <name>current_room_combo-entry</name>
+	      <can_focus>True</can_focus>
+	      <editable>True</editable>
+	      <text_visible>True</text_visible>
+	      <text_max_length>0</text_max_length>
+	      <text></text>
+	    </widget>
 	  </widget>
 	</widget>
       </widget>
@@ -2306,7 +2301,7 @@
 	    <class>GtkEntry</class>
 	    <name>first_transition_graphic_textentry</name>
 	    <x>232</x>
-	    <y>816</y>
+	    <y>848</y>
 	    <width>408</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -2320,7 +2315,7 @@
 	    <class>GtkOptionMenu</class>
 	    <name>directional_object_optionmenu</name>
 	    <x>104</x>
-	    <y>480</y>
+	    <y>512</y>
 	    <width>216</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -2332,7 +2327,7 @@
 	    <class>GtkEntry</class>
 	    <name>transition_graphic_textentry</name>
 	    <x>200</x>
-	    <y>856</y>
+	    <y>888</y>
 	    <width>440</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -2362,7 +2357,7 @@
 	    <class>GtkButton</class>
 	    <name>add_item_button</name>
 	    <x>560</x>
-	    <y>416</y>
+	    <y>448</y>
 	    <width>80</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -2376,19 +2371,10 @@
 	  </widget>
 
 	  <widget>
-	    <class>GtkHSeparator</class>
-	    <name>hseparator6</name>
-	    <x>8</x>
-	    <y>272</y>
-	    <width>640</width>
-	    <height>16</height>
-	  </widget>
-
-	  <widget>
 	    <class>GtkButton</class>
 	    <name>add_obstruction_button</name>
 	    <x>512</x>
-	    <y>688</y>
+	    <y>720</y>
 	    <width>128</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -2405,7 +2391,7 @@
 	    <class>GtkEntry</class>
 	    <name>first_transition_text_textentry</name>
 	    <x>192</x>
-	    <y>736</y>
+	    <y>768</y>
 	    <width>448</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -2419,7 +2405,7 @@
 	    <class>GtkEntry</class>
 	    <name>transition_text_textentry</name>
 	    <x>136</x>
-	    <y>776</y>
+	    <y>808</y>
 	    <width>504</width>
 	    <height>24</height>
 	    <can_focus>True</can_focus>
@@ -2427,29 +2413,6 @@
 	    <text_visible>True</text_visible>
 	    <text_max_length>0</text_max_length>
 	    <text></text>
-	  </widget>
-
-	  <widget>
-	    <class>GtkScrolledWindow</class>
-	    <name>scrolledwindow19</name>
-	    <x>136</x>
-	    <y>72</y>
-	    <width>512</width>
-	    <height>128</height>
-	    <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
-	    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
-	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
-
-	    <widget>
-	      <class>GtkText</class>
-	      <name>text_description_long_textbox</name>
-	      <width>512</width>
-	      <height>128</height>
-	      <can_focus>True</can_focus>
-	      <editable>True</editable>
-	      <text></text>
-	    </widget>
 	  </widget>
 
 	  <widget>
@@ -2476,10 +2439,277 @@
 	  </widget>
 
 	  <widget>
+	    <class>GtkScrolledWindow</class>
+	    <name>scrolledwindow19</name>
+	    <x>136</x>
+	    <y>72</y>
+	    <width>512</width>
+	    <height>128</height>
+	    <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
+	    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
+	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+
+	    <widget>
+	      <class>GtkText</class>
+	      <name>text_description_long_textbox</name>
+	      <width>512</width>
+	      <height>128</height>
+	      <can_focus>True</can_focus>
+	      <editable>True</editable>
+	      <text></text>
+	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label84</name>
+	    <x>8</x>
+	    <y>952</y>
+	    <width>51</width>
+	    <height>20</height>
+	    <label>Notes:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkHSeparator</class>
+	    <name>hseparator2</name>
+	    <x>8</x>
+	    <y>920</y>
+	    <width>640</width>
+	    <height>16</height>
+	  </widget>
+
+	  <widget>
+	    <class>GtkScrolledWindow</class>
+	    <name>scrolledwindow21</name>
+	    <x>64</x>
+	    <y>952</y>
+	    <width>576</width>
+	    <height>72</height>
+	    <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
+	    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
+	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+
+	    <widget>
+	      <class>GtkText</class>
+	      <name>notes_textbox</name>
+	      <width>584</width>
+	      <height>72</height>
+	      <can_focus>True</can_focus>
+	      <editable>True</editable>
+	      <text>PlTrueTrue</text>
+	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label121</name>
+	    <x>16</x>
+	    <y>888</y>
+	    <width>176</width>
+	    <height>24</height>
+	    <label>Transition Graphic URL:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label117</name>
+	    <x>16</x>
+	    <y>848</y>
+	    <width>208</width>
+	    <height>24</height>
+	    <label>First Transition Graphic URL:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label114</name>
+	    <x>16</x>
+	    <y>808</y>
+	    <width>112</width>
+	    <height>24</height>
+	    <label>Transition Text:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label116</name>
+	    <x>16</x>
+	    <y>768</y>
+	    <width>160</width>
+	    <height>24</height>
+	    <label>First Transition (Text):</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label232</name>
+	    <x>16</x>
+	    <y>720</y>
+	    <width>168</width>
+	    <height>24</height>
+	    <label>Available Obstructions:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCombo</class>
+	    <name>obstruction_list_combo</name>
+	    <x>192</x>
+	    <y>720</y>
+	    <width>312</width>
+	    <height>24</height>
+	    <value_in_list>False</value_in_list>
+	    <ok_if_empty>True</ok_if_empty>
+	    <case_sensitive>False</case_sensitive>
+	    <use_arrows>True</use_arrows>
+	    <use_arrows_always>False</use_arrows_always>
+	    <items></items>
+
+	    <widget>
+	      <class>GtkEntry</class>
+	      <child_name>GtkCombo:entry</child_name>
+	      <name>add_obstruction_combo-entry</name>
+	      <can_focus>True</can_focus>
+	      <editable>True</editable>
+	      <text_visible>True</text_visible>
+	      <text_max_length>0</text_max_length>
+	      <text></text>
+	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label113</name>
+	    <x>16</x>
+	    <y>624</y>
+	    <width>96</width>
+	    <height>24</height>
+	    <label>Obstructions:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label115</name>
+	    <x>16</x>
+	    <y>584</y>
+	    <width>208</width>
+	    <height>24</height>
+	    <label>Player Has Moved This Way:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCombo</class>
+	    <name>to_which_room_combo</name>
+	    <x>152</x>
+	    <y>552</y>
+	    <width>488</width>
+	    <height>24</height>
+	    <value_in_list>False</value_in_list>
+	    <ok_if_empty>True</ok_if_empty>
+	    <case_sensitive>False</case_sensitive>
+	    <use_arrows>True</use_arrows>
+	    <use_arrows_always>False</use_arrows_always>
+	    <items></items>
+
+	    <widget>
+	      <class>GtkEntry</class>
+	      <child_name>GtkCombo:entry</child_name>
+	      <name>to_which_room_combo-entry</name>
+	      <can_focus>True</can_focus>
+	      <editable>True</editable>
+	      <text_visible>True</text_visible>
+	      <text_max_length>0</text_max_length>
+	      <text></text>
+	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label122</name>
+	    <x>16</x>
+	    <y>552</y>
+	    <width>120</width>
+	    <height>24</height>
+	    <label>Leads To Room:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label112</name>
+	    <x>16</x>
+	    <y>512</y>
+	    <width>80</width>
+	    <height>24</height>
+	    <label>Directions:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
 	    <class>GtkHSeparator</class>
 	    <name>hseparator8</name>
 	    <x>8</x>
-	    <y>456</y>
+	    <y>488</y>
 	    <width>640</width>
 	    <height>16</height>
 	  </widget>
@@ -2488,7 +2718,7 @@
 	    <class>GtkCombo</class>
 	    <name>item_list_combo</name>
 	    <x>192</x>
-	    <y>416</y>
+	    <y>448</y>
 	    <width>360</width>
 	    <height>24</height>
 	    <value_in_list>False</value_in_list>
@@ -2514,7 +2744,7 @@
 	    <class>GtkLabel</class>
 	    <name>label231</name>
 	    <x>64</x>
-	    <y>416</y>
+	    <y>448</y>
 	    <width>120</width>
 	    <height>24</height>
 	    <label>Available Items:</label>
@@ -2530,7 +2760,7 @@
 	    <class>GtkLabel</class>
 	    <name>label83</name>
 	    <x>8</x>
-	    <y>304</y>
+	    <y>336</y>
 	    <width>51</width>
 	    <height>20</height>
 	    <label>Items:</label>
@@ -2543,13 +2773,22 @@
 	  </widget>
 
 	  <widget>
+	    <class>GtkHSeparator</class>
+	    <name>hseparator6</name>
+	    <x>8</x>
+	    <y>304</y>
+	    <width>640</width>
+	    <height>16</height>
+	  </widget>
+
+	  <widget>
 	    <class>GtkScrolledWindow</class>
 	    <name>scrolledwindow26</name>
 	    <x>64</x>
-	    <y>304</y>
+	    <y>336</y>
 	    <width>568</width>
 	    <height>96</height>
-	    <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
+	    <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
 	    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
 	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
 	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
@@ -2566,115 +2805,13 @@
 	  </widget>
 
 	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label112</name>
-	    <x>16</x>
-	    <y>480</y>
-	    <width>80</width>
-	    <height>24</height>
-	    <label>Directions:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label122</name>
-	    <x>16</x>
-	    <y>520</y>
-	    <width>120</width>
-	    <height>24</height>
-	    <label>Leads To Room:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkCombo</class>
-	    <name>to_which_room_combo</name>
-	    <x>152</x>
-	    <y>520</y>
-	    <width>488</width>
-	    <height>24</height>
-	    <value_in_list>False</value_in_list>
-	    <ok_if_empty>True</ok_if_empty>
-	    <case_sensitive>False</case_sensitive>
-	    <use_arrows>True</use_arrows>
-	    <use_arrows_always>False</use_arrows_always>
-	    <items></items>
-
-	    <widget>
-	      <class>GtkEntry</class>
-	      <child_name>GtkCombo:entry</child_name>
-	      <name>to_which_room_combo-entry</name>
-	      <can_focus>True</can_focus>
-	      <editable>True</editable>
-	      <text_visible>True</text_visible>
-	      <text_max_length>0</text_max_length>
-	      <text></text>
-	    </widget>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label115</name>
-	    <x>16</x>
-	    <y>560</y>
-	    <width>208</width>
-	    <height>24</height>
-	    <label>Player Has Moved This Way:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkRadioButton</class>
-	    <name>player_moved_this_way_true_radiobutton</name>
-	    <x>232</x>
-	    <y>560</y>
-	    <width>56</width>
-	    <height>24</height>
-	    <can_focus>True</can_focus>
-	    <label>True</label>
-	    <active>False</active>
-	    <draw_indicator>True</draw_indicator>
-	    <group>player_moved_this_way_radiobutton_group</group>
-	  </widget>
-
-	  <widget>
-	    <class>GtkRadioButton</class>
-	    <name>player_moved_this_way_false_radiobutton</name>
-	    <x>296</x>
-	    <y>560</y>
-	    <width>64</width>
-	    <height>24</height>
-	    <can_focus>True</can_focus>
-	    <label>False</label>
-	    <active>True</active>
-	    <draw_indicator>True</draw_indicator>
-	    <group>player_moved_this_way_radiobutton_group</group>
-	  </widget>
-
-	  <widget>
 	    <class>GtkScrolledWindow</class>
 	    <name>scrolledwindow27</name>
 	    <x>120</x>
-	    <y>592</y>
+	    <y>624</y>
 	    <width>520</width>
 	    <height>80</height>
-	    <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
+	    <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
 	    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
 	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
 	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
@@ -2692,28 +2829,12 @@
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>label84</name>
-	    <x>8</x>
-	    <y>920</y>
-	    <width>51</width>
-	    <height>20</height>
-	    <label>Notes:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label121</name>
+	    <name>label234</name>
 	    <x>16</x>
-	    <y>856</y>
-	    <width>176</width>
+	    <y>272</y>
+	    <width>224</width>
 	    <height>24</height>
-	    <label>Transition Graphic URL:</label>
+	    <label>Player Has Visited This Room:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
@@ -2723,141 +2844,59 @@
 	  </widget>
 
 	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label117</name>
-	    <x>16</x>
-	    <y>816</y>
-	    <width>208</width>
+	    <class>GtkRadioButton</class>
+	    <name>player_moved_this_way_false_radiobutton</name>
+	    <x>296</x>
+	    <y>584</y>
+	    <width>64</width>
 	    <height>24</height>
-	    <label>First Transition Graphic URL:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
+	    <can_focus>True</can_focus>
+	    <label>False</label>
+	    <active>True</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>player_moved_this_way_radiobutton_group</group>
 	  </widget>
 
 	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label114</name>
-	    <x>16</x>
-	    <y>776</y>
-	    <width>112</width>
+	    <class>GtkRadioButton</class>
+	    <name>visited_false_radiobutton</name>
+	    <x>328</x>
+	    <y>272</y>
+	    <width>64</width>
 	    <height>24</height>
-	    <label>Transition Text:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
+	    <can_focus>True</can_focus>
+	    <label>False</label>
+	    <active>True</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>visited_radiobutton_group</group>
 	  </widget>
 
 	  <widget>
-	    <class>GtkCombo</class>
-	    <name>obstruction_list_combo</name>
-	    <x>192</x>
-	    <y>688</y>
-	    <width>312</width>
+	    <class>GtkRadioButton</class>
+	    <name>player_moved_this_way_true_radiobutton</name>
+	    <x>232</x>
+	    <y>584</y>
+	    <width>56</width>
 	    <height>24</height>
-	    <value_in_list>False</value_in_list>
-	    <ok_if_empty>True</ok_if_empty>
-	    <case_sensitive>False</case_sensitive>
-	    <use_arrows>True</use_arrows>
-	    <use_arrows_always>False</use_arrows_always>
-	    <items></items>
-
-	    <widget>
-	      <class>GtkEntry</class>
-	      <child_name>GtkCombo:entry</child_name>
-	      <name>add_obstruction_combo-entry</name>
-	      <can_focus>True</can_focus>
-	      <editable>True</editable>
-	      <text_visible>True</text_visible>
-	      <text_max_length>0</text_max_length>
-	      <text></text>
-	    </widget>
+	    <can_focus>True</can_focus>
+	    <label>True</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>player_moved_this_way_radiobutton_group</group>
 	  </widget>
 
 	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label232</name>
-	    <x>16</x>
-	    <y>688</y>
-	    <width>168</width>
+	    <class>GtkRadioButton</class>
+	    <name>visited_true_radiobutton</name>
+	    <x>264</x>
+	    <y>272</y>
+	    <width>64</width>
 	    <height>24</height>
-	    <label>Available Obstructions:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label116</name>
-	    <x>16</x>
-	    <y>736</y>
-	    <width>160</width>
-	    <height>24</height>
-	    <label>First Transition (Text):</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkHSeparator</class>
-	    <name>hseparator2</name>
-	    <x>0</x>
-	    <y>896</y>
-	    <width>640</width>
-	    <height>16</height>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label113</name>
-	    <x>16</x>
-	    <y>592</y>
-	    <width>96</width>
-	    <height>24</height>
-	    <label>Obstructions:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkScrolledWindow</class>
-	    <name>scrolledwindow21</name>
-	    <x>64</x>
-	    <y>920</y>
-	    <width>584</width>
-	    <height>72</height>
-	    <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
-	    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
-	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
-
-	    <widget>
-	      <class>GtkText</class>
-	      <name>notes_textbox</name>
-	      <width>584</width>
-	      <height>72</height>
-	      <can_focus>True</can_focus>
-	      <editable>True</editable>
-	      <text></text>
-	    </widget>
+	    <can_focus>True</can_focus>
+	    <label>True</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>visited_radiobutton_group</group>
 	  </widget>
 	</widget>
       </widget>
@@ -3394,29 +3433,6 @@
 	  </widget>
 
 	  <widget>
-	    <class>GtkScrolledWindow</class>
-	    <name>scrolledwindow17</name>
-	    <x>144</x>
-	    <y>264</y>
-	    <width>424</width>
-	    <height>96</height>
-	    <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
-	    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
-	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
-
-	    <widget>
-	      <class>GtkText</class>
-	      <name>description_textbox</name>
-	      <width>424</width>
-	      <height>96</height>
-	      <can_focus>True</can_focus>
-	      <editable>True</editable>
-	      <text></text>
-	    </widget>
-	  </widget>
-
-	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label162</name>
 	    <x>8</x>
@@ -3510,6 +3526,52 @@
 
 	  <widget>
 	    <class>GtkScrolledWindow</class>
+	    <name>scrolledwindow17</name>
+	    <x>144</x>
+	    <y>264</y>
+	    <width>424</width>
+	    <height>96</height>
+	    <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
+	    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
+	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+
+	    <widget>
+	      <class>GtkText</class>
+	      <name>description_textbox</name>
+	      <width>424</width>
+	      <height>96</height>
+	      <can_focus>True</can_focus>
+	      <editable>True</editable>
+	      <text></text>
+	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>GtkScrolledWindow</class>
+	    <name>scrolledwindow28</name>
+	    <x>152</x>
+	    <y>376</y>
+	    <width>416</width>
+	    <height>72</height>
+	    <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
+	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+
+	    <widget>
+	      <class>GtkText</class>
+	      <name>location_text</name>
+	      <width>416</width>
+	      <height>80</height>
+	      <can_focus>True</can_focus>
+	      <editable>False</editable>
+	      <text></text>
+	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>GtkScrolledWindow</class>
 	    <name>scrolledwindow18</name>
 	    <x>80</x>
 	    <y>552</y>
@@ -3527,29 +3589,6 @@
 	      <height>64</height>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
-	      <text></text>
-	    </widget>
-	  </widget>
-
-	  <widget>
-	    <class>GtkScrolledWindow</class>
-	    <name>scrolledwindow28</name>
-	    <x>152</x>
-	    <y>376</y>
-	    <width>416</width>
-	    <height>72</height>
-	    <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
-	    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
-	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
-
-	    <widget>
-	      <class>GtkText</class>
-	      <name>location_text</name>
-	      <width>416</width>
-	      <height>80</height>
-	      <can_focus>True</can_focus>
-	      <editable>False</editable>
 	      <text></text>
 	    </widget>
 	  </widget>
@@ -4066,7 +4105,7 @@
 	    <y>200</y>
 	    <width>424</width>
 	    <height>96</height>
-	    <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	    <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
 	    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
 	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
 	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
@@ -4112,7 +4151,7 @@
 	    <y>448</y>
 	    <width>496</width>
 	    <height>64</height>
-	    <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	    <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
 	    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
 	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
 	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>

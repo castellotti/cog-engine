@@ -45,6 +45,12 @@ def insert_data_into_room_editor(self, current_room_number):
 	self.roomEditor.text_description_short_textbox.insert_defaults(self.roomData[self.room_displayed].description_short)
 
 
+	if (self.roomData[self.room_displayed].visited):
+		self.roomEditor.visited_true_radiobutton.set_active(1)
+	else:
+		self.roomEditor.visited_false_radiobutton.set_active(1)
+
+
 	# Setup Item Display
 	item_display = ""
 	if ( (self.roomData[self.room_displayed].items != None) and \
@@ -253,6 +259,8 @@ def read_room_editor_data_into_memory(self):
 		self.roomData[current_room_number].description_long = gtk.GtkEntry.get_chars(self.roomEditor.text_description_long_textbox, 0, -1)
 		self.roomData[current_room_number].description_short = gtk.GtkEntry.get_chars(self.roomEditor.text_description_short_textbox, 0, -1)
 
+		self.roomData[current_room_number].visited = self.roomEditor.visited_true_radiobutton.get_active()
+
 		# Collect items - Divide up into individual items, convert to integers, and store.
 		item_entry = gtk.GtkEntry.get_chars(self.roomEditor.item_text, 0, -1)
 		if (item_entry != ""):
@@ -266,6 +274,9 @@ def read_room_editor_data_into_memory(self):
 					item_entry = "%s%s, " % (item_entry, item_number)
 
 			item_entry = item_entry[:-2] # remove trailing ", "
+
+		if (item_entry == ""):
+			item_entry = None
 
 		self.roomData[current_room_number].items = item_entry
 
@@ -310,6 +321,9 @@ def read_direction_object_information_data_into_memory(self, room_number):
 						obstruction_entry = "%s%s, " % (obstruction_entry, obstruction_number)
 
 				obstruction_entry = obstruction_entry[:-2] # remove trailing ", "
+
+			if (obstruction_entry == ""):
+				obstruction_entry = None
 
 			self.roomData[room_number].direction[self.room_direction_displayed].obstructions = obstruction_entry
 

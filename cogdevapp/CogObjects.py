@@ -72,7 +72,7 @@ class PlayerInformationObject:
 		self.current_bulk = -1
 		self.current_room = 1
 		self.facing = 1
-		self.items = () # list
+		self.items = [] # list
 
 
 class DirectionInformationObject:
@@ -101,7 +101,7 @@ class RoomObject:
 		self.description_short = ""
 		self.direction_description = ""
 		self.direction = {}
-		self.items = ""
+		self.items = None
 		self.notes = ""
 
 
@@ -113,7 +113,7 @@ class DirectionObject:
 	# direction for the entire game (such as the direction's name)
 	def __init__(self):
 		self.to_which_room = -1
-		self.obstructions = ""
+		self.obstructions = None
 		self.has_moved_this_way = 0        # boolean
 		self.first_transition_text = ""
 		self.transition_text = ""
@@ -152,7 +152,7 @@ class ObstructionObject:
 		self.closeup_graphic_url = ""
 		self.description = ""
 		self.type = "" # set to "Antagonist" or "Obstacle"
-		self.locations = ""
+		self.locations = "" # usage is depricated
 		self.visible = 0 # boolean
 		self.notes = ""
 

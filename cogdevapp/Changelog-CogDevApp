@@ -1,0 +1,40 @@
+Changelog - Cog Development Application 0.81
+
+                       The Cog Development Application
+
+                                Version 0.81
+
+                   Copyright (C) 2001 Steven M. Castellotti
+                            <SteveC@innocent.com>
+
+
+Version (0.80):
+
+	Inital Public Release
+
+
+Version (0.81):
+
+	- Fixed blank-string bug with Obstructions in Room Editor
+	  and in CogObjects.py (blank strings should have been set to
+	  Null), which was causing the Cog Engine to fail to load
+
+	- Fixed blank-string bug with Items in Room Editor and in
+	  CogObjects.py (blank strings should have been set to Null) which
+	  was causing the Item indicator to indicate items in all rooms,
+	  including empty ones
+
+	- Player Current Room selection improved to use a Combo Box, and
+	  jython scripts have been updated to convert changes properly
+
+	- Player Editor Inventory display improved to work same way as 
+	  Item selection in Room Editor
+
+	- Room Editor now permits "Has Visited" status to be modified,
+	  and jython scripts have been updated to convert changes properly
+
+	- Player Inventory should be list, not tuple - CogObjects.py fixed
+
+	- Fixed export_cog_data.py bug that failed to set Player's
+	  Inventory Array to correct size - prevented "get
+	  object" commands to function correctly

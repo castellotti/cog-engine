@@ -90,6 +90,7 @@ class CogDevAppReader:
 		self.roomData = {}
 		self.roomData[1] = self.RoomObject()
 		self.roomData[1].number = 1
+		self.roomData[1].name = "Default Room"
 		self.itemData = {}
 		self.obstructionData = {}
 		self.verbData = {}

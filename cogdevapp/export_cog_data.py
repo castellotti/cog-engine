@@ -78,6 +78,9 @@ def load_python_data(filename):
 
 def convert_game_information(python):
 
+	# Player's current room is currently not handled
+
+
 	print "Converting Game Information...",
 
 	import GameInfoOBJ
@@ -111,7 +114,7 @@ def convert_game_information(python):
 
 ####################################################################
 
-def convert_player_information(python):
+def convert_player_information(python, jRoomArray, total_items):
 
 	print "Converting Player Information...",
 
@@ -138,10 +141,13 @@ def convert_player_information(python):
 
  	# handle items list
 	from jarray import zeros
-	java.Items = zeros( len(python.items), 'z' ) # create a boolean array of necessary length
+	java.Items = zeros( total_items, 'z' ) # create a boolean array of necessary length
 
 	for each in python.items:
 		java.Items[ each ] = 1
+
+	# handle current room
+	java.CurrentRoom = jRoomArray[ python.current_room ]
 
  	print "done"
 
@@ -186,6 +192,7 @@ def convert_room_data(roomData):
 		java[each] = RoomOBJ()
 		java[each].Number = roomData[each].number
 		java[each].Name = roomData[each].name
+		java[each].Visited = roomData[each].visited
 		java[each].GraphicURL = roomData[each].graphic_url
 		java[each].Description_Long = roomData[each].description_long
 		java[each].Description_Short = roomData[each].description_short
@@ -355,10 +362,10 @@ if __name__ == '__main__':
 	verbData) = load_python_data(input_filename)
 
 	jGameInformation = convert_game_information(gameInformation)
- 	jPlayerInformation = convert_player_information(playerInformation)
  	jDirectionInfoArray = convert_direction_data(directionData)
  	jRoomArray = convert_room_data(roomData)
  	jItemArray = convert_item_data(itemData)
+ 	jPlayerInformation = convert_player_information(playerInformation, jRoomArray, len(jItemArray))
  	jObstructionArray = convert_obstruction_data(obstructionData)
  	jVerbArray = convert_verb_data(verbData)
 
