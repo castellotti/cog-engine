@@ -1,0 +1,142 @@
+README - Cog Development Application 0.80
+
+                       The Cog Development Application
+
+                                Version 0.80
+
+                   Copyright (C) 2001 Steven M. Castellotti
+                            <SteveC@innocent.com>
+
+
+Cog Engine documentation is an ongoing project. Please check the
+homepage at http://cogengine.sourceforge.net for more information.
+
+
+No Warranty
+-----------
+
+The Cog Development Application comes with ABSOLUTELY NO WARRANTY.  See
+the COPYING file for details. The Cog Development Application is Beta
+software. This means that while it will work most of the time, it will not
+work all of the time. See the section "Reporting Bugs" Below for more
+information.
+
+
+Background Information
+----------------------
+
+	There is no automated install process available for The Cog
+Development Application (or "CogDevApp"), so a manual install is
+necessary. There are two sets of programs that come with the CogDevApp,
+one written in Python/GTK, which is used for the GUI design of game
+modules for the Cog Engine, and a second set which is written in Jython,
+used for the conversion between the Python/GTK files used by the
+CogDevApp, and the Java files used by the Cog Engine to play the games.
+
+	A future version of the CogEngine itself will be rewritten such
+that Jython will no longer be necessary for converting between programs.
+
+	The Java-based "Text2Cog" program is now depricated, and will not
+be maintained in the future.
+
+	Since complete documentation is not currently available for the
+CogDevApp, it may be useful to refer to the Cycon Odyssey, the demo game
+for the CogEngine. The Cycon Odyssey is also in an unfinished state, but
+there is more than enough there to reach an understanding of how to use
+the Cog Developement Application. The Cycon Odyssey is available at the
+CogEngine homepage, link listed below.
+
+
+Prerequisits
+------------
+
+Python/GTK information is available at:
+http://www.daa.com.au/~james/pygtk/
+http://theopenlab.uml.edu/pygtools/
+
+Jython information is available at:
+http://jython.sourceforge.net/
+
+(You also need the Python/Gnome Libraries, and the Glade Libraries)
+
+Python/Gnome information is available at:
+http://www.daa.com.au/~james/gnome/
+
+Glade information is available at:
+http://glade.gnome.org/
+
+
+If you are using RedHat Linux, the following rpms (and their own
+prerequisits) should be installed:
+python
+pygtk
+pygnome
+pygtk-libglade
+pygnome-libglade
+
+	All of these packages are included on the RedHat install cds,
+as of version 7.1. If I have missed any packages, please email me.
+
+If you are using Debian Linux, the following debs (and their own
+prerequisits) should be installed:
+python-base
+python-gtk
+python-gnome
+python-glade
+libglade
+libglade-gnome
+
+	Again, all of these packages are available as part of the base
+install, as of version 2.2 (potato).
+
+
+Quick Installation Instructions
+-------------------------------
+
+1) Download and install the above listed prerequisits.
+
+2) Uncompress and extract the source files.
+
+3) Edit the import_cog_data.py and export_cog_data.py scripts such that
+the "cPython_library_path" variable points to your local installation of
+python.
+
+4) You can execute the CogDevApp GUI program by typing ./CogDevApp.py in
+the resulting directory.
+
+5) You can convert game modules create with the CogDevApp into files
+readable by the Cog Engine via the "export_cog_data.py" script, and you
+convert those file back for editing using the "import_cog_data.py" script.
+
+6) The current version of the CogDevApp includes class files from version
+0.91 of the CogEngine (the current version). If you are going to be using
+CogDevApp with a different version of the CogEngine, you will need to
+replace these class files with the new ones.
+
+
+Example (Under Linux):
+tar xvzf CogDevApp-0.80-source.tar.gz
+tar xvzf CyconOdyssey-0.91-data.tar.gz
+cp CyconOdyssey-0.91/Cycon-COG.dat CogDevApp-0.80
+cd CogDevApp-0.80
+./import_cog_data.py Cycon-COG.dat Cycon-COG.dev
+./CogDevApp.py Cycon-COG.dev
+./export_cog_data.py Cycon-COG.dev Cycon-COG.dat
+
+
+FOR MORE INFORMATION
+--------------------
+
+Website:           <http://cogengine.sourceforge.net/>.
+Developement site: <https://sourceforge.net/projects/cogengine/>.
+Mailing lists:     <http://lists.sourceforge.net/lists/listinfo/cogengine-devel>.
+ 
+
+REPORTING BUGS
+--------------
+
+Feedback from users is an essential part of the open source model of
+software development.  If you would like to report a bug, please access
+the development website for The Cog Engine, hosted by SourceForge.net at:
+
+https://sourceforge.net/projects/cogengine/
