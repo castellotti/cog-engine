@@ -1,7 +1,12 @@
 /******************************
 The COG Engine
 Object Class Files
-Last Modified on 2000.03.13
+Last Modified on 2000.03.18
+
+		This code is released under the GPL (GNU Public License)
+		For more information please refer to http://www.gnu.org/copyleft/gpl.html
+		Copyright (2000) Steven M. Castellotti
+
 ******************************/
 
 import java.io.Serializable;
@@ -22,6 +27,7 @@ class GameInfoOBJ implements Serializable {
 	int TotalVerbs;
 	boolean ShowAllVerbs;
 	String Introduction_Text;
+	String ImageLoading_GraphicURL;
 	String Introduction_GraphicURL;
 	int PreferredGraphicSizeX;
 	int PreferredGraphicSizeY;
@@ -30,6 +36,7 @@ class GameInfoOBJ implements Serializable {
 	boolean ShowCommandLine;
 	boolean ShowCompass;
 	boolean CenterButtonIndicatesItems;
+	boolean LoadAllCompassImages;
 	String MenuButton_GraphicURL;
 	String GameInfoHeaderNotes;
 	String DirectionsHeaderNotes;

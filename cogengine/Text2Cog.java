@@ -7,7 +7,12 @@
 	by the COG Engine during runtime. This program will later be incorporated
 	into an independent Game Module Editor.
 
-	Last Modified by Steven M. Castellotti
+	Last Modified on 2000.03.18 by Steven M. Castellotti
+
+		This code is released under the GPL (GNU Public License)
+		For more information please refer to http://www.gnu.org/copyleft/gpl.html
+		Copyright (2000) Steven M. Castellotti
+
 
 	To-Do List
 	----------
@@ -1086,7 +1091,7 @@ public class Text2Cog {
 
       // Read in Show All Verbs
       returnedString =
-         parseMultiLines(lineArray, numLines, currentLine, "Show All Verbs :", "Introduction Graphic :", ":");
+         parseMultiLines(lineArray, numLines, currentLine, "Show All Verbs :", "Image Loading Graphic :", ":");
       if (returnedString != null) {
          if(returnedString.equals("true"))
             gameInfo.ShowAllVerbs = true;
@@ -1101,13 +1106,23 @@ public class Text2Cog {
       
         // Begin Step 11 - Read in Introduction Graphic
       returnedString =
+         parseMultiLines(lineArray, numLines, currentLine, "Image Loading Graphic :", "Introduction Graphic :", ":");
+      if (returnedString != null)
+         gameInfo.ImageLoading_GraphicURL = returnedString;
+      else
+         returnError("Error on line: " + (CurrentStreamLine - (numLines - currentLine[0])) + "\n" +
+                     "Required field \"Introduction Graphic :\" missing");
+
+        // Begin Step 11 - Read in Introduction Graphic
+      returnedString =
          parseMultiLines(lineArray, numLines, currentLine, "Introduction Graphic :", "Introduction (Text) :", ":");
       if (returnedString != null)
          gameInfo.Introduction_GraphicURL = returnedString;
       else
-         returnError("Error on line: " + (CurrentStreamLine - (numLines - currentLine[0])) + "\n" + 
+         returnError("Error on line: " + (CurrentStreamLine - (numLines - currentLine[0])) + "\n" +
                      "Required field \"Introduction Graphic :\" missing");
-      
+
+
       // Begin Step 12 - Read in Introduction (Text)
       returnedString =
          parseMultiLines(lineArray, numLines, currentLine, "Introduction (Text) :", "", ":");
@@ -1222,7 +1237,7 @@ public class Text2Cog {
 
 		// Read in CenterButtonIndicates Items Preference
       returnedString =
-         parseMultiLines(lineArray, numLines, currentLine, "Center Button Indicates Items :", "", ":");
+         parseMultiLines(lineArray, numLines, currentLine, "Center Button Indicates Items :", "Load All Compass Images :", ":");
       if (returnedString != null) {
          if(returnedString.equals("true"))
             gameInfo.CenterButtonIndicatesItems = true;
@@ -1232,6 +1247,19 @@ public class Text2Cog {
       else
          returnError("Error on line: " + (CurrentStreamLine - (numLines - currentLine[0])) + "\n" +
                      "Required field \"Center Button Indicates Items :\" missing");
+
+		// Read in CenterButtonIndicates Items Preference
+      returnedString =
+         parseMultiLines(lineArray, numLines, currentLine, "Load All Compass Images :", "", ":");
+      if (returnedString != null) {
+         if(returnedString.equals("true"))
+            gameInfo.LoadAllCompassImages = true;
+         else if(returnedString.equals("false"))
+            gameInfo.CenterButtonIndicatesItems = false;
+      }
+      else
+         returnError("Error on line: " + (CurrentStreamLine - (numLines - currentLine[0])) + "\n" +
+                     "Required field \"Load All Compass Images :\" missing");
 
 
       // Now begin reading in Player Defaults

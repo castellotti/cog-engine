@@ -10,13 +10,12 @@
 		For more information please refer to http://www.gnu.org/copyleft/gpl.html
 		Copyright (2000) Steven M. Castellotti
 
-		Last Update : 2000.03.14
+		Last Update : 2000.03.18
 
 		
 	Bug List
 	--------
 		 - Applet produces a NullPointerException under Microsoft Internet Explorer
-		 - Can't see graphic displayed during GraphicMessage Events
 		 - If you click in the OutputArea, it will no longer scroll automatically,
 			unless you scroll down manually and click at the end of the last
 			line of output (Under certain implementations of Java)
@@ -24,15 +23,10 @@
 	To-Do List
 	----------
 		 - Add DisplayRoomDetails routine for Debug Mode
-		 - Place all graphic downloads inside threads, so that they can be killed if a player wants to move
-			into a different room before the graphic has finished downloading (useful for low
-			bandwidth connections)
-		 - If a ToWhichRoom Directional Object is set to 0 by an event and there are no other directional
-		   objects being used, the object should be disposed of
 		 - Add more useful command line error messages ("I don't understand your command." vs. "You can't do that!")
 		 - Insert more try-catch sequences around all places that the
 			program could possibly break ( Mainly I/O Routines )
-		 - Add amusing jokes and quotes so that people don't get bored while reading over the source
+		 - Add amusing jokes and quotes so that people don't get bored while reading over the source (c:
 
 	Future Feature Wish List
 	------------------------
@@ -252,6 +246,13 @@ public class CogEngine extends Applet implements ActionListener {
 		// as defined in the Game-Info text file. The Introduction Graphic is already displayed
 		// as part of the InitializeGUI routine.
 
+		try {
+			CurrentURL = new URL(getCodeBase() + GameInfo.Introduction_GraphicURL);
+		} catch (Exception e) {
+			System.err.println("Bad URL for Introduction Graphic:");
+			System.err.println(GameInfo.Introduction_GraphicURL);
+		}
+		GraphicArea.setImage(this, CurrentURL);
 		OutputArea.append(GameInfo.Game_Title + "\n\n");
 		OutputArea.append("  " + GameInfo.Introduction_Text); // Displays Games Intro Text
 
@@ -1409,8 +1410,6 @@ public class CogEngine extends Applet implements ActionListener {
 
 		if ( Word.startsWith("GraphicMessage[") ) {
 
-			// This method looks fine and compiles fine, but you can't see the graphic!
-			
 			try {
 			CurrentURL = new URL( getCodeBase() + Word.substring( 15, Word.length() - 2 ) ); // the 2 removes the comma
 			} catch (Exception BadURL) {
@@ -2371,14 +2370,13 @@ public class CogEngine extends Applet implements ActionListener {
 		constraints.weighty = 0.0;
 
 		try {
-		System.err.println("URL: " + getCodeBase() + GameInfo.Introduction_GraphicURL);
-		CurrentURL = new URL(getCodeBase() + GameInfo.Introduction_GraphicURL);
+		CurrentURL = new URL(getCodeBase() + GameInfo.ImageLoading_GraphicURL);
 		} catch (Exception BadURL) {
 			System.err.println("Graphic URL \"");
-			System.err.println( GameInfo.Introduction_GraphicURL );
+			System.err.println( GameInfo.ImageLoading_GraphicURL );
 			System.err.println("\" is Malformed!\n");
 		}
-		addGB( Top, GraphicArea = new GraphicPanel(this, CurrentURL), 1, 0);
+		addGB( Top, GraphicArea = new GraphicPanel(this, CurrentURL, GameInfo.DebugMode), 1, 0);
 		//GraphicArea.setSize(GameInfo.PreferredGraphicSizeX, GameInfo.PreferredGraphicSizeY);
 		//GraphicArea.validate();
 
@@ -2437,6 +2435,7 @@ public class CogEngine extends Applet implements ActionListener {
 		*/
 
 		// Setup for the Compass
+		
 		if (GameInfo.ShowCompass) {
 			constraints.anchor = GridBagConstraints.CENTER;
 			constraints.fill = GridBagConstraints.BOTH;
@@ -2454,6 +2453,46 @@ public class CogEngine extends Applet implements ActionListener {
 				addGB( Compass, CompassMenuText = new Button( "Help" ), 0, 0);
 				CompassMenuText.addActionListener ( this );
 			}
+			
+			if (GameInfo.LoadAllCompassImages) {
+				// Loading all of the compass button graphics during game
+				// initialization will help to speed up gameplay later
+				MediaTracker tracker;
+				Image TempImage;
+				
+				if (GameInfo.DebugMode)
+					System.err.print("Downloading Compass Button Graphic Images...");
+				
+				for (int TempCounter = 1; TempCounter <= GameInfo.TotalDirections; TempCounter++) {
+					try {
+						CurrentURL = new URL( getCodeBase() + DirectionInfoArray[TempCounter].CG_AvailableURL );
+						TempImage = getImage(CurrentURL);
+						tracker = new MediaTracker(this);
+						tracker.addImage( TempImage, 0);
+						tracker.waitForID( 0 );		
+
+						CurrentURL = new URL( getCodeBase() + DirectionInfoArray[TempCounter].CG_UnavailableURL );
+						TempImage = getImage(CurrentURL);
+						tracker = new MediaTracker(this);
+						tracker.addImage( TempImage, 0);
+						tracker.waitForID( 0 );		
+						
+						CurrentURL = new URL( getCodeBase() + DirectionInfoArray[TempCounter].CG_SpecialURL );
+						TempImage = getImage(CurrentURL);
+						tracker = new MediaTracker(this);
+						tracker.addImage( TempImage, 0);
+						tracker.waitForID( 0 );		
+					}
+					catch (Exception e) {
+						System.err.println("Error Downloading Compass Button Graphic!");
+						System.err.println("Exception was:\n" + e);		
+					}					
+				}
+				System.err.println("Done.");
+				TempImage = null;
+				tracker = null;
+			} // LoadAllCompassImages
+
 			
 			if (GameInfo.TotalDirections >= 3) {
 

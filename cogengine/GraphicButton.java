@@ -1,3 +1,14 @@
+/******************************
+The COG Engine
+GraphicButton Component
+Last Modified on 2000.03.18
+
+		This code is released under the GPL (GNU Public License)
+		For more information please refer to http://www.gnu.org/copyleft/gpl.html
+		Copyright (2000) Steven M. Castellotti
+
+******************************/
+
 import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
