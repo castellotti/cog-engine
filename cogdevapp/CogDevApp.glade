@@ -26,8 +26,8 @@
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
   <allow_shrink>False</allow_shrink>
-  <allow_grow>True</allow_grow>
-  <auto_shrink>False</auto_shrink>
+  <allow_grow>False</allow_grow>
+  <auto_shrink>True</auto_shrink>
 
   <widget>
     <class>GtkVBox</class>
@@ -171,6 +171,7 @@
       <widget>
 	<class>GtkToggleButton</class>
 	<name>game_information_togglebutton</name>
+	<tooltip>The Game Information Editor is used to collect basic setup information about your game module</tooltip>
 	<can_focus>True</can_focus>
 	<signal>
 	  <name>toggled</name>
@@ -190,6 +191,7 @@
       <widget>
 	<class>GtkToggleButton</class>
 	<name>player_information_togglebutton</name>
+	<tooltip>The Playing Information Editor is used to configure the player's character at the start of a new game</tooltip>
 	<can_focus>True</can_focus>
 	<signal>
 	  <name>toggled</name>
@@ -209,6 +211,7 @@
       <widget>
 	<class>GtkToggleButton</class>
 	<name>direction_togglebutton</name>
+	<tooltip>The Direction Editor is used to set up each of the directions a player can travel from one room to another</tooltip>
 	<can_focus>True</can_focus>
 	<signal>
 	  <name>toggled</name>
@@ -228,6 +231,7 @@
       <widget>
 	<class>GtkToggleButton</class>
 	<name>room_togglebutton</name>
+	<tooltip>The Room Editor collects all of the information about each room in the game, how they interconnect, and which objects they contain</tooltip>
 	<can_focus>True</can_focus>
 	<signal>
 	  <name>toggled</name>
@@ -247,6 +251,7 @@
       <widget>
 	<class>GtkToggleButton</class>
 	<name>item_togglebutton</name>
+	<tooltip>The Item Editor configures all of the objects in the game which the player can manipulate and carry</tooltip>
 	<can_focus>True</can_focus>
 	<signal>
 	  <name>toggled</name>
@@ -266,6 +271,7 @@
       <widget>
 	<class>GtkToggleButton</class>
 	<name>obstruction_togglebutton</name>
+	<tooltip>The Obstruction Editor configures all of the obstacles which block a player's movement from one room to another</tooltip>
 	<can_focus>True</can_focus>
 	<signal>
 	  <name>toggled</name>
@@ -285,6 +291,7 @@
       <widget>
 	<class>GtkToggleButton</class>
 	<name>verb_togglebutton</name>
+	<tooltip>The Verb Editor configures all of the actions a player is able to take in your game</tooltip>
 	<can_focus>True</can_focus>
 	<signal>
 	  <name>toggled</name>
@@ -304,6 +311,7 @@
       <widget>
 	<class>GtkToggleButton</class>
 	<name>event_togglebutton</name>
+	<tooltip>The Event Editor ties together all of the interactions between the player and the game environment</tooltip>
 	<can_focus>True</can_focus>
 	<signal>
 	  <name>toggled</name>
@@ -326,6 +334,7 @@
       <name>play_togglebutton</name>
       <border_width>8</border_width>
       <height>66</height>
+      <tooltip>Click here to begin playing a Cog Engine game module</tooltip>
       <can_focus>True</can_focus>
       <signal>
 	<name>toggled</name>
@@ -414,6 +423,7 @@
 	    <name>game_title_textentry</name>
 	    <width>504</width>
 	    <height>24</height>
+	    <tooltip>Enter the title of your video game here</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -460,6 +470,7 @@
 	    <name>game_designer_textentry</name>
 	    <width>360</width>
 	    <height>24</height>
+	    <tooltip>Put your name here, so that you'll get credit for creating the game</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -506,6 +517,7 @@
 	    <name>game_designer_email_address_textentry</name>
 	    <width>304</width>
 	    <height>24</height>
+	    <tooltip>It's a good idea to leave some sort of contact information so that players can get in touch with you to give you feedback on your game</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -552,6 +564,7 @@
 	    <name>last_update_textentry</name>
 	    <width>158</width>
 	    <height>26</height>
+	    <tooltip>Enter the date you last made a change to the game here. It's helpful to be able to know when you last made a change, especially if you keep backup copies of old game files around.</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -586,6 +599,7 @@
 	    <name>version_number_textentry</name>
 	    <width>158</width>
 	    <height>26</height>
+	    <tooltip>Give your game a version number that indicates how far along it has come</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -632,6 +646,7 @@
 	    <name>game_url_textentry</name>
 	    <width>504</width>
 	    <height>24</height>
+	    <tooltip>This is the address of your video game on the World Wide Web. If you're not going to host your game online, you don't need to fill this out, but it will be useful to keep this updated later</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -678,6 +693,7 @@
 	    <name>database_url_textentry</name>
 	    <width>480</width>
 	    <height>24</height>
+	    <tooltip>You won't need to fill this blank out either if you're not going to place your game online.</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -724,6 +740,7 @@
 	    <name>image_directory_textentry</name>
 	    <width>480</width>
 	    <height>24</height>
+	    <tooltip>This entry is important if your game will have graphics, because it tells the Cog Engine where to look for your graphic files. A good place to keep your files is in a subdirectory of where you place the Cog Engine. If you don't have any graphics yet, just leave this entry blank.</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -770,7 +787,7 @@
 	    <name>image_loading_graphic_textentry</name>
 	    <width>416</width>
 	    <height>24</height>
-	    <tooltip>Enter a URL relative to your game database</tooltip>
+	    <tooltip>Enter the filename of a graphic to be displayed while your game graphics are being downloaded. A simple picture which says something like &quot;Graphics Downloading&quot; should suffice.</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -817,7 +834,7 @@
 	    <name>introduction_graphic_textentry</name>
 	    <width>432</width>
 	    <height>24</height>
-	    <tooltip>Enter a URL relative to your game database</tooltip>
+	    <tooltip>Enter the filename of a graphic that should be displayed when the game is first loaded up.</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -879,6 +896,7 @@
 	      <name>introduction_text_textbox</name>
 	      <width>464</width>
 	      <height>128</height>
+	      <tooltip>This is where you enter a few sentences or paragraphs that get displayed when the game is played for the first time. You should have a small introductory storyline, with perhaps a little indication as to what the player is supposed to accomplish.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text></text>
@@ -929,6 +947,7 @@
 	    <name>debug_mode_true_radiobutton</name>
 	    <width>56</width>
 	    <height>24</height>
+	    <tooltip>Debug mode will print out some extra information about the game while the player is playing it (such as displaying the number of the current room the player is in). It's very helpful to have this turned on (set to &quot;true&quot;) while you are working on your game, but you'll probably want to turn it off before you release your game to the public.</tooltip>
 	    <can_focus>True</can_focus>
 	    <label>True</label>
 	    <active>False</active>
@@ -946,6 +965,7 @@
 	    <name>debug_mode_false_radiobutton</name>
 	    <width>64</width>
 	    <height>24</height>
+	    <tooltip>Debug mode will print out some extra information about the game while the player is playing it (such as displaying the number of the current room the player is in). It's very helpful to have this turned on (set to &quot;true&quot;) while you are working on your game, but you'll probably want to turn it off before you release your game to the public.</tooltip>
 	    <can_focus>True</can_focus>
 	    <label>False</label>
 	    <active>False</active>
@@ -1005,6 +1025,7 @@
 	    <name>show_command_line_checkbutton</name>
 	    <width>176</width>
 	    <height>24</height>
+	    <tooltip>If you want the player to be able to enter commands through the keyboard, turn this option on.</tooltip>
 	    <can_focus>True</can_focus>
 	    <signal>
 	      <name>toggled</name>
@@ -1035,6 +1056,7 @@
 	    <name>load_all_compass_images_checkbutton</name>
 	    <width>208</width>
 	    <height>24</height>
+	    <tooltip>This option tells the Cog Engine to pre-download all of the compass graphics before game play begins. When playing the online Applet version of the Cog Engine, this will cause a longer startup time, but gameplay will be faster.</tooltip>
 	    <can_focus>True</can_focus>
 	    <signal>
 	      <name>toggled</name>
@@ -1065,6 +1087,7 @@
 	    <name>show_inventory_checkbutton</name>
 	    <width>192</width>
 	    <height>24</height>
+	    <tooltip>Turn this option on if your game module uses and inventory.</tooltip>
 	    <can_focus>True</can_focus>
 	    <signal>
 	      <name>toggled</name>
@@ -1095,6 +1118,7 @@
 	    <name>center_button_indicates_items_checkbutton</name>
 	    <width>240</width>
 	    <height>24</height>
+	    <tooltip>Turn this option on if you want the center graphic button in the compass to display a special graphic when an item is present in the current room. (If you do not turn on &quot;Show Compass&quot; this option has no effect)</tooltip>
 	    <can_focus>True</can_focus>
 	    <signal>
 	      <name>toggled</name>
@@ -1125,6 +1149,7 @@
 	    <name>show_statistical_display_checkbutton</name>
 	    <width>192</width>
 	    <height>24</height>
+	    <tooltip>The Statistical Display showing information such as Player's Name, Health, Magic Points, etc.</tooltip>
 	    <can_focus>True</can_focus>
 	    <signal>
 	      <name>toggled</name>
@@ -1155,6 +1180,7 @@
 	    <name>show_compass_checkbutton</name>
 	    <width>136</width>
 	    <height>24</height>
+	    <tooltip>Turn this option on if you want a graphical compass displayed for moving between rooms.</tooltip>
 	    <can_focus>True</can_focus>
 	    <signal>
 	      <name>toggled</name>
@@ -1185,6 +1211,7 @@
 	    <name>show_graphic_display_area_checkbutton</name>
 	    <width>192</width>
 	    <height>24</height>
+	    <tooltip>If your game will have graphics, this option should be turned on.</tooltip>
 	    <can_focus>True</can_focus>
 	    <signal>
 	      <name>toggled</name>
@@ -1215,6 +1242,7 @@
 	    <name>show_text_output_display_area_checkbutton</name>
 	    <width>136</width>
 	    <height>24</height>
+	    <tooltip>If your game will use textual room and object descriptions, you should turn this option on.</tooltip>
 	    <can_focus>True</can_focus>
 	    <signal>
 	      <name>toggled</name>
@@ -1299,6 +1327,8 @@
 	      <name>game_information_notes_textbox</name>
 	      <width>544</width>
 	      <height>72</height>
+	      <tooltip>This is a useful section for you to jot down your thoughts as you put your game together. You may want to use this space to keep track of what you have left to do, or where there are problems you need to fix.
+</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text></text>
@@ -1380,6 +1410,7 @@
 	    <name>player_name_textentry</name>
 	    <width>144</width>
 	    <height>24</height>
+	    <tooltip>Enter the player's default name here</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -1414,6 +1445,7 @@
 	    <name>email_address_textentry</name>
 	    <width>216</width>
 	    <height>24</height>
+	    <tooltip>Enter the player's default email address here</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -1476,6 +1508,7 @@
 	      <class>GtkEntry</class>
 	      <child_name>GtkCombo:entry</child_name>
 	      <name>current_room_combo-entry</name>
+	      <tooltip>Select which room the player should begin playing in</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -1543,6 +1576,7 @@
 	      <name>inventory_text</name>
 	      <width>384</width>
 	      <height>112</height>
+	      <tooltip>This box lists all of the items currently in the player's inventory</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text></text>
@@ -1612,6 +1646,7 @@
 	    <name>add_item_button</name>
 	    <width>77</width>
 	    <height>24</height>
+	    <tooltip>Select an item from the dropdown list on the left, and click this button to add it to the player's inventory</tooltip>
 	    <can_focus>True</can_focus>
 	    <signal>
 	      <name>clicked</name>
@@ -1671,6 +1706,7 @@
 	    <name>points_textentry</name>
 	    <width>158</width>
 	    <height>26</height>
+	    <tooltip>Enter the player's current point level here (Enter -1 to disable points)</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -1729,6 +1765,7 @@
 	    <name>experience_textentry</name>
 	    <width>152</width>
 	    <height>24</height>
+	    <tooltip>Enter the player's current experience points here. (Enter -1 to disable Experience)</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -1781,6 +1818,7 @@
 	    <name>experience_level_textentry</name>
 	    <width>56</width>
 	    <height>24</height>
+	    <tooltip>Enter the player's Experience Level here. (Enter -1 to disable Exeperience Level)</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -1833,6 +1871,7 @@
 	    <name>hp_textentry</name>
 	    <width>72</width>
 	    <height>24</height>
+	    <tooltip>Enter the Player's current Health Points here (Enter -1 to disable Health Points)</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -1885,6 +1924,7 @@
 	    <name>mp_textentry</name>
 	    <width>72</width>
 	    <height>24</height>
+	    <tooltip>Enter the player's current Magic Points here. (Enter -1 here to disable Magic Points)</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -2082,6 +2122,7 @@
 	    <name>strength_textentry</name>
 	    <width>56</width>
 	    <height>24</height>
+	    <tooltip>Enter the player's current Strength level here. (Enter -1 to disable Strength)</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -2108,6 +2149,7 @@
 	    <name>intelligence_textentry</name>
 	    <width>56</width>
 	    <height>24</height>
+	    <tooltip>Enter the player's current Intelligence level here. (Enter -1 to disable Intelligence tracking)</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -2134,6 +2176,7 @@
 	    <name>dexterity_textentry</name>
 	    <width>56</width>
 	    <height>24</height>
+	    <tooltip>Enter the player's Dexterity level here. (Enter -1 to disable Dexterity tracking)</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -2160,6 +2203,7 @@
 	    <name>agility_textentry</name>
 	    <width>56</width>
 	    <height>24</height>
+	    <tooltip>Enter the player's Agility level here. (Enter -1 to disable Agility tracking)</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -2186,6 +2230,7 @@
 	    <name>charisma_textentry</name>
 	    <width>56</width>
 	    <height>24</height>
+	    <tooltip>Enter the player's Charisma level here. (Enter -1 to disable Charisma tracking)</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -2212,6 +2257,7 @@
 	    <name>armor_level_textentry</name>
 	    <width>56</width>
 	    <height>24</height>
+	    <tooltip>Enter the player's Armor Level here (Enter -1 to disable Armor Level tracking)</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -2289,6 +2335,7 @@
 	    <name>max_weight_textentry</name>
 	    <width>80</width>
 	    <height>24</height>
+	    <tooltip>Enter the maximum weight a player can carry here (Enter -1 to disable a limit on the weight a player can carry)</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -2341,6 +2388,7 @@
 	    <name>max_bulk_textentry</name>
 	    <width>80</width>
 	    <height>24</height>
+	    <tooltip>Enter the maximum bulk level the player can carry here. (Enter -1 to disable a limit on the bulk a player can carry)</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -2393,6 +2441,7 @@
 	    <name>current_weight_textentry</name>
 	    <width>80</width>
 	    <height>24</height>
+	    <tooltip>Enter the player's current weight level here. </tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -2445,6 +2494,7 @@
 	    <name>current_bulk_textentry</name>
 	    <width>80</width>
 	    <height>24</height>
+	    <tooltip>Enter the player's current bulk level here.</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -2515,6 +2565,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>direction_editor_new_button</name>
+	<tooltip>Click here to create a new direction</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_direction_editor_new_button_clicked</handler>
@@ -2528,6 +2579,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>direction_editor_first_button</name>
+	<tooltip>Click here to cycle back to the first direction</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_direction_editor_first_button_clicked</handler>
@@ -2541,6 +2593,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>direction_editor_previous_button</name>
+	<tooltip>Click here to cycle back to the previous direction</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_direction_editor_previous_button_clicked</handler>
@@ -2554,6 +2607,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>direction_editor_next_button</name>
+	<tooltip>Click here to cycle forward to the next direction</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_direction_editor_next_button_clicked</handler>
@@ -2567,6 +2621,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>direction_editor_last_button</name>
+	<tooltip>Click here to cycle forward to the last direction</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_direction_editor_last_button_clicked</handler>
@@ -2574,6 +2629,20 @@
 	</signal>
 	<label>Last</label>
 	<icon>stock_last.xpm</icon>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<child_name>Toolbar:button</child_name>
+	<name>direction_editor_save_button</name>
+	<tooltip>Click here to save the current direction's data</tooltip>
+	<signal>
+	  <name>clicked</name>
+	  <handler>on_direction_editor_save_button_clicked</handler>
+	  <last_modification_time>Sun, 19 May 2002 21:40:29 GMT</last_modification_time>
+	</signal>
+	<label>Save</label>
+	<icon>stock_save.xpm</icon>
       </widget>
 
       <widget>
@@ -2592,6 +2661,7 @@
 	<class>GtkEntry</class>
 	<name>direction_editor_selection_textentry</name>
 	<width>56</width>
+	<tooltip>Enter a number here and press enter to cycle through to that direction</tooltip>
 	<can_focus>True</can_focus>
 	<signal>
 	  <name>activate</name>
@@ -2608,6 +2678,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>direction_editor_clear_button</name>
+	<tooltip>Click here to clear all of the information for the current direction</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_direction_editor_clear_button_clicked</handler>
@@ -2675,6 +2746,7 @@
 	      <name>number_textentry</name>
 	      <width>64</width>
 	      <height>24</height>
+	      <tooltip>Adjust the current room's number here</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -2721,6 +2793,7 @@
 	      <name>name_textentry</name>
 	      <width>192</width>
 	      <height>24</height>
+	      <tooltip>Give this room a name the player can enter on the command line here</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -2767,6 +2840,7 @@
 	      <name>abbreviation_textentry</name>
 	      <width>158</width>
 	      <height>26</height>
+	      <tooltip>Enter abbreviations the direction can be referenced by (separated by commas) here</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -2813,6 +2887,7 @@
 	      <name>available_compass_graphic_textentry</name>
 	      <width>320</width>
 	      <height>24</height>
+	      <tooltip>Enter the name of the image which should be shown on the compass when the player can move in this direciton</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -2859,6 +2934,7 @@
 	      <name>unavailable_compass_graphic_textentry</name>
 	      <width>320</width>
 	      <height>24</height>
+	      <tooltip>Enter the name of the image which should be shown on the compass when the player cannot move in this direciton</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -2905,6 +2981,7 @@
 	      <name>special_compass_graphic_textentry</name>
 	      <width>320</width>
 	      <height>24</height>
+	      <tooltip>Enter the name of the image which should be shown on the compass when the player would be able to move in this direciton, but cannot because an obstruction blocking them</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -2967,6 +3044,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>room_editor_new_button</name>
+	<tooltip>Click here to create a new room</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_room_editor_new_button_clicked</handler>
@@ -2980,6 +3058,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>room_editor_first_button</name>
+	<tooltip>Click here to cycle back to the first room</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_room_editor_first_button_clicked</handler>
@@ -2993,6 +3072,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>room_editor_previous_button</name>
+	<tooltip>Click here to cycle back one room</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_room_editor_previous_button_clicked</handler>
@@ -3006,6 +3086,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>room_editor_next_button</name>
+	<tooltip>Click here to cycle forward one room</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_room_editor_next_button_clicked</handler>
@@ -3019,6 +3100,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>room_editor_last_button</name>
+	<tooltip>Click here to cycle forward to the last room</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_room_editor_last_button_clicked</handler>
@@ -3026,6 +3108,20 @@
 	</signal>
 	<label>Last</label>
 	<icon>stock_last.xpm</icon>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<child_name>Toolbar:button</child_name>
+	<name>room_editor_save_button</name>
+	<tooltip>Click here to save all of the data for the current room</tooltip>
+	<signal>
+	  <name>clicked</name>
+	  <handler>on_room_editor_save_button_clicked</handler>
+	  <last_modification_time>Sun, 19 May 2002 21:42:50 GMT</last_modification_time>
+	</signal>
+	<label>Save</label>
+	<icon>stock_save.xpm</icon>
       </widget>
 
       <widget>
@@ -3044,6 +3140,7 @@
 	<class>GtkEntry</class>
 	<name>room_editor_selection_textentry</name>
 	<width>56</width>
+	<tooltip>Enter a number here and press enter to cycle through to that room</tooltip>
 	<can_focus>True</can_focus>
 	<signal>
 	  <name>activate</name>
@@ -3060,6 +3157,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>room_editor_clear_button</name>
+	<tooltip>Click here to clear all of the data for the current room</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_room_editor_clear_button_clicked</handler>
@@ -3127,6 +3225,7 @@
 	      <name>number_textentry</name>
 	      <width>72</width>
 	      <height>24</height>
+	      <tooltip>Adjust the current room's number here</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -3161,6 +3260,7 @@
 	      <name>name_textentry</name>
 	      <width>376</width>
 	      <height>24</height>
+	      <tooltip>Enter the name you gave your room on the map here</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -3207,6 +3307,7 @@
 	      <name>graphic_url_textentry</name>
 	      <width>528</width>
 	      <height>24</height>
+	      <tooltip>This is the graphic that should be displayed whenever a player enters the room</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -3269,6 +3370,7 @@
 		<name>text_description_long_textbox</name>
 		<width>512</width>
 		<height>128</height>
+		<tooltip>The first time a player enters a room, you're going to want to give as detailed a description of their surroundings as possible. The more creative and well-written your descriptions are, the better the player's experience will be.</tooltip>
 		<can_focus>True</can_focus>
 		<editable>True</editable>
 		<text></text>
@@ -3325,6 +3427,7 @@
 		<name>text_description_short_textbox</name>
 		<width>512</width>
 		<height>48</height>
+		<tooltip>Each time a player revisits a room, they shouldn't need to have to read through an entire paragraph of text to recognize where they are. Enter a short, one or two sentence long summarized description of the room here.</tooltip>
 		<can_focus>True</can_focus>
 		<editable>True</editable>
 		<text></text>
@@ -3381,6 +3484,7 @@
 		<name>direction_description_text</name>
 		<width>528</width>
 		<height>88</height>
+		<tooltip>This is where you describe each of the directions the player can travel. You may want to capitalize the name of the direction they are able to travel, in order for the word to stand out.</tooltip>
 		<can_focus>True</can_focus>
 		<editable>True</editable>
 		<text></text>
@@ -3421,6 +3525,7 @@
 	      <name>visited_true_radiobutton</name>
 	      <width>64</width>
 	      <height>24</height>
+	      <tooltip>This is a marker that tells the program whether to display the full or short description when the player enters the room.</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>True</label>
 	      <active>False</active>
@@ -3438,6 +3543,7 @@
 	      <name>visited_false_radiobutton</name>
 	      <width>64</width>
 	      <height>24</height>
+	      <tooltip>This is a marker that tells the program whether to display the full or short description when the player enters the room.</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>False</label>
 	      <active>True</active>
@@ -3509,6 +3615,7 @@
 		<name>item_text</name>
 		<width>568</width>
 		<height>96</height>
+		<tooltip>This box contains a list of all of the items located in the current room</tooltip>
 		<can_focus>True</can_focus>
 		<editable>True</editable>
 		<text></text>
@@ -3565,6 +3672,7 @@
 		<class>GtkEntry</class>
 		<child_name>GtkCombo:entry</child_name>
 		<name>item_list_combo-entry</name>
+		<tooltip>You can select the name of an object to add to the current room from this dropdown box.</tooltip>
 		<can_focus>True</can_focus>
 		<editable>True</editable>
 		<text_visible>True</text_visible>
@@ -3578,6 +3686,7 @@
 	      <name>add_item_button</name>
 	      <width>80</width>
 	      <height>24</height>
+	      <tooltip>Click here after selecting an item on the dropdown box to the left to add that item to the current room</tooltip>
 	      <can_focus>True</can_focus>
 	      <signal>
 		<name>clicked</name>
@@ -3637,6 +3746,7 @@
 	      <name>directional_object_optionmenu</name>
 	      <width>216</width>
 	      <height>24</height>
+	      <tooltip>This menu contains a list of each of the possible directions the player can travel in. By default this list is empty, and until you have filled out the Directions Editor and  added  a few rooms, you won't be able to change any of the direction settings. When you are ready to connect all of the rooms together, select &quot;Add New Direction&quot; from this menu.</tooltip>
 	      <can_focus>True</can_focus>
 	      <items></items>
 	      <initial_choice>0</initial_choice>
@@ -3697,6 +3807,7 @@
 		<class>GtkEntry</class>
 		<child_name>GtkCombo:entry</child_name>
 		<name>to_which_room_combo-entry</name>
+		<tooltip>Select which room that direction leads to from the &quot;Leads To Room&quot; drop-down list. If you select &quot;Nowhere&quot; from the list, the current direction will be removed.</tooltip>
 		<can_focus>True</can_focus>
 		<editable>True</editable>
 		<text_visible>True</text_visible>
@@ -3739,6 +3850,7 @@
 	      <name>player_moved_this_way_true_radiobutton</name>
 	      <width>56</width>
 	      <height>24</height>
+	      <tooltip>This is a marker which keeps track of whether or not the player has moved in from this room in this direction before.</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>True</label>
 	      <active>False</active>
@@ -3756,6 +3868,7 @@
 	      <name>player_moved_this_way_false_radiobutton</name>
 	      <width>64</width>
 	      <height>24</height>
+	      <tooltip>This is a marker which keeps track of whether or not the player has moved in from this room in this direction before.</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>False</label>
 	      <active>True</active>
@@ -3817,6 +3930,7 @@
 		<name>obstruction_text</name>
 		<width>520</width>
 		<height>80</height>
+		<tooltip>This box contains a list of all of the obstructions current blocking the player from moving in this direction out of the current room.</tooltip>
 		<can_focus>True</can_focus>
 		<editable>True</editable>
 		<text></text>
@@ -3873,6 +3987,7 @@
 		<class>GtkEntry</class>
 		<child_name>GtkCombo:entry</child_name>
 		<name>add_obstruction_combo-entry</name>
+		<tooltip>You can select the name of an obstruction to add to the current direction from this list</tooltip>
 		<can_focus>True</can_focus>
 		<editable>True</editable>
 		<text_visible>True</text_visible>
@@ -3886,6 +4001,7 @@
 	      <name>add_obstruction_button</name>
 	      <width>128</width>
 	      <height>24</height>
+	      <tooltip>Click here after selecting an obstruction to add to the current room from the dropdown list to the left.</tooltip>
 	      <can_focus>True</can_focus>
 	      <signal>
 		<name>clicked</name>
@@ -3935,6 +4051,7 @@
 	      <name>first_transition_text_textentry</name>
 	      <width>448</width>
 	      <height>24</height>
+	      <tooltip>This is optional text that gets printed out the first time the player moves in this direction from the current room.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -3981,6 +4098,7 @@
 	      <name>transition_text_textentry</name>
 	      <width>504</width>
 	      <height>24</height>
+	      <tooltip>This is optional text that gets printed out each time the player moves in this direction from the current room.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -4027,6 +4145,7 @@
 	      <name>first_transition_graphic_textentry</name>
 	      <width>408</width>
 	      <height>24</height>
+	      <tooltip>This is a graphic which gets shown the first time a player moves in this direction from the current room.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -4073,6 +4192,7 @@
 	      <name>transition_graphic_textentry</name>
 	      <width>440</width>
 	      <height>24</height>
+	      <tooltip>This is a graphic which gets displayed each time the player travels in this direction from the current room</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -4200,6 +4320,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>item_editor_new_button</name>
+	<tooltip>Click here to add a new item to the game</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_item_editor_new_button_clicked</handler>
@@ -4213,6 +4334,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>item_editor_first_button</name>
+	<tooltip>Click here to cycle back to the first item</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_item_editor_first_button_clicked</handler>
@@ -4226,6 +4348,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>item_editor_previous_button</name>
+	<tooltip>Click here to cycle back to the previous item</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_item_editor_previous_button_clicked</handler>
@@ -4239,6 +4362,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>item_editor_next_button</name>
+	<tooltip>Click here to cycle forward to the next item</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_item_editor_next_button_clicked</handler>
@@ -4252,6 +4376,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>item_editor_last_button</name>
+	<tooltip>Click here to cycle forward to the last item</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_item_editor_last_button_clicked</handler>
@@ -4259,6 +4384,20 @@
 	</signal>
 	<label>Last</label>
 	<icon>stock_last.xpm</icon>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<child_name>Toolbar:button</child_name>
+	<name>item_editor_save_button</name>
+	<tooltip>Click here to save the current item's information</tooltip>
+	<signal>
+	  <name>clicked</name>
+	  <handler>on_item_editor_save_button_clicked</handler>
+	  <last_modification_time>Sun, 19 May 2002 21:45:03 GMT</last_modification_time>
+	</signal>
+	<label>Save</label>
+	<icon>stock_save.xpm</icon>
       </widget>
 
       <widget>
@@ -4277,6 +4416,7 @@
 	<class>GtkEntry</class>
 	<name>item_editor_selection_textentry</name>
 	<width>56</width>
+	<tooltip>Enter a number here and press enter to cycle through to that item</tooltip>
 	<can_focus>True</can_focus>
 	<signal>
 	  <name>activate</name>
@@ -4293,6 +4433,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>item_editor_clear_button</name>
+	<tooltip>Click here to clear the current item's information</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_item_editor_clear_button_clicked</handler>
@@ -4360,6 +4501,7 @@
 	      <name>number_textentry</name>
 	      <width>72</width>
 	      <height>24</height>
+	      <tooltip>Adjust the current item's number here</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -4394,6 +4536,7 @@
 	      <name>name_textentry</name>
 	      <width>328</width>
 	      <height>24</height>
+	      <tooltip>The item's name. This is what will get displayed by the Cog Engine when it lists each of the items in the room.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -4440,6 +4583,7 @@
 	      <name>aliases_textentry</name>
 	      <width>488</width>
 	      <height>24</height>
+	      <tooltip>If there's more than one word that you want the player to be able to use when referencing the current item, enter each word or phase, separated by commas, here.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -4486,6 +4630,7 @@
 	      <name>environmental_graphic_textentry</name>
 	      <width>360</width>
 	      <height>24</height>
+	      <tooltip>This is the graphic that should be displayed by the Cog Engine whenever the item is in the current room, but not in the player's inventory.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -4549,6 +4694,7 @@
 	      <name>environmental_graphic_x_textentry</name>
 	      <width>56</width>
 	      <height>24</height>
+	      <tooltip>The X coordinate, relative to the upper-left corner of the graphics panel, where the environmental graphic gets displayed.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -4583,6 +4729,7 @@
 	      <name>environmental_graphic_y_textentry</name>
 	      <width>56</width>
 	      <height>24</height>
+	      <tooltip>The Y coordinate, relative to the upper-left corner of the graphics panel, where the environmental graphic gets displayed.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -4629,6 +4776,7 @@
 	      <name>closeup_graphic_textentry</name>
 	      <width>384</width>
 	      <height>24</height>
+	      <tooltip>If a player &quot;Examine&quot;s or &quot;Look&quot;s at this particular item, this graphic will be displayed.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -4675,6 +4823,7 @@
 	      <name>icon_graphic_textentry</name>
 	      <width>416</width>
 	      <height>24</height>
+	      <tooltip>The graphic to be displayed in the player's graphical inventory.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -4721,6 +4870,7 @@
 	      <name>equipped_graphic_textentry</name>
 	      <width>376</width>
 	      <height>24</height>
+	      <tooltip>The graphic to be displayed in the player's graphical inventory when the item is &quot;equipped&quot;</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -4782,6 +4932,7 @@
 		<name>description_textbox</name>
 		<width>424</width>
 		<height>96</height>
+		<tooltip>This text is displayed whenever a player Looks at or Examines an item</tooltip>
 		<can_focus>True</can_focus>
 		<editable>True</editable>
 		<text></text>
@@ -4837,6 +4988,7 @@
 		<name>location_text</name>
 		<width>416</width>
 		<height>80</height>
+		<tooltip>This window shows you which rooms currently contain this item. (You can't edit this information directly, you'll need to open up the Room Editor to the corresponding room if you want to add or remove an item to or from that location)</tooltip>
 		<can_focus>True</can_focus>
 		<editable>False</editable>
 		<text></text>
@@ -4877,6 +5029,7 @@
 	      <name>equipped_true_radiobutton</name>
 	      <width>56</width>
 	      <height>24</height>
+	      <tooltip>This marker indicates whether or not an item is being &quot;used&quot; (such as a flashlight being turned on or off)</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>True</label>
 	      <active>False</active>
@@ -4894,6 +5047,7 @@
 	      <name>equipped_false_radiobutton</name>
 	      <width>64</width>
 	      <height>24</height>
+	      <tooltip>This marker indicates whether or not an item is being &quot;used&quot; (such as a flashlight being turned on or off)</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>False</label>
 	      <active>False</active>
@@ -4940,6 +5094,7 @@
 	      <name>weight_textentry</name>
 	      <width>158</width>
 	      <height>26</height>
+	      <tooltip>If this is set to &quot;-1&quot; then the player cannot pick up the object. This is important if you want to place a large object in a room that the player can examine, but can't move. You can also limit how much weight a Player can carry by entering a number in the Player Editor's Weight blank. You can give each item a numeric weight, and if the combined total of all of the weights of all of the items in the players inventory meets or would be above the player's maximum weight limit, then the play can't pick up any more items.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -4974,6 +5129,7 @@
 	      <name>bulk_textentry</name>
 	      <width>158</width>
 	      <height>26</height>
+	      <tooltip>If you want to limit how many items the player can carry by size, set this to a non-zero number, and be certain to edit the player's maximum bulk in the Player Editor</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -5101,6 +5257,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>obstruction_editor_new_button</name>
+	<tooltip>Click here to create a new obstruction</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_obstruction_editor_new_button_clicked</handler>
@@ -5114,6 +5271,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>obstruction_editor_first_button</name>
+	<tooltip>Click here to cycle back to the first obstruction</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_obstruction_editor_first_button_clicked</handler>
@@ -5127,6 +5285,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>obstruction_editor_previous_button</name>
+	<tooltip>Click here to cycle back to the previous obstruction</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_obstruction_editor_previous_button_clicked</handler>
@@ -5140,6 +5299,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>obstruction_editor_next_button</name>
+	<tooltip>Click here to cycle forward to the next obstruction</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_obstruction_editor_next_button_clicked</handler>
@@ -5153,6 +5313,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>obstruction_editor_last_button</name>
+	<tooltip>Click here to cycle forward to the last obstruction</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_obstruction_editor_last_button_clicked</handler>
@@ -5160,6 +5321,20 @@
 	</signal>
 	<label>Last</label>
 	<icon>stock_last.xpm</icon>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<child_name>Toolbar:button</child_name>
+	<name>obstruction_editor_save_button</name>
+	<tooltip>Click here to save the current obstruction's information</tooltip>
+	<signal>
+	  <name>clicked</name>
+	  <handler>on_obstruction_editor_save_button_clicked</handler>
+	  <last_modification_time>Sun, 19 May 2002 21:44:48 GMT</last_modification_time>
+	</signal>
+	<label>Save</label>
+	<icon>stock_save.xpm</icon>
       </widget>
 
       <widget>
@@ -5178,6 +5353,7 @@
 	<class>GtkEntry</class>
 	<name>obstruction_editor_selection_textentry</name>
 	<width>56</width>
+	<tooltip>Enter a number and press enter here to cycle through to that obstruction</tooltip>
 	<can_focus>True</can_focus>
 	<signal>
 	  <name>activate</name>
@@ -5194,6 +5370,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>obstruction_editor_clear_button</name>
+	<tooltip>Click here to clear the current obstruction's information</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_obstruction_editor_clear_button_clicked</handler>
@@ -5261,6 +5438,7 @@
 	      <name>number_textentry</name>
 	      <width>64</width>
 	      <height>24</height>
+	      <tooltip>Adjust the current obstruction's number here</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -5295,6 +5473,7 @@
 	      <name>name_textentry</name>
 	      <width>312</width>
 	      <height>24</height>
+	      <tooltip>The obstruction's name. This is what will get displayed by the Cog Engine when it lists each of the obstructions in the room.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -5341,6 +5520,7 @@
 	      <name>aliases_textentry</name>
 	      <width>488</width>
 	      <height>24</height>
+	      <tooltip>If there's more than one word that you want the player to be able to use when referencing the current obstruction, enter each word or phase, separated by commas, here.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -5387,6 +5567,7 @@
 	      <name>environmental_graphic_textentry</name>
 	      <width>352</width>
 	      <height>24</height>
+	      <tooltip>This is the graphic that should be displayed by the Cog Engine whenever the obstruction is in the current room.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -5450,6 +5631,7 @@
 	      <name>environmental_graphic_x_textentry</name>
 	      <width>56</width>
 	      <height>24</height>
+	      <tooltip>The X coordinate, relative to the upper-left corner of the graphics panel, where the environmental graphic gets displayed.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -5484,6 +5666,7 @@
 	      <name>environmental_graphic_y_textentry</name>
 	      <width>56</width>
 	      <height>24</height>
+	      <tooltip>The Y coordinate, relative to the upper-left corner of the graphics panel, where the environmental graphic gets displayed.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -5530,6 +5713,7 @@
 	      <name>closeup_graphic_textentry</name>
 	      <width>400</width>
 	      <height>24</height>
+	      <tooltip>If a player &quot;Examine&quot;s or &quot;Look&quot;s at this particular obstruction, this graphic will be displayed.</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -5591,6 +5775,7 @@
 		<name>description_textbox</name>
 		<width>424</width>
 		<height>96</height>
+		<tooltip>This text is displayed whenever a player Looks at or Examines this obstruction.</tooltip>
 		<can_focus>True</can_focus>
 		<editable>True</editable>
 		<text></text>
@@ -5646,6 +5831,7 @@
 		<name>location_text</name>
 		<width>416</width>
 		<height>186</height>
+		<tooltip>This window shows you which rooms currently contain this obstruction. (You can't edit this information directly, you'll need to open up the Room Editor to the corresponding room if you want to add or remove an obstruction to or from that location)</tooltip>
 		<can_focus>True</can_focus>
 		<editable>False</editable>
 		<text></text>
@@ -5686,6 +5872,7 @@
 	      <name>visible_true_radiobutton</name>
 	      <width>56</width>
 	      <height>24</height>
+	      <tooltip>This setting determines whether or not a player can see what is obstructing their path in a particular direction.</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>True</label>
 	      <active>False</active>
@@ -5703,6 +5890,7 @@
 	      <name>visible_false_radiobutton</name>
 	      <width>64</width>
 	      <height>24</height>
+	      <tooltip>This setting determines whether or not a player can see what is obstructing their path in a particular direction.</tooltip>
 	      <can_focus>True</can_focus>
 	      <label>False</label>
 	      <active>False</active>
@@ -5830,6 +6018,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>verb_editor_new_button</name>
+	<tooltip>Click here to create a new verb</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_verb_editor_new_button_clicked</handler>
@@ -5843,6 +6032,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>verb_editor_first_button</name>
+	<tooltip>Click here to cycle back to the first verb</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_verb_editor_first_button_clicked</handler>
@@ -5856,6 +6046,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>verb_editor_previous_button</name>
+	<tooltip>Click here to cycle back to the previous verb</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_verb_editor_previous_button_clicked</handler>
@@ -5869,6 +6060,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>verb_editor_next_button</name>
+	<tooltip>Click here to cycle forward to the next verb</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_verb_editor_next_button_clicked</handler>
@@ -5882,6 +6074,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>verb_editor_last_button</name>
+	<tooltip>Click here to cycle forward to the last verb</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_verb_editor_last_button_clicked</handler>
@@ -5889,6 +6082,20 @@
 	</signal>
 	<label>Last</label>
 	<icon>stock_last.xpm</icon>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<child_name>Toolbar:button</child_name>
+	<name>verb_editor_save_button</name>
+	<tooltip>Click here to save the current verb's information</tooltip>
+	<signal>
+	  <name>clicked</name>
+	  <handler>on_verb_editor_save_button_clicked</handler>
+	  <last_modification_time>Sun, 19 May 2002 21:44:37 GMT</last_modification_time>
+	</signal>
+	<label>Save</label>
+	<icon>stock_save.xpm</icon>
       </widget>
 
       <widget>
@@ -5907,6 +6114,7 @@
 	<class>GtkEntry</class>
 	<name>verb_editor_selection_textentry</name>
 	<width>56</width>
+	<tooltip>Enter a number here and press enter to cycle through to that verb</tooltip>
 	<can_focus>True</can_focus>
 	<signal>
 	  <name>activate</name>
@@ -5923,6 +6131,7 @@
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
 	<name>verb_editor_clear_button</name>
+	<tooltip>Click here to clear all of the information for the current verb</tooltip>
 	<signal>
 	  <name>clicked</name>
 	  <handler>on_verb_editor_clear_button_clicked</handler>
@@ -5990,6 +6199,7 @@
 	      <name>number_textentry</name>
 	      <width>80</width>
 	      <height>24</height>
+	      <tooltip>Adjust the current verb's number here</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -6036,6 +6246,7 @@
 	      <name>name_textentry</name>
 	      <width>312</width>
 	      <height>24</height>
+	      <tooltip>Enter the current verb's name here</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -6097,6 +6308,7 @@
 		<name>aliases_textbox</name>
 		<width>496</width>
 		<height>64</height>
+		<tooltip>If you want to allow the player to use different words to imply the same action, enter each of those words here, separated by commas.</tooltip>
 		<can_focus>True</can_focus>
 		<editable>True</editable>
 		<text></text>
@@ -6247,6 +6459,7 @@
 	      <class>GtkButton</class>
 	      <child_name>Toolbar:button</child_name>
 	      <name>event_builder_add_object_button</name>
+	      <tooltip>Click here to add a secondary object to this event script entry</tooltip>
 	      <signal>
 		<name>clicked</name>
 		<handler>on_event_builder_add_object_button_clicked</handler>
@@ -6261,6 +6474,7 @@ Object</label>
 	      <class>GtkButton</class>
 	      <child_name>Toolbar:button</child_name>
 	      <name>event_builder_remove_object_button</name>
+	      <tooltip>Click here to remove the secondary object from this event script entry</tooltip>
 	      <signal>
 		<name>clicked</name>
 		<handler>on_event_builder_remove_object_button_clicked</handler>
@@ -6275,6 +6489,7 @@ Object</label>
 	      <class>GtkButton</class>
 	      <child_name>Toolbar:button</child_name>
 	      <name>event_builder_add_requirement_button</name>
+	      <tooltip>Click here to add a requirement for this event script entry</tooltip>
 	      <signal>
 		<name>clicked</name>
 		<handler>on_event_builder_add_requirement_button_clicked</handler>
@@ -6289,6 +6504,7 @@ Requirement</label>
 	      <class>GtkButton</class>
 	      <child_name>Toolbar:button</child_name>
 	      <name>event_builder_remove_requirement_button</name>
+	      <tooltip>Click here to remove the last requirement from this event script entry</tooltip>
 	      <signal>
 		<name>clicked</name>
 		<handler>on_event_builder_remove_requirement_button_clicked</handler>
@@ -6303,6 +6519,7 @@ Requirement</label>
 	      <class>GtkButton</class>
 	      <child_name>Toolbar:button</child_name>
 	      <name>event_builder_add_effect_button</name>
+	      <tooltip>Click here to add an effect to this event script entry</tooltip>
 	      <signal>
 		<name>clicked</name>
 		<handler>on_event_builder_add_effect_button_clicked</handler>
@@ -6317,6 +6534,7 @@ Effect</label>
 	      <class>GtkButton</class>
 	      <child_name>Toolbar:button</child_name>
 	      <name>event_builder_remove_effect_button</name>
+	      <tooltip>Click here to remove the last effect from this event script entry</tooltip>
 	      <signal>
 		<name>clicked</name>
 		<handler>on_event_builder_remove_effect_button_clicked</handler>
@@ -6402,6 +6620,7 @@ Effect</label>
 	    <child_name>Toolbar:button</child_name>
 	    <name>event_builder_import_button</name>
 	    <border_width>3</border_width>
+	    <tooltip>Click here to import a text list of events to this game modules event scripts</tooltip>
 	    <signal>
 	      <name>clicked</name>
 	      <handler>on_event_builder_import_button_clicked</handler>
@@ -6416,6 +6635,7 @@ Effect</label>
 	    <child_name>Toolbar:button</child_name>
 	    <name>event_builder_export_button</name>
 	    <border_width>3</border_width>
+	    <tooltip>Click here to save this game module event scripts as a text file</tooltip>
 	    <signal>
 	      <name>clicked</name>
 	      <handler>on_event_builder_export_button_clicked</handler>
@@ -6434,6 +6654,7 @@ Effect</label>
 	    <widget>
 	      <class>GtkRadioButton</class>
 	      <name>event_editor_display_reference_numbers_radiobutton</name>
+	      <tooltip>Click here to display room and object references by numbers enclosed in parenthesis</tooltip>
 	      <signal>
 		<name>toggled</name>
 		<handler>on_event_editor_display_reference_numbers_radiobutton_toggled</handler>
@@ -6453,6 +6674,7 @@ Effect</label>
 	    <widget>
 	      <class>GtkRadioButton</class>
 	      <name>event_editor_display_reference_names_radiobutton</name>
+	      <tooltip>Click here to display all room and object references as expanded numbers and words</tooltip>
 	      <signal>
 		<name>toggled</name>
 		<handler>on_event_editor_display_reference_names_radiobutton_toggled</handler>
@@ -6964,7 +7186,7 @@ Expressions:
       <widget>
 	<class>GtkLabel</class>
 	<name>Application Title</name>
-	<label>Cog Development Application v1.1.0</label>
+	<label>Cog Development Application v1.1.1</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
@@ -7016,194 +7238,38 @@ http://cogengine.sourceforge.net</label>
 
 <widget>
   <class>GtkWindow</class>
-  <name>glade_graphic_window</name>
-  <title>window1</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
-  <allow_shrink>False</allow_shrink>
-  <allow_grow>True</allow_grow>
-  <auto_shrink>False</auto_shrink>
-
-  <widget>
-    <class>Placeholder</class>
-  </widget>
-</widget>
-
-<widget>
-  <class>GtkWindow</class>
-  <name>textmode_window</name>
-  <title>TextMode Window</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
-  <default_width>600</default_width>
-  <default_height>350</default_height>
-  <allow_shrink>False</allow_shrink>
-  <allow_grow>True</allow_grow>
-  <auto_shrink>False</auto_shrink>
-
-  <widget>
-    <class>Placeholder</class>
-  </widget>
-</widget>
-
-<widget>
-  <class>GtkWindow</class>
-  <name>inventory_window</name>
-  <title>Inventory</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
-  <default_width>300</default_width>
-  <default_height>300</default_height>
-  <allow_shrink>False</allow_shrink>
-  <allow_grow>True</allow_grow>
-  <auto_shrink>False</auto_shrink>
-
-  <widget>
-    <class>Placeholder</class>
-  </widget>
-</widget>
-
-<widget>
-  <class>GtkWindow</class>
-  <name>statistics_window</name>
-  <title>Game Statistics</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
-  <default_width>300</default_width>
-  <default_height>300</default_height>
-  <allow_shrink>True</allow_shrink>
-  <allow_grow>True</allow_grow>
-  <auto_shrink>False</auto_shrink>
-
-  <widget>
-    <class>Placeholder</class>
-  </widget>
-</widget>
-
-<widget>
-  <class>GtkWindow</class>
   <name>CogEngine</name>
-  <title>CogEngine</title>
+  <title>The Cog Engine</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
-  <default_width>800</default_width>
-  <default_height>800</default_height>
+  <default_width>640</default_width>
+  <default_height>300</default_height>
   <allow_shrink>False</allow_shrink>
   <allow_grow>True</allow_grow>
   <auto_shrink>False</auto_shrink>
 
   <widget>
-    <class>GtkVPaned</class>
-    <name>vpaned1</name>
-    <handle_size>10</handle_size>
-    <gutter_size>6</gutter_size>
+    <class>GtkVBox</class>
+    <name>vbox56</name>
+    <homogeneous>False</homogeneous>
+    <spacing>0</spacing>
 
     <widget>
-      <class>GtkHPaned</class>
-      <name>hpaned1</name>
-      <handle_size>10</handle_size>
-      <gutter_size>6</gutter_size>
+      <class>GtkNotebook</class>
+      <name>notebook1</name>
+      <can_focus>True</can_focus>
+      <show_tabs>True</show_tabs>
+      <show_border>True</show_border>
+      <tab_pos>GTK_POS_TOP</tab_pos>
+      <scrollable>False</scrollable>
+      <tab_hborder>2</tab_hborder>
+      <tab_vborder>2</tab_vborder>
+      <popup_enable>False</popup_enable>
       <child>
-	<shrink>True</shrink>
-	<resize>False</resize>
-      </child>
-
-      <widget>
-	<class>GtkVBox</class>
-	<name>vbox55</name>
-	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
-	<child>
-	  <shrink>True</shrink>
-	  <resize>False</resize>
-	</child>
-
-	<widget>
-	  <class>GtkScrolledWindow</class>
-	  <name>scrolledwindow33</name>
-	  <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
-	  <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
-	  <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	  <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
-	  <child>
-	    <padding>0</padding>
-	    <expand>True</expand>
-	    <fill>True</fill>
-	  </child>
-
-	  <widget>
-	    <class>GtkText</class>
-	    <name>statistics_textbox</name>
-	    <can_focus>True</can_focus>
-	    <editable>False</editable>
-	    <text></text>
-	  </widget>
-	</widget>
-
-	<widget>
-	  <class>GtkScrolledWindow</class>
-	  <name>scrolledwindow32</name>
-	  <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
-	  <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
-	  <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	  <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
-	  <child>
-	    <padding>0</padding>
-	    <expand>True</expand>
-	    <fill>True</fill>
-	  </child>
-
-	  <widget>
-	    <class>GtkText</class>
-	    <name>inventory_textbox</name>
-	    <can_focus>True</can_focus>
-	    <editable>False</editable>
-	    <text></text>
-	  </widget>
-	</widget>
-      </widget>
-
-      <widget>
-	<class>GtkScrolledWindow</class>
-	<name>scrolledwindow34</name>
-	<width>640</width>
-	<height>480</height>
-	<hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
-	<vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
-	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
-	<child>
-	  <shrink>True</shrink>
-	  <resize>True</resize>
-	</child>
-
-	<widget>
-	  <class>GtkPixmap</class>
-	  <name>glade_graphic_window_pixmap</name>
-	  <width>640</width>
-	  <height>480</height>
-	  <xalign>0.5</xalign>
-	  <yalign>0.5</yalign>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <build_insensitive>True</build_insensitive>
-	</widget>
-      </widget>
-    </widget>
-
-    <widget>
-      <class>GtkVBox</class>
-      <name>vbox53</name>
-      <homogeneous>False</homogeneous>
-      <spacing>0</spacing>
-      <child>
-	<shrink>True</shrink>
-	<resize>True</resize>
+	<padding>0</padding>
+	<expand>True</expand>
+	<fill>True</fill>
       </child>
 
       <widget>
@@ -7213,11 +7279,6 @@ http://cogengine.sourceforge.net</label>
 	<vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
 	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
 	<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
 
 	<widget>
 	  <class>GtkText</class>
@@ -7229,24 +7290,97 @@ http://cogengine.sourceforge.net</label>
       </widget>
 
       <widget>
-	<class>GtkEntry</class>
-	<name>commandline_entry</name>
-	<can_focus>True</can_focus>
-	<signal>
-	  <name>activate</name>
-	  <handler>on_commandline_entry_activate</handler>
-	  <last_modification_time>Wed, 20 Feb 2002 12:24:35 GMT</last_modification_time>
-	</signal>
-	<editable>True</editable>
-	<text_visible>True</text_visible>
-	<text_max_length>0</text_max_length>
-	<text></text>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
+	<class>GtkLabel</class>
+	<child_name>Notebook:tab</child_name>
+	<name>text_output_label</name>
+	<label>Text Output</label>
+	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
+	<xalign>0.5</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
       </widget>
+
+      <widget>
+	<class>GtkScrolledWindow</class>
+	<name>scrolledwindow32</name>
+	<hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
+	<vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+
+	<widget>
+	  <class>GtkText</class>
+	  <name>inventory_textbox</name>
+	  <can_focus>True</can_focus>
+	  <editable>False</editable>
+	  <text></text>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkLabel</class>
+	<child_name>Notebook:tab</child_name>
+	<name>inventory_label</name>
+	<label>Inventory</label>
+	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
+	<xalign>0.5</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+      </widget>
+
+      <widget>
+	<class>GtkScrolledWindow</class>
+	<name>scrolledwindow33</name>
+	<hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
+	<vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+
+	<widget>
+	  <class>GtkText</class>
+	  <name>statistics_textbox</name>
+	  <can_focus>True</can_focus>
+	  <editable>False</editable>
+	  <text></text>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkLabel</class>
+	<child_name>Notebook:tab</child_name>
+	<name>statistics_label</name>
+	<label>Statistics</label>
+	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
+	<xalign>0.5</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GtkEntry</class>
+      <name>commandline_entry</name>
+      <can_focus>True</can_focus>
+      <signal>
+	<name>activate</name>
+	<handler>on_commandline_entry_activate</handler>
+	<last_modification_time>Mon, 06 May 2002 21:49:34 GMT</last_modification_time>
+      </signal>
+      <editable>True</editable>
+      <text_visible>True</text_visible>
+      <text_max_length>0</text_max_length>
+      <text></text>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>False</fill>
+      </child>
     </widget>
   </widget>
 </widget>

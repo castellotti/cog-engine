@@ -1,8 +1,8 @@
-README - Cog Development Application 1.1.0
+README - Cog Development Application 1.1.1
 
                        The Cog Development Application
 
-                                Version 1.1.0
+                                Version 1.1.1
 
                    Copyright (C) 2001,2002 Steven M. Castellotti
                             <SteveC@innocent.com>
@@ -35,8 +35,8 @@ Development Application will be added to your desktop and Start Menu.
 
 	You will still need to instal Java and Jython in order to convert
 game files developed with the Development Application into a
-format which can be read by the Java Applet version of the Cog Engine.
-This new version of the Cog Engine is currently features the ability to 
+format which can be read by the Jython Applet version of the Cog Engine.
+This new version of the Cog Engine currently features the ability to 
 run games on the local machine with any additional software.
 
 	See the Execute-From-Source Installation Tips below for more
@@ -112,28 +112,19 @@ For Linux:
 
 2) Uncompress and extract the source files.
 
-3) Edit the import_cog_data.py and export_cog_data.py scripts such that
-the "cPython_library_path" variable points to your local installation of
-python.
-
-4) You can execute the CogDevApp GUI program by typing ./CogDevApp.py in
+3) You can execute the CogDevApp GUI program by typing ./CogDevApp.py in
 the resulting directory.
 
-5) You can convert game modules create with the CogDevApp into files
+4) You can convert game modules create with the CogDevApp into files
 readable by the Cog Engine via the "export_cog_data.py" script, and you
 convert those file back for editing using the "import_cog_data.py" script.
 
-6) The current version of the CogDevApp includes class files from version
-1.0 of the CogEngine (the current version). If you are going to be using
-CogDevApp with a different version of the CogEngine, you will need to
-replace these class files with the new ones.
-
 
 Example (Under Linux):
-tar xvzf CogDevApp-1.1.0-source.tar.gz
+tar xvzf CogDevApp-1.1.1-source.tar.gz
 tar xvzf CyconOdyssey-0.97-data.tar.gz
-cp CyconOdyssey-0.97/Cycon-COG.dat CogDevApp-1.1.0
-cd CogDevApp-1.1.0
+cp CyconOdyssey-0.97/Cycon-COG.dat CogDevApp-1.1.1
+cd CogDevApp-1.1.1
 ./import_cog_data.py Cycon-COG.dat Cycon-COG.dev
 ./CogDevApp.py Cycon-COG.dev
 ./export_cog_data.py Cycon-COG.dev Cycon-COG.dat
@@ -166,7 +157,7 @@ entering the appropriate command into the run dialog box (cmd for windows
 nt, command for windows 9x/ME).
 
 6) Load the CogDevApp.py according to this example:
-cd CogDevApp-1.1.0
+cd CogDevApp-1.1.1
 C:\python21\python CogDevApp.py
 
 7) Enjoy!

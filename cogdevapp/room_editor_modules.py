@@ -2,11 +2,11 @@
 #
 # COG Engine Development Application - Room Editor
 #
-# Copyright Steven M. Castellotti (2001)
+# Copyright Steven M. Castellotti (2001, 2002)
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.09.22
+# Last Update: 2002.05.19
 #
 #####################################################################
 
@@ -401,6 +401,13 @@ def on_room_editor_last_button_clicked(self, obj):
 # 		self.display_dialog_box("Message", "Already in last room")
 
 
+#####################################################################
+
+def on_room_editor_save_button_clicked(self, obj):
+	self.read_room_editor_data_into_memory()
+	self.insert_data_into_room_editor(self.room_displayed)
+
+	
 #####################################################################
 
 def on_room_editor_selection_textentry_activate(self, obj):

@@ -2,11 +2,11 @@
 #
 # COG Engine Development Application - Direction Editor
 #
-# Copyright Steven M. Castellotti (2000)
+# Copyright Steven M. Castellotti (2001, 2002)
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.01.25
+# Last Update: 2002.05.19
 #
 #####################################################################
 
@@ -114,6 +114,13 @@ def on_direction_editor_last_button_clicked(self, obj):
 		self.insert_data_into_direction_editor(len(self.directionData))
 # 	else:
 # 		self.display_dialog_box("Message", "Already in last direction")
+
+#####################################################################
+
+def on_direction_editor_save_button_clicked(self, obj):
+	self.read_direction_editor_data_into_memory()
+	self.insert_data_into_direction_editor(self.direction_displayed)
+
 
 #####################################################################
 

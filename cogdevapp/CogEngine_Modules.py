@@ -1,12 +1,12 @@
 #####################################################################
 #
-# COG Engine Development Application - Cog Engine Routines
+# Cog Engine Development Application - Cog Engine Modules
 #
 # Copyright Steven M. Castellotti (2002)
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.04.29
+# Last Update: 2002.05.12
 #
 #####################################################################
 # To Do List:
@@ -22,9 +22,6 @@
 #    verb-only actions (no objects) by working within the
 #    user-defined verbs section of the command line parser
 #
-#  - Connect gtk_widget_destroy() signals on the windows to a method that
-#    removes the windows from the self namespace
-#
 #
 #####################################################################
 
@@ -34,12 +31,6 @@
 #####################################################################
 
 #def initialize_engine(self):
-#def initialize_gui(self):
-#def initialize_sdl_graphic_area(self):
-#def hide_windows(self):
-#def display_image(self, graphic_url, Xpos, Ypos):
-#def output_text(self, text):
-#def command_line_set_text(self, text):
 #def display_introduction(self):
 #def display_room(self, room):
 #def parse_command_line(self, command):
@@ -69,199 +60,49 @@
 #def make_comparison( self, comparison, value1, value2):
 #def evaluate_expression(self, expression, value1, value2):
 #def examine_object(self, object_name):
-#def load_game(self):
-#def save_game(self):
-
-
-#####################################################################
-
-#def on_room_editor_destroy(self, obj):
-#	# This function is called if a user closes a window directly,
-#	# instead of clicking off the toggle button
-#	self.widget.room_togglebutton.set_active(0)
+#def get_direction_state(self, direction_number):
+#def backup_default_game_settings(self):
+#def restore_default_game_settings(self):
+#def format_event_text(self, event):
+#def convert_reference_numbers_to_names(self, reference_string):
+#def convert_reference_names_to_numbers(self, reference_string):
 
 
 #####################################################################
 
 def initialize_engine(self):
 
-	initialize_gui(self)
-	# Display Introduction text if the current room is 1
+	# This method is called to begin executing a game with the Cog Engine
+
+	# Display Introduction text if the current room is the first room
+	if (self.playerInformation.current_room == 1):
+		display_introduction(self)
+
 	display_room(self, self.playerInformation.current_room)
 	self.last_command = ""
 
 
 #####################################################################
 
-def initialize_gui(self):
-
-	import utils
-
-	# Display Graphic Area
-	initialize_sdl_graphic_area(self)
-
-	# Load CogEngine Window
-	cog_engine_window = self.readglade("CogEngine")
-	self.cog_engine = utils.WidgetStore(cog_engine_window)
-	self.io = self.cog_engine
-	self.stats = self.cog_engine
-	self.inventory = self.cog_engine
-
-	# Display Output Window and Command Line
-#	textmode_window = self.readglade("textmode_window")
-#	self.io = utils.WidgetStore(textmode_window)
-
-	# Display Statistics Window
-#	if (self.gameInformation.show_stats):
-#		statistics_window = self.readglade("statistics_window")
-#		self.stats = utils.WidgetStore(statistics_window)
-
-	# Display Inventory Window
-#	if (self.gameInformation.show_inventory):
-#		inventory_window = self.readglade("inventory_window")
-#		self.inventory = utils.WidgetStore(inventory_window)
-
-	# Display Introduction text if the current room is the first room
-	if (self.playerInformation.current_room == 1):
-		display_introduction(self)
-
-
-#####################################################################
-
-def initialize_sdl_graphic_area(self):
-
-	import pygame
-	import pygame.image
-	import pygame.locals
-
-	pygame.init()
-	screen = pygame.display.set_mode((640,480), pygame.locals.HWSURFACE|pygame.locals.DOUBLEBUF)
-	background = pygame.Surface(screen.get_size())
-	background.fill((255,255,255))
-
-	import os
-	file_path = os.path.dirname( os.path.abspath(self.database_filename) )
-	print file_path
-
-	if (self.gameInformation.introduction_graphic_url != ""):
-		sprite_file = self.gameInformation.image_directory + "/" + self.gameInformation.introduction_graphic_url
-		try:
-			sprite = pygame.image.load(sprite_file)
-			#sprite_position = sprite.get_rect()
-			#sprite_position.bottom = (480 / 2)
-			#sprite_position.left = (640 / 2)
-			screen.blit(background, (0,0))
-			#screen.blit(sprite, sprite_position)
-			screen.blit(sprite, (0,0))
-			pygame.display.flip()
-		except:
-			try:
-				import os
-				file_path = os.path.dirname( os.path.abspath(self.database_filename) )
-				print file_path
-				sprite = self.pygame.image.load(file_path + "/" + sprite_file)
-				#sprite_position = sprite.get_rect()
-				#sprite_position.bottom = (480 / 2)
-				#sprite_position.left = (640 / 2)
-				screen.blit(background, (0,0))
-				#screen.blit(sprite, sprite_position)
-				screen.blit(sprite, (Xpos,Ypos))
-				self.pygame.display.flip()
-			except:
-				if (self.gameInformation.debug_mode):
-					print "Image failed to Load: %s" % sprite_file
-
-	self.pygame = pygame
-
-
-#####################################################################
-
-def hide_windows(self):
-
-	self.cog_engine.CogEngine.hide()
-
-#	self.io.textmode_window.hide()
-#
-#	if (self.gameInformation.show_stats):
-#		self.stats.statistics_window.hide()
-#	if (self.gameInformation.show_inventory):
-#		self.inventory.inventory_window.hide()
-
-
-#####################################################################
-
-def display_image(self, graphic_url, Xpos, Ypos):
-
-	if (self.gameInformation.show_graphic_area):
-
-		image_url = self.gameInformation.image_directory + "/" + graphic_url
-
-		screen = self.pygame.display.set_mode((640,480), self.pygame.locals.HWSURFACE|self.pygame.locals.DOUBLEBUF)
-		background = self.pygame.Surface(screen.get_size())
-		background.fill((255,255,255))
-
-		print self.database_filename
-
-		sprite_file = image_url
-		try:
-			sprite = self.pygame.image.load(sprite_file)
-			#sprite_position = sprite.get_rect()
-			#sprite_position.bottom = (480 / 2)
-			#sprite_position.left = (640 / 2)
-			screen.blit(background, (0,0))
-			#screen.blit(sprite, sprite_position)
-			screen.blit(sprite, (Xpos,Ypos))
-			self.pygame.display.flip()
-		except:
-			try:
-				import os
-				file_path = os.path.dirname( os.path.abspath(self.database_filename) )
-				sprite = self.pygame.image.load(file_path + "/" + sprite_file)
-				#sprite_position = sprite.get_rect()
-				#sprite_position.bottom = (480 / 2)
-				#sprite_position.left = (640 / 2)
-				screen.blit(background, (0,0))
-				#screen.blit(sprite, sprite_position)
-				screen.blit(sprite, (Xpos,Ypos))
-				self.pygame.display.flip()
-			except:
-				if (self.gameInformation.debug_mode):
-					print "Image failed to Load: %s" % sprite_file
-
-
-#####################################################################
-
-def output_text(self, text):
-
-	if (self.gameInformation.show_text_output_area):
-
-		if ("io" in dir(self)):
-
-			self.io.output_textbox.insert_defaults(text)
-
-
-#####################################################################
-
-def command_line_set_text(self, text):
-
-	if (self.gameInformation.show_command_line):
-		self.io.commandline_entry.set_text(text)
-
-#####################################################################
-
 def display_introduction(self):
 
-	output_text(self, self.gameInformation.introduction_text + "\n\n" )
+	# This method displays the game's introduction sequence
+
+	self.output_text(self.gameInformation.introduction_text)
 
 
 #####################################################################
 
 def display_room(self, room):
 
+	# This method is called whenever a player enters a new room, whenever the current room is
+	# changed by an event, or whenever the player calls "Look" in the current room.
+	# This method handles the information displayed by each of the Cog Engine's widgets
+
 	import string
 
 	# Display Room's Graphic
-	display_image(self, self.roomData[self.playerInformation.current_room].graphic_url, 0, 0)
+	self.display_image(self.roomData[self.playerInformation.current_room].graphic_url, 0, 0)
 
 
 	# Display Game Statistics
@@ -305,14 +146,12 @@ def display_room(self, room):
 		if (self.playerInformation.max_bulk != -1):
 			stats_output = "%sMaximum Bulk: %s\n" % (stats_output, self.playerInformation.max_bulk)
 
-		if ("stats" in dir(self)):
-			self.stats.statistics_textbox.delete_text(0, -1)
-			self.stats.statistics_textbox.insert_defaults(stats_output)
+		self.set_statistics_text(stats_output)
 
 
 	# Display Player's Inventory
 	if (self.gameInformation.show_inventory):
-		inventory_output = ""
+		inventory_output = "Inventory:\n\n"
 
 		for each in self.playerInformation.items:
 
@@ -322,26 +161,28 @@ def display_room(self, room):
 				else:
 					# Item is not equipped
 					inventory_output = "%s%s\n" % (inventory_output, self.itemData[each].name)
-		if ("inventory" in dir(self)):
-			self.inventory.inventory_textbox.delete_text(0, -1)
-			self.inventory.inventory_textbox.insert_defaults(inventory_output)
+
+		self.set_inventory_text(inventory_output)
 
 
 	# Display Room Description
 	if (self.gameInformation.show_text_output_area):
 		if (not self.roomData[room].visited):
-			output_text(self, self.roomData[room].description_long + "\n\n")
-			output_text(self, self.roomData[room].direction_description + "\n\n")
+			self.output_text("\n\n" + self.roomData[room].description_long)
+			self.output_text("\n\n" + self.roomData[room].direction_description)
 			if (not self.gameInformation.debug_mode):
 				self.roomData[room].visited = 1
 		else:
-			output_text(self, self.roomData[room].description_short + "\n\n")
+			self.output_text("\n\n" + self.roomData[room].description_short)
 
+	# Update all Compass Graphic Button Images
+	self.update_compass_graphicbuttons()
 
 	# Display Obstructions in Current Room
 	for direction in self.roomData[ room ].direction.keys():
 		obstruction_list = self.roomData[ room ].direction[direction].obstructions
-		if (obstruction_list != None):
+		if (type(obstruction_list) != type(None)):
+		#if (obstruction_list != None):
 			# Convert string of comma-separated obstruction numbers into a list of integers
 			obstruction_strings = string.split(obstruction_list, ', ')
 			obstructions = []
@@ -363,13 +204,19 @@ def display_room(self, room):
 					obstruction_output = "%sn" % obstruction_output
 				obstruction_output = "%s %s" % (obstruction_output, self.obstructionData[ current_obstruction ].name)
 
+			# Display Item Environmental Graphics
+			for current_obstruction in obstructions:
+				if (self.obstructionData[current_obstruction].environment_graphic_url != ""):
+					self.display_image(self.obstructionData[current_obstruction].environment_graphic_url, self.obstructionData[current_obstruction].environment_graphic_Xpos, self.obstructionData[current_obstruction].environment_graphic_Ypos)
+
 			obstruction_output = "%s prevents you from moving %s." % (obstruction_output, self.directionData[ direction ].name)
-			output_text(self, obstruction_output + "\n")
+			self.output_text("\n" + obstruction_output)
 
 
 	# Display Items in Current Room
 	item_list = self.roomData[ room ].items
-	if (item_list != None):
+	if (type(item_list) != type(None)):
+	#if (item_list != None):
 		# Convert string of comman-separated item numbers into a list of integers
 		item_strings = string.split(item_list, ', ')
 		items = []
@@ -388,13 +235,27 @@ def display_room(self, room):
 				item_output = "%sn" % item_output
 			item_output = "%s %s" % (item_output, self.itemData[ current_item ].name)
 
+		# Display Item Environmental Graphics
+		for current_item in items:
+			if (self.itemData[current_item].environment_graphic_url != ""):
+				self.display_image(self.itemData[current_item].environment_graphic_url, self.itemData[current_item].environment_graphic_Xpos, self.itemData[current_item].environment_graphic_Ypos)
+
 		item_output = "%s." % item_output
-		output_text(self, item_output + "\n")
+		self.output_text("\n" + item_output)
 
 
 #####################################################################
 
 def parse_command_line(self, command):
+
+	# This method is called whenever an action occurs.
+	# This method takes the first word of the command line, assumes it to be a verb,
+	# and stores the rest into the remainder variable. A valid command line is of
+	# the form: <Verb> { <Object { <Preposition> } { <Object> } }
+	# A <Preposition>> can be any word or phrase, and may include spaces.
+	# An <Object> may either be the exact name of an object in the game, or
+	# and alias for an object (as long as the alias is unique within the current
+	# room and the player's inventory)
 
 	import string
 
@@ -402,7 +263,7 @@ def parse_command_line(self, command):
 
 	# Print command to output window
 	command = string.strip(command)
-	output_text(self, "\n> " + command + "\n\n")
+	self.output_text("\n\n> " + command)
 	if (self.gameInformation.debug_mode):
 		print "\n> " + command + "\n"
 
@@ -424,7 +285,8 @@ def parse_command_line(self, command):
 		command_executed = 1
 
 	if ((verb == "quit") or (verb == "exit")):
-		self.widget.play_togglebutton.set_active(0)
+		#self.widget.play_togglebutton.set_active(0)
+		self.exit_cog_engine()
 
 	# Check to see if the command is to move in a particular direction
 	direction = resolve_direction_name(self, verb)
@@ -471,11 +333,12 @@ def parse_command_line(self, command):
 			objects = parse_command_line_objects( self, remainder )
 			if (not objects == []): # current event grammer requires at least one object
 				effect_string = resolve_event(self, verb, objects)
-				if (not effect_string == None):
+				if (type(effect_string) != type(None)):
+				#if (effect_string != None):
 					execute_effect(self, effect_string)
 					display_room(self, self.playerInformation.current_room)
 				else:
-					output_text(self, "\nYou can't do that.\n")
+					self.output_text("\n\nYou can't do that.")
 				command_executed = 1
 
 
@@ -494,7 +357,7 @@ def parse_command_line(self, command):
 			command_executed = 1
 
 	if ((verb == "last") or (verb == "repeat")):
-		command_line_set_text(self, self.last_command)
+		self.command_line_set_text(self, self.last_command)
 		command = self.last_command
 		command_executed = 1
 
@@ -508,7 +371,7 @@ def parse_command_line(self, command):
 
 
 	if (not command_executed):
-		output_text(self, "I don't understand your command.\n")
+		self.output_text("\nI don't understand your command.")
 
 	self.last_command = command
 
@@ -522,8 +385,8 @@ def display_verbs(self):
 
 	import string
 
-	output_text(self, "Verbs build into the Cog Engine: ")
-	output_text(self, "Look, Examine, Load, Save, Help, Quit")
+	self.output_text("\n\nVerbs build into the Cog Engine: ")
+	self.output_text("Look, Examine, Load, Save, Help, Quit")
 
 	verb_list = []
 	for each in self.verbData.keys():
@@ -535,28 +398,28 @@ def display_verbs(self):
 	show_drop = ("drop" in verb_list)
 
 	if ((not show_get) and (not show_drop)):
-		output_text(self, ", and Last.\n")
+		self.output_text(", and Last.")
 	if ((show_get) and (not show_drop)):
-		output_text(self, ", Get, and Last.\n")
+		self.output_text(", Get, and Last.")
 	if ((not show_get) and (show_drop)):
-		output_test(self, ", Drop, and Last.\n")
+		output_test(self, ", Drop, and Last.")
 	if ((show_get) and (show_drop)):
-		output_text(self, ", Get, Drop, and Last.\n")
+		self.output_text(", Get, Drop, and Last.")
 
 	if (self.gameInformation.debug_mode):
-		output_text(self, "Available Debugging Verbs: Warp, and Execute.\n")
+		self.output_text("\nAvailable Debugging Verbs: Warp, and Execute.")
 
 	# Finally we show the verbs the game author has added to the engine
 	# (as long as either debug_mode or show_all_verbs is enabled'
 	if ((self.gameInformation.debug_mode) or (self.gameInformation.show_all_verbs)):
-		output_text(self, "Other Verbs in this game include: ")
+		self.output_text("\nOther Verbs in this game include: ")
 		capitalized_verb_list = []
 		for each in verb_list:
 			capitalized_verb_list.append(string.capitalize(each))
 		verb_list_output = string.join(capitalized_verb_list, ', ')
 		and_index = string.rfind(verb_list_output, ', ')
-		verb_list_output = verb_list_output[:and_index] + ', and' + verb_list_output[and_index+1:] + '.\n'
-		output_text(self, verb_list_output)
+		verb_list_output = verb_list_output[:and_index] + ', and' + verb_list_output[and_index+1:] + '.'
+		self.output_text(verb_list_output)
 
 
 #####################################################################
@@ -577,12 +440,12 @@ def move_in_direction(self, direction):
 
 
 		# Check to see if path is obstructed
-		if (self.roomData[ self.playerInformation.current_room ].direction[ direction ].obstructions != None):
+		if (type(self.roomData[ self.playerInformation.current_room ].direction[ direction ].obstructions) != type(None)):
 
 			print "Obstructions: -%s-" % self.roomData[ self.playerInformation.current_room ].direction[ direction ].obstructions
 
-			output_text(self, "You can't move ")
-			output_text(self, string.capitalize(self.directionData[direction].name) )
+			self.output_text("\n\nYou can't move ")
+			self.output_text(string.capitalize(self.directionData[direction].name) )
 
 			obstruction_list = string.split(self.roomData[ self.playerInformation.current_room ].direction[direction].obstructions, ', ')
 
@@ -593,7 +456,7 @@ def move_in_direction(self, direction):
 					visible_obstructions.append(obstruction)
 
 			if ( len(visible_obstructions) > 0 ):
-				output_text(self, " because your path is blocked by a")
+				self.output_text(" because your path is blocked by a")
 
 				obstruction_output_list = ""
 
@@ -611,26 +474,26 @@ def move_in_direction(self, direction):
 
 					obstruction_output_list = obstruction_output_list + temp_output
 
-				output_text(self, obstruction_output_list)
+				self.output_text(obstruction_output_list)
 
-			output_text(self, ".\n\n")
+			self.output_text(".")
 
 
 		# Path is not obstructed
 		else:
 
-			output_text(self, "You move " + self.directionData[direction].name + ".\n\n")
+			self.output_text("\n\nYou move " + self.directionData[direction].name + ".")
 
-			if ( (self.roomData[self.playerInformation.current_room].direction[direction].first_transition_text != None)
+			if ( (type(self.roomData[self.playerInformation.current_room].direction[direction].first_transition_text) != type(None))
 				and (self.roomData[self.playerInformation.current_room].direction[direction].first_transition_text != "")
 				and (not self.roomData[self.playerInformation.current_room].direction[direction].has_moved_this_way) ):
 
-				output_text(self, " " + self.roomData[self.playerInformation.current_room].direction[direction].first_transition_text + "\n")
+				self.output_text("\n " + self.roomData[self.playerInformation.current_room].direction[direction].first_transition_text)
 
-			if ( (self.roomData[self.playerInformation.current_room].direction[direction].transition_text != None)
+			if ( (type(self.roomData[self.playerInformation.current_room].direction[direction].transition_text) != type(None))
 				and (self.roomData[self.playerInformation.current_room].direction[direction].transition_text != "") ):
 
-				output_text(self, " " + self.roomData[self.playerInformation.current_room].direction[direction].transition_text + "\n")
+				self.output_text("\n " + self.roomData[self.playerInformation.current_room].direction[direction].transition_text)
 
 			self.roomData[self.playerInformation.current_room].direction[direction].has_moved_this_way = 1
 
@@ -641,9 +504,9 @@ def move_in_direction(self, direction):
 	# Direction does not exist, or does not lead to a legal room
 	else:
 
-		output_text(self, "You can't move ")
-		output_text(self, string.capitalize(self.directionData[direction].name) )
-		output_text(self, ".\n\n")
+		self.output_text("\n\nYou can't move ")
+		self.output_text(string.capitalize(self.directionData[direction].name) )
+		self.output_text(".")
 
 
 	display_room(self, self.playerInformation.current_room)
@@ -663,7 +526,7 @@ def room_warp(self, new_room):
 		self.playerInformation.current_room = string.atoi(new_room)
 		display_room(self, self.playerInformation.current_room)
 	else:
-		output_text(self, "That is not a valid room number!\n")
+		self.output_text("\nThat is not a valid room number!")
 
 
 #####################################################################
@@ -1161,12 +1024,14 @@ def execute_effect(self, effect):
 
 		word = string.join(string.split(word, '[')[1:], '[') # Remove "TextMessage[" from word
 
+		self.output_text("\n\n")
+
 		while (not word[-1] == "]"):
-			output_text(self, word + " ")
+			self.output_text(word + " ")
 			word = effect_word_list[0]
 			del(effect_word_list[0])
 
-		output_text(self, word[:-1] + "\n\n")
+		self.output_text(word[:-1])
 
 	if (word[0:14] == "GraphicMessage"):
 
@@ -1182,7 +1047,7 @@ def execute_effect(self, effect):
 
 		y = string.atoi(word[:-1])
 
-		display_image(self, image_file, x, y)
+		self.display_image(image_file, x, y)
 
 
 	# The following sequence makes to the recursive call to execute_effect if there
@@ -1286,7 +1151,7 @@ def get_item(self, item_name):
 	# Call get_item recursively if user is electing to get all items in the current room
 	if ( (item_name == "all") or (item_name == "everything") ):
 		get_all = 1
-		if (self.roomData[self.playerInformation.current_room].items == None):
+		if (type(self.roomData[self.playerInformation.current_room].items) == type(None)):
 			item_number = -2 # this number will be used later to generate a specific error message
 		else:
 			for each in string.split(self.roomData[self.playerInformation.current_room].items, ', '):
@@ -1309,20 +1174,20 @@ def get_item(self, item_name):
 
 	if (item_number == 0):
 		if (not get_all): # (We don't want to display this if the player wants to "get all")
-			output_text(self, "You don't see anything like that here.\n\n")
+			self.output_text("\n\nYou don't see anything like that here.")
 
 	elif (item_number == -1):
-		output_text(self, "I'm not certain precisely what you are referring to. Please be more specific.\n\n")
+		self.output_text("\n\nI'm not certain precisely what you are referring to. Please be more specific.")
 
 	elif (item_number == -2):
-		output_text(self, "There's nothing to get in this room.\n\n")
+		self.output_text("\n\nThere's nothing to get in this room.")
 
 	else:
 
 		object_list = [["Item", item_number]]
 		effect_string = resolve_event(self, "Get", object_list)
 
-		if (effect_string != None):
+		if (type(effect_string) != type(None)):
 			# An Event exists for this Item
 			execute_effect( self, effect_string )
 
@@ -1330,21 +1195,21 @@ def get_item(self, item_name):
 			# No Event exists for this Item, so we execute the default Actions
 
 			if ( self.itemData[item_number].weight == -1 ):
-				output_text(self, "You can't pick up the %s.\n\n" % self.itemData[item_number].name)
+				self.output_text("\n\nYou can't pick up the %s." % self.itemData[item_number].name)
 				ok_to_pick_up = 0
 
 			if ( ( self.playerInformation.max_weight != -1) and ( self.itemData[item_number].weight + self.playerInformation.current_weight > self. playerInformation.max_weight) ):
-				output_text(self, "The %s is too heavy for you to pick up.\n\n" % self.itemData[item_number].name)
+				self.output_text("\n\nThe %s is too heavy for you to pick up." % self.itemData[item_number].name)
 				ok_to_pick_up = 0
 
 			if ( ( self.playerInformation.max_bulk != -1) and ( self.itemData[item_number].bulk + self.playerInformation.current_bulk > self.playerInformation.max_bulk) ):
-				output_text(self, "The %s is to bulk for you to carry." % self.itemData[item_number].name)
+				self.output_text("\n\nThe %s is to bulk for you to carry." % self.itemData[item_number].name)
 				ok_to_pick_up = 0
 
 			if ( ok_to_pick_up):
 				if ( (self.gameInformation.debug_mode) and ( item_number in self.playerInformation.items ) ):
 					print "Warning! Player's Inventory already includes Item #%i (%s)!" % (item_number, self.itemData[item_number].name)
-				output_text(self, "You pick up the %s.\n\n" % self.itemData[item_number].name)
+				self.output_text("\n\nYou pick up the %s." % self.itemData[item_number].name)
 
 				remove_item_from_room( self, self.playerInformation.current_room, item_number)
 				self.playerInformation.items.append(item_number)
@@ -1402,19 +1267,19 @@ def drop_item(self, item_name):
 
 	if (item_number == 0):
 		if (not drop_all): # We don't want to display this if we are dropping all
-			output_text(self, "You don't have anything like that in your inventory.\n\n")
+			self.output_text("\n\nYou don't have anything like that in your inventory.")
 
 	elif (item_number == -1):
-		output_text(self, "I'm not sure precisely what you are referring to. Please be more specific.\n\n")
+		self.output_text("\n\nI'm not sure precisely what you are referring to. Please be more specific.")
 
 	elif (item_number == -2):
-		output_text(self, "You don't have anything in your inventory to drop!\n\n")
+		self.output_text("\n\nYou don't have anything in your inventory to drop!")
 
 	else:
 
 		effect_string = resolve_event( self, "Drop", [["Item", item_number]] )
 
-		if (effect_string != None):
+		if (type(effect_string) != type(None)):
 			# An Event exists for this Item
 			execute_effect( self, effect_string )
 
@@ -1423,9 +1288,9 @@ def drop_item(self, item_name):
 
 			if (self.itemData[item_number].equipped):
 				self.itemData[item_number].eqipped = 0
-				output_text(self, "You de-equip the %s.\n\n" % self.itemData[item_number].name)
+				self.output_text("\n\nYou de-equip the %s." % self.itemData[item_number].name)
 
-			output_text(self, "You drop the %s.\n\n" % self.itemData[item_number].name)
+			self.output_text("\n\nYou drop the %s." % self.itemData[item_number].name)
 
 			add_item_to_room( self, self.playerInformation.current_room, item_number )
 			del self.playerInformation.items[ self.playerInformation.items.index( item_number ) ]
@@ -1442,7 +1307,7 @@ def room_contains_item(self, room_number, item_number):
 
 	item_exists_in_room = 0
 
-	if (self.roomData[room_number].items != None):
+	if (type(self.roomData[room_number].items) != type(None)):
 		for each in string.split(self.roomData[room_number].items, ', '):
 			if (item_number == string.atoi(each)):
 				item_exists_in_room = 1
@@ -1461,8 +1326,8 @@ def room_contains_obstruction(self, room_number, obstruction_number):
 
 	obstruction_exists_in_room = 0
 
-	for direction in self.roomData[room_number].direction:
-		if (self.roomData[room_number].direction[direction].obstructions != None):
+	for direction in self.roomData[room_number].direction.keys():
+		if (type(self.roomData[room_number].direction[direction].obstructions) != type(None)):
 			obstruction_list = string.split(self.roomData[room_number].direction[direction].obstructions, ', ')
 			for obstruction in obstruction_list:
 				if (obstruction == ("%i" % obstruction_number)):
@@ -1481,7 +1346,7 @@ def room_direction_contains_obstruction(self, room_number, direction_number, obs
 
 	obstruction_exists_in_room_direction = 0
 
-	if (self.roomData[room_number].direction[direction_number].obstructions != None):
+	if (type(self.roomData[room_number].direction[direction_number].obstructions) != type(None)):
 		obstruction_list = string.split(self.roomData[room_number].direction[direction_number].obstructions, ', ')
 		for obstruction in obstruction_list:
 			if (obstruction == ("%i" % obstruction_number)):
@@ -1554,7 +1419,7 @@ def resolve_obstruction_name(self, obstruction_name, location):
 	obstruction_number = 0
 	found_obstruction = 0
 
-	for each in self.obstructionData:
+	for each in self.obstructionData.keys():
 		if (string.lower(obstruction_name) == string.lower(self.obstructionData[each].name)):
 			# We've found the matching obstruction, now we need to verify that
 			# it is in the correct location
@@ -1653,8 +1518,8 @@ def find_obstruction_alias(self, obstruction_name, location):
 	if (self.gameInformation.debug_mode):
 		print "Searching %s for Obstruction with Alias \"%s\"" % (location, obstruction_name)
 
-	for obstruction in self.obstructionData:
-		if (self.obstructionData[obstruction].aliases != None):
+	for obstruction in self.obstructionData.keys():
+		if (type(self.obstructionData[obstruction].aliases) != type(None)):
 
 			for alias in string.split(self.obstructionData[obstruction].aliases, ', '):
 
@@ -1697,7 +1562,7 @@ def add_item_to_room(self, room_number, item_number):
 	# This method takes in a room number and an item number,
 	# and adds the item to that room
 
-	if (self.roomData[room_number].items == None):
+	if (type(self.roomData[room_number].items) == type(None)):
 		self.roomData[room_number].items = "%i" % item_number
 	else:
 		if ( (self.gameInformation.debug_mode) and (room_contains_item( self, room_number, item_number)) ):
@@ -1721,7 +1586,7 @@ def add_obstruction_to_room(self, room_number, direction_number, obstruction_num
 	if ((self.gameInformation.debug_mode) and (room_direction_contains_obstruction(self, room_number, direction_number, obstruction_number))):
 		print "Warning! Room #%i already contains Obstruction #%i in Direction #%i!" % (room_number, obstruction_number, direction_number)
 	else:
-		if (self.roomData[room_number].direction[direction_number].obstructions == None):
+		if (type(self.roomData[room_number].direction[direction_number].obstructions) == type(None)):
 			# If there's no obstruction in the current room's direction, we will add the new obstruction's number
 			self.roomData[room_number].direction[direction_number].obstructions = "%s" % obstruction_number
 		else:
@@ -1740,7 +1605,7 @@ def remove_item_from_room(self, room_number, item_number):
 
 	new_item_list = ""
 
-	if (self.roomData[room_number].items != None):
+	if (type(self.roomData[room_number].items) != type(None)):
 		room_item_list = string.split(self.roomData[room_number].items, ', ')
 
 		for each in room_item_list:
@@ -1768,7 +1633,7 @@ def remove_obstruction_from_room_direction(self, room_number, direction_number, 
 
 	if (self.roomData[room_number].direction.has_key(direction_number)):
 
-		if (self.roomData[room_number].direction[direction_number].obstructions != None):
+		if (type(self.roomData[room_number].direction[direction_number].obstructions) != type(None)):
 
 			obstruction_list = string.split(self.roomData[room_number].direction[direction_number].obstructions, ', ')
 
@@ -1804,7 +1669,7 @@ def parse_command_line_objects(self, remainder):
 
 	object1 = parse_object(self, remainder, "Beginning")
 
-	if (object1 != None):
+	if (type(object1) != type(None)):
 		if (self.gameInformation.debug_mode):
 			print "Object1 = %s(%i)" % (object1[0], object1[1])
 
@@ -1813,7 +1678,7 @@ def parse_command_line_objects(self, remainder):
 
 	object2 = parse_object(self, remainder, "End-Exclusive") # see note in parse_objects comments for more information about "End-Exclusive"
 
-	if (object2 != None):
+	if (type(object2) != type(None)):
 		if (self.gameInformation.debug_mode):
 			print "Object2 = %s(%i)" % (object2[0], object2[1])
 
@@ -1893,7 +1758,7 @@ def parse_object(self, phrase, search_focus):
 
 		if (object_number == -1):
 			object_found = 1
-			output_text(self, "I'm not certain precisely what you are referring to. Please be more specific.\n\n")
+			self.output_text("\n\nI'm not certain precisely what you are referring to. Please be more specific.")
 
 		if (not object_found):
 			# We didn't find a matching object on this pass, so we want to remove a word,
@@ -1941,24 +1806,28 @@ def resolve_event(self, action, objects):
 		object1 = "%s(%i)" % (objects[0][0], objects[0][1])
 		object2 = "%s(%i)" % (objects[1][0], objects[1][1])
 
-	for verb in self.verbData:
+	verb_keys = self.verbData.keys()
+	verb_keys.sort()
+	for verb in verb_keys:
 		if (string.lower(action) == string.lower(self.verbData[verb].name)):
-			for event in self.verbData[verb].events:
+			event_keys = self.verbData[verb].events.keys()
+			event_keys.sort()
+			for event in event_keys:
 
-				if ( not(event_found) and (self.verbData[verb].events[event] != None) ):
+				if ( not(event_found) and (type(self.verbData[verb].events[event]) != type(None)) ):
 
 					# This next part is a bit tricky, since if a match exists, we want it
 					# to be found regardless of the order the programmer entered the objects,
 					# versus the order the player entered them on the command line
 
-					if ( ( ((self.verbData[verb].events[event].object == None) or
+					if ( ( ((type(self.verbData[verb].events[event].object) == type(None)) or
 					        (self.verbData[verb].events[event].object == object1))
-					     and ((self.verbData[verb].events[event].object2 == None) or
+					     and ((type(self.verbData[verb].events[event].object2) == type(None)) or
 					          (self.verbData[verb].events[event].object2 == object2)) )
 
-					  or ( ((self.verbData[verb].events[event].object2 == None) or
+					  or ( ((type(self.verbData[verb].events[event].object2) == type(None)) or
 					        (self.verbData[verb].events[event].object2 == object1))
-					     and ((self.verbData[verb].events[event].object == None) or
+					     and ((type(self.verbData[verb].events[event].object) == type(None)) or
 						       (self.verbData[verb].events[event].object == object2)) ) ):
 
 						# If we've made it this far, then all that's left is to very
@@ -1994,7 +1863,7 @@ def requirements_met(self, requirements):
 	all_good = 0
 	contains_not = 0
 
-	if ((requirements == None) or (requirements == "")):
+	if ((type(requirements) == type(None)) or (requirements == "")):
 		all_good = 1
 	else:
 		if (self.gameInformation.debug_mode):
@@ -2075,7 +1944,7 @@ def requirements_met(self, requirements):
 					# We are referring to a specific direction
 					direction_number = string.atoi(string.split(string.split(word, '(')[-1], ')')[0])
 					if (direction_number in self.roomData[room_number].direction):
-						if (self.roomData[room_number].direction[direction_number].obstructions != None):
+						if (type(self.roomData[room_number].direction[direction_number].obstructions) != type(None)):
 							obstruction_list = string.split(self.roomData[room_number].direction[direction_number].obstructions, ', ')
 							for obstruction in obstruction_list:
 								if (obstruction == ("%i" % obstruction_number)):
@@ -2153,7 +2022,7 @@ def evaluate_expression(self, expression, value1, value2):
 		value1 = value1 - value2
 
 	return(value1)
-	
+
 
 #####################################################################
 
@@ -2169,70 +2038,293 @@ def examine_object(self, object_name):
 	print "Resolved: ",
 	print resolved_object
 
-	if (resolved_object != None):
+	if (type(resolved_object) != type(None)):
 
 		if (resolved_object[0] == "Item"):
 			item_number = resolved_object[1]
 
-			if ((self.itemData[item_number].description != None) and
+			if ((type(self.itemData[item_number].description) != type(None)) and
 			(self.itemData[item_number].description != "")):
-				output_text(self, self.itemData[item_number].description + "\n\n")
+				self.output_text("\n\n" + self.itemData[item_number].description)
 
-			if ((self.itemData[item_number].closeup_graphic_url != None) and
+			if ((type(self.itemData[item_number].closeup_graphic_url) != type(None)) and
 			(self.itemData[item_number].closeup_graphic_url != "")):
-				display_image(self, self.itemData[item_number].closeup_graphic_url, 0, 0)
+				self.display_image(self.itemData[item_number].closeup_graphic_url, 0, 0)
 
 		if (resolved_object[0] == "Obstruction"):
 			obstruction_number = resolved_object[1]
 
-			if ( (self.obstructionData[obstruction_number].description != None) and
+			if ( (type(self.obstructionData[obstruction_number].description) != type(None)) and
 			(self.obstructionData[obstruction_number].description != "") and
 			(self.obstructionData[obstruction_number].visible) ):
-				output_text(self, self.obstructionData[obstruction_number].description + "\n\n")
+				self.output_text("\n\n" + self.obstructionData[obstruction_number].description)
 
-			if ( (self.obstructionData[obstruction_number].closeup_graphic_url != None) and
+			if ( (type(self.obstructionData[obstruction_number].closeup_graphic_url) != type(None)) and
 			(self.obstructionData[obstruction_number].closeup_graphic_url != "") and
 			(self.obstructionData[obstruction_number].visible) ):
-				display_image(self, self.obstructionData[obstruction_number].closeup_graphic_url, 0, 0)
+				self.display_image(self.obstructionData[obstruction_number].closeup_graphic_url, 0, 0)
 
 	else:
-		output_text(self, "You don't see anything like that here.\n\n")
+		self.output_text("\n\nYou don't see anything like that here.")
 
 
 #####################################################################
 
-def load_game(self):
+def get_direction_state(self, direction_number):
 
-	pass
+	# This method takes in a direction number, and returns
+	# information about the state of the current room's direction.
+	# It is used to decide which compass graphic button should be
+	# displayed.
+
+	if ((self.roomData[self.playerInformation.current_room].direction != {}) \
+	    and (self.roomData[self.playerInformation.current_room].direction.has_key(direction_number)) \
+	    and (self.roomData[self.playerInformation.current_room].direction[direction_number].to_which_room > 0)):
+
+		if (type(self.roomData[self.playerInformation.current_room].direction[direction_number].obstructions) != type(None)):
+			state = "Obstructed"
+		else:
+			state = "Available"
+	else:
+		state = "Unavailable"
+
+	return(state)
 
 
 #####################################################################
 
-def save_game(self):
+def backup_default_game_settings(self):
 
-	pass
+	# This method is used to keep a backup of the games state.
+	# This method is frequently used after loading a game savefile, so that
+	# the game can be reset to its "original" state
+
+	import copy
+
+	self.backup_gameInformation = copy.deepcopy(self.gameInformation)
+	self.backup_playerInformation = copy.deepcopy(self.playerInformation)
+	self.backup_directionData = copy.deepcopy(self.directionData)
+	self.backup_roomData = copy.deepcopy(self.roomData)
+	self.backup_itemData = copy.deepcopy(self.itemData)
+	self.backup_obstructionData = copy.deepcopy(self.obstructionData)
+	self.backup_verbData = copy.deepcopy(self.verbData)
 
 
 #####################################################################
-#####################################################################
-#####################################################################
-#####################################################################
-#####################################################################
+
+def restore_default_game_settings(self):
+
+	# This method is used to restore the state of a game as it was
+	# originally loaded. It is useful whenever a game is reset, or
+	# when testing out games with the Cog Development Application
+
+	import copy
+
+	self.gameInformation = copy.deepcopy(self.backup_gameInformation)
+	self.playerInformation = copy.deepcopy(self.backup_playerInformation)
+	self.directionData = copy.deepcopy(self.backup_directionData)
+	self.roomData = copy.deepcopy(self.backup_roomData)
+	self.itemData = copy.deepcopy(self.backup_itemData)
+	self.obstructionData = copy.deepcopy(self.backup_obstructionData)
+	self.verbData = copy.deepcopy(self.backup_verbData)
 
 
+#####################################################################
+
+def format_event_text(self, event):
+
+	# This method takes in an event object, and returns a string representation
+	# of that event's data. It is called by the Cog Development Application when
+	# individual events are being displayed by the Event Editor. It is also
+	# called whenever an event is executed when running the Cog Engine in Debug Mode.
+
+	import string
+
+	# Action and Object
+	output_text = "%s %s" % (event.action, event.object)
+
+	# Preposition and Object 2
+	if (event.preposition != "") and (type(event.preposition) != type(None)) and \
+	   (event.object2 != "") and (type(event.object2) != type(None)):
+		output_text = "%s %s %s" % ( output_text, event.preposition, event.object2)
+
+	# Requirements
+	if (event.requirements != "") and (type(event.requirements) != type(None)):
+		requirements_string = event.requirements
+		requirements_string = string.replace(requirements_string, ') and (', ')\n and (')
+		requirements_string = string.replace(requirements_string, ') or (', ')\n or (')
+		output_text = "%s\n %s" % (output_text, requirements_string)
+
+	# Yeilds Sign
+	output_text = output_text + " ->\n"
+
+	# Effects
+	effects_string = event.effects
+	effects_string = string.replace(effects_string, ' and ', '\n and ')
+	effects_string = string.replace(effects_string, ' or ', '\n or ')
+	output_text = "%s %s" % (output_text, effects_string)
+
+	# Punctuation
+	output_text = output_text + ";\n\n"
+
+	return(output_text)
+
 
 #####################################################################
-# Widgets
+
+def convert_reference_numbers_to_names(self, reference_string):
+
+	# This method takes in a string representation of an event, and
+	# changes all of the Room and Object references numbers (in parenthesis)
+	# to a longer but more readable name format.
+
+	import string
+
+	# Convert Room Names
+	index = string.find(reference_string, 'Room(')
+	while (index != -1):
+		current_string = reference_string[index:]
+		index2 = string.find(current_string, ')')
+		current_string = current_string[5:index2]
+		current_number = string.atoi(current_string)
+		# we need to handle for moving to location 0 (room #0)
+		if (current_number <= 0):
+			current_string = "0 - Nowhere"
+		else:
+			current_string = "%i - %s" % (current_number, self.roomData[current_number].name)
+		reference_string = "%sRoom[%s]%s" % (reference_string[:index], current_string, reference_string[index + index2 + 1:])
+		index = string.find(reference_string, 'Room(')
+
+	# Convert Item Names
+	index = string.find(reference_string, 'Item(')
+	while (index != -1):
+		current_string = reference_string[index:]
+		index2 = string.find(current_string, ')')
+		current_string = current_string[5:index2]
+		current_number = string.atoi(current_string)
+		current_string = "%i - %s" % (current_number, self.itemData[current_number].name)
+		reference_string = "%sItem[%s]%s" % (reference_string[:index], current_string, reference_string[index + index2 + 1:])
+		index = string.find(reference_string, 'Item(')
+
+	# Convert Obstruction Names
+	index = string.find(reference_string, 'Obstruction(')
+	while (index != -1):
+		current_string = reference_string[index:]
+		index2 = string.find(current_string, ')')
+		current_string = current_string[12:index2]
+		current_number = string.atoi(current_string)
+		current_string = "%i - %s" % (current_number, self.obstructionData[current_number].name)
+		reference_string = "%sObstruction[%s]%s" % (reference_string[:index], current_string, reference_string[index + index2 + 1:])
+		index = string.find(reference_string, 'Obstruction(')
+
+	# Convert Direction Names
+	index = string.find(reference_string, 'Direction(')
+	while (index != -1):
+		current_string = reference_string[index:]
+		index2 = string.find(current_string, ')')
+		current_string = current_string[10:index2]
+		current_number = string.atoi(current_string)
+		current_string = self.directionData[current_number].name
+#		current_string = "%i - %s" % (current_number, self.directionData[current_number].name)
+		reference_string = "%sDirection[%s]%s" % (reference_string[:index], current_string, reference_string[index + index2 + 1:])
+		index = string.find(reference_string, 'Direction(')
+
+	# Convert DirectionObject Names
+	index = string.find(reference_string, 'DirectionObject(')
+	while (index != -1):
+		current_string = reference_string[index:]
+		index2 = string.find(current_string, ')')
+		current_string = current_string[16:index2]
+		current_number = string.atoi(current_string)
+		current_string = self.directionData[current_number].name
+#		current_string = "%i - %s" % (current_number, self.directionData[current_number].name)
+		reference_string = "%sDirectionObject[%s]%s" % (reference_string[:index], current_string, reference_string[index + index2 + 1:])
+		index = string.find(reference_string, 'DirectionObject(')
+
+
+	return(reference_string)
+
+
 #####################################################################
-# statistics_window
-# statistics_textbox
-#
-# inventory_window
-# inventory_textbox
-#
-# textmode_window
-# output_textbox
-# commandline_entry
+
+def convert_reference_names_to_numbers(self, reference_string):
+
+	# This method takes in a string representation of an event, and
+	# changes all of the Room and Object references names (in brackets)
+	# to a number format, more easily parsible by the computer
+
+	import string
+
+	# Convert Room Names
+	index = string.find(reference_string, 'Room[')
+	while (index != -1):
+		current_string = reference_string[index:]
+		index2 = string.find(current_string, ']')
+		current_string = current_string[5:index2]
+
+		current_number = string.atoi( string.split( current_string, ' - ')[0] )
+
+		reference_string = "%sRoom(%i)%s" % (reference_string[:index], current_number, reference_string[index + index2 + 1:])
+		index = string.find(reference_string, 'Room[')
+
+	# Convert Item Names
+	index = string.find(reference_string, 'Item[')
+	while (index != -1):
+		current_string = reference_string[index:]
+		index2 = string.find(current_string, ']')
+		current_string = current_string[5:index2]
+
+		current_number = string.atoi( string.split( current_string, ' - ')[0] )
+
+		reference_string = "%sItem(%i)%s" % (reference_string[:index], current_number, reference_string[index + index2 + 1:])
+		index = string.find(reference_string, 'Item[')
+
+	# Convert Obstruction Names
+	index = string.find(reference_string, 'Obstruction[')
+	while (index != -1):
+		current_string = reference_string[index:]
+		index2 = string.find(current_string, ']')
+		current_string = current_string[12:index2]
+
+		current_number = string.atoi( string.split( current_string, ' - ')[0] )
+
+		reference_string = "%sObstruction(%s)%s" % (reference_string[:index], current_number, reference_string[index + index2 + 1:])
+		index = string.find(reference_string, 'Obstruction[')
+
+	# Convert Direction Names
+	index = string.find(reference_string, 'Direction[')
+	while (index != -1):
+		current_string = reference_string[index:]
+		index2 = string.find(current_string, ']')
+		current_string = current_string[10:index2]
+
+		current_number = 0
+		# we search for names until we find a match
+		for each in self.directionData.keys():
+			if ( self.directionData[each].name == current_string ):
+				current_number = each
+
+		reference_string = "%sDirection(%s)%s" % (reference_string[:index], current_number, reference_string[index + index2 + 1:])
+		index = string.find(reference_string, 'Direction[')
+
+	# Convert DirectionObject Names
+	index = string.find(reference_string, 'DirectionObject[')
+	while (index != -1):
+		current_string = reference_string[index:]
+		index2 = string.find(current_string, ']')
+		current_string = current_string[16:index2]
+
+		current_number = 0
+		# we search for names until we find a match
+		for each in self.directionData.keys():
+			if ( self.directionData[each].name == current_string ):
+				current_number = each
+
+		reference_string = "%sDirectionObject(%s)%s" % (reference_string[:index], current_number, reference_string[index + index2 + 1:])
+		index = string.find(reference_string, 'DirectionObject[')
+
+
+	return(reference_string)
 
 
 # EOF
