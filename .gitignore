@@ -1,0 +1,10 @@
+*.pyc
+*.pyo
+__pycache__/
+.DS_Store
+.nautilus-metafile.xml
+.thumbnails/
+.xvpics/
+*.bak
+*.backup*
+Thumbs.db
