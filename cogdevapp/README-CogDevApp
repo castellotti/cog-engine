@@ -1,8 +1,8 @@
-README - Cog Development Application 1.1.5
+README - Cog Development Application 1.1.6
 
                        The Cog Development Application
 
-                                Version 1.1.5
+                                Version 1.1.6
 
                    Copyright (C) 2001,2002 Steven M. Castellotti
                             <SteveC@innocent.com>
@@ -28,9 +28,9 @@ SPECIAL NOTE
 	This version of the Cog Development Application use an updated
 file format for Cog Engine files. You will need to use the conversion 
 script to work on games created before this release. The current upgrade
-script is called convert-1.1.4-to-1.1.5.py and can be executed as such:
+script is called convert-1.1.5-to-1.1.6.py and can be executed as such:
 
-python convert-1.1.4-to-1.1.5.py CyconOdyssey.cog.old CyconOdyssey.cog
+python convert-1.1.5-to-1.1.6.py CyconOdyssey.cog.old CyconOdyssey.cog
 
 
 INSTALLATION INSTRUCTIONS
@@ -143,10 +143,10 @@ readable by the Cog Engine via the "export_cog_data.py" script.
 
 
 Example (Under Linux):
-tar xvzf CogDevApp-1.1.5-source.tar.gz
-tar xvzf CyconOdyssey-0.98.1-data.tar.gz
-cp CyconOdyssey-0.98.1/CyconOdyssey.cog CogDevApp-1.1.5
-cd CogDevApp-1.1.5
+tar xvzf CogDevApp-1.1.6-source.tar.gz
+tar xvzf CyconOdyssey-0.98.2-data.tar.gz
+cp CyconOdyssey-0.98.2/CyconOdyssey.cog CogDevApp-1.1.6
+cd CogDevApp-1.1.6
 ./CogDevApp.py CyconOdyssey.cog
 ./export_cog_data.py CyconOdyssey.cog CyconOdyssey.dat
 
@@ -178,7 +178,7 @@ entering the appropriate command into the run dialog box (cmd for windows
 nt, command for windows 9x/ME).
 
 6) Load the CogDevApp.py according to this example:
-cd CogDevApp-1.1.5
+cd CogDevApp-1.1.6
 C:\python21\python CogDevApp.py
 
 7) Enjoy!

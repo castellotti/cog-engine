@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.19
+# Last Update: 2002.07.13
 #
 #####################################################################
 # To Do List:
@@ -119,8 +119,7 @@ class CogEngine:
 		if (not self.roomData[room].visited):
 			self.output_text("\n\n" + self.roomData[room].description_long, speak_text)
 			self.output_text("\n\n" + self.roomData[room].direction_description, speak_text)
-			if (not self.gameInformation.debug_mode):
-				self.roomData[room].visited = 1
+			self.roomData[room].visited = 1
 		else:
 			self.output_text("\n\n" + self.roomData[room].description_short, speak_text)
 
@@ -523,6 +522,7 @@ class CogEngine:
 				self.roomData[self.playerInformation.current_room].direction[direction].has_moved_this_way = 1
 
 				# Set player's current room to the new room
+				self.playerInformation.last_room = self.playerInformation.current_room
 				self.playerInformation.current_room = self.roomData[self.playerInformation.current_room].direction[direction].to_which_room
 
 
@@ -2102,7 +2102,7 @@ class CogEngine:
 
 				if ((type(self.itemData[item_number].closeup_graphic_url) != type(None)) and
 				(self.itemData[item_number].closeup_graphic_url != "")):
-					self.display_image(self.itemData[item_number].closeup_graphic_url, "Background Image", 0, 0)
+					self.display_image(self.itemData[item_number].closeup_graphic_url, "Object CloseUp[Item](%i)" % (item_number), 0, 0)
 
 			if (resolved_object[0] == "Obstruction"):
 				obstruction_number = resolved_object[1]
@@ -2115,7 +2115,7 @@ class CogEngine:
 				if ( (type(self.obstructionData[obstruction_number].closeup_graphic_url) != type(None)) and
 				(self.obstructionData[obstruction_number].closeup_graphic_url != "") and
 				(self.obstructionData[obstruction_number].visible) ):
-					self.display_image(self.obstructionData[obstruction_number].closeup_graphic_url, "Background Image", 0, 0)
+					self.display_image(self.obstructionData[obstruction_number].closeup_graphic_url, "Object CloseUp[Obstruction](%i)" % (obstruction_number), 0, 0)
 
 		else:
 			self.output_text("\n\nYou don't see anything like that here.")
@@ -2136,8 +2136,20 @@ class CogEngine:
 
 			if (type(self.roomData[self.playerInformation.current_room].direction[direction_number].obstructions) != type(None)):
 				state = "Obstructed"
+
 			else:
 				state = "Available"
+
+				for direction_index in self.roomData[self.playerInformation.current_room].direction.keys():
+
+					if ((self.roomData[ (self.roomData[self.playerInformation.current_room].direction[direction_number].to_which_room) ].visited) and\
+					   (self.directionData[direction_number].compass_graphic_previously_traveled != "")):
+						state = "Previously Traveled"
+
+					if ((self.roomData[self.playerInformation.current_room].direction[direction_number].to_which_room == self.playerInformation.last_room) and \
+					   (self.directionData[direction_number].compass_graphic_last_direction_traveled != "")):
+						state = "Last Direction Traveled"
+
 		else:
 			state = "Unavailable"
 

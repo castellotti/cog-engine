@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.15
+# Last Update: 2002.07.17
 #
 #####################################################################
 # To Do List:
@@ -54,7 +54,7 @@ class CogDevApp(CogEngine_GtkSDL):
 	database_filename = ""
 	data_loaded = 0
 	debug_mode = 0
-	version_number = "1.1.5"
+	version_number = "1.1.6"
 
 
 	#####################################################################
@@ -591,7 +591,8 @@ if __name__ == '__main__':
 		warnings.filterwarnings(action="ignore", message='.*import.*', category=SyntaxWarning)
 	except:
 		pass
-
+		
+	print "\nPlease ignore any \"Gtk\" warnings which appear in this window\n"
 
 	CogDevApp()
 

@@ -120,6 +120,7 @@ class PlayerInformationObject:
 		self.current_weight = -1
 		self.current_bulk = -1
 		self.current_room = 1
+		self.last_room = -1
 		self.items = [] # list
 
 
@@ -139,7 +140,7 @@ class DirectionInformationObject:
 		self.compass_graphic_available_url = ""
 		self.compass_graphic_unavailable_url = ""
 		self.compass_graphic_special_url = ""
-		self.compass_graphic_never_traveled = ""
+		self.compass_graphic_previously_traveled = ""
 		self.compass_graphic_last_direction_traveled = ""
 		self.compass_panel_display_position = 0
 

@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.10
+# Last Update: 2002.07.18
 #
 #####################################################################
 
@@ -29,7 +29,22 @@ def insert_data_into_verb_editor(self, current_verb_number):
 		self.verbData[self.verb_displayed] = self.VerbObject()
 		self.verbData[self.verb_displayed].number = 1
 
-	self.verbEditor.verb_editor_selection_textentry.set_text("%i" % self.verbData[self.verb_displayed].number)
+
+	# Setup Verb Selection Combo List
+	verb_keys = self.verbData.keys()
+	verb_keys.sort()
+	verb_list = []
+	for each in verb_keys:
+		verb_list.append("%i - %s" % (each, self.verbData[each].name) )
+
+	self.verbEditor.verb_editor_selection_combo.set_popdown_strings(verb_list)
+	self.verbEditor.verb_editor_selection_combo.disable_activate(self.gtk.TRUE)
+
+	if (self.verbData[self.verb_displayed].name == ""):
+		self.verbEditor.verb_editor_selection_textentry.set_text("%i - New Verb" % self.verb_displayed)
+	else:
+		self.verbEditor.verb_editor_selection_textentry.set_text("%i - %s" % (self.verb_displayed, self.verbData[self.verb_displayed].name))
+
 
 	self.verbEditor.number_textentry.set_text("%i" % self.verbData[self.verb_displayed].number)
 	self.verbEditor.name_textentry.set_text(self.verbData[self.verb_displayed].name)
@@ -41,7 +56,7 @@ def insert_data_into_verb_editor(self, current_verb_number):
 
 	self.verbEditor.mouse_pointer_graphic_textentry.set_text(self.verbData[self.verb_displayed].mouse_pointer_graphic)
 
-	self.verbEditor.notes_textbox.set_word_wrap(self.gtk.TRUE)	
+	self.verbEditor.notes_textbox.set_word_wrap(self.gtk.TRUE)
 	self.verbEditor.notes_textbox.delete_text(0, -1)
 	if (self.verbData[self.verb_displayed].notes != None):
 		self.verbEditor.notes_textbox.insert_defaults(self.verbData[self.verb_displayed].notes)
@@ -71,15 +86,14 @@ def read_verb_editor_data_into_memory(self):
 
 def create_new_verb(self):
 	new_verb_number = len(self.verbData) + 1
-	self.verbData[new_verb_number] = self.verbObject()
+	self.verbData[new_verb_number] = self.VerbObject()
 	self.verbData[new_verb_number].number = len(self.verbData)
 
 #####################################################################
 
 def clear_current_verb(self):
-	self.verbData[self.verb_displayed] = self.verbObject()
+	self.verbData[self.verb_displayed] = self.VerbObject()
 	self.verbData[self.verb_displayed].number = self.verb_displayed
-	self.verbEditor.to_which_verb_textentry.set_text("")
 	self.verb_verb_displayed = 0
 
 #####################################################################
@@ -128,9 +142,13 @@ def on_verb_editor_last_button_clicked(self, obj):
 #####################################################################
 
 def on_verb_editor_selection_textentry_activate(self, obj):
+	
 	import string
+	
 	new_verb_number_entry = self.verbEditor.verb_editor_selection_textentry.get_text()
+	new_verb_number_entry = string.split(new_verb_number_entry, '-')[0]
 	new_verb_number_entry = string.strip(new_verb_number_entry)
+
 	try:
 		new_verb_number = string.atoi(new_verb_number_entry)
 	except ValueError:
@@ -141,6 +159,20 @@ def on_verb_editor_selection_textentry_activate(self, obj):
 			self.insert_data_into_verb_editor(new_verb_number)
 		else:
 			self.display_dialog_box("Error", "That verb number doesn't exist!")
+
+
+#####################################################################
+
+def on_verb_editor_go_button_clicked(self, obj):
+
+	self.on_verb_editor_selection_textentry_activate(None)
+
+
+#####################################################################
+
+def on_verb_editor_undo_button_clicked(self, obj):
+
+	self.insert_data_into_verb_editor(self.verb_displayed)
 
 #####################################################################
 

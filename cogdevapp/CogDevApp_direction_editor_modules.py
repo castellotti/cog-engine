@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.14
+# Last Update: 2002.07.17
 #
 #####################################################################
 
@@ -18,7 +18,7 @@ def on_direction_editor_destroy(self, obj):
 	# This function is called if a user closes a window directly,
 	# instead of clicking off the toggle button
 	self.widget.direction_togglebutton.set_active(0)
-                                             
+
 
 #####################################################################
 
@@ -30,14 +30,30 @@ def insert_data_into_direction_editor(self, current_direction_number):
 		self.directionData[self.direction_displayed] = self.DirectionInformationObject()
 		self.directionData[self.direction_displayed].number = 1
 
-	self.directionEditor.direction_editor_selection_textentry.set_text("%i" % self.directionData[self.direction_displayed].number)
+
+	# Setup Direction Selection Combo List
+	direction_keys = self.directionData.keys()
+	direction_keys.sort()
+	direction_list = []
+	for each in direction_keys:
+		direction_list.append("%i - %s" % (each, self.directionData[each].name) )
+
+	self.directionEditor.direction_editor_selection_combo.set_popdown_strings(direction_list)
+	self.directionEditor.direction_editor_selection_combo.disable_activate(self.gtk.TRUE)
+
+	if (self.directionData[self.direction_displayed].name == ""):
+		self.directionEditor.direction_editor_selection_textentry.set_text("%i - New Direction" % self.direction_displayed)
+	else:
+		self.directionEditor.direction_editor_selection_textentry.set_text("%i - %s" % (self.direction_displayed, self.directionData[self.direction_displayed].name))
+
+
 	self.directionEditor.number_textentry.set_text("%i" % self.directionData[self.direction_displayed].number)
 	self.directionEditor.name_textentry.set_text(self.directionData[self.direction_displayed].name)
 	self.directionEditor.abbreviation_textentry.set_text(self.directionData[self.direction_displayed].abbreviation)
 	self.directionEditor.available_compass_graphic_textentry.set_text(self.directionData[self.direction_displayed].compass_graphic_available_url)
 	self.directionEditor.unavailable_compass_graphic_textentry.set_text(self.directionData[self.direction_displayed].compass_graphic_unavailable_url)
 	self.directionEditor.special_compass_graphic_textentry.set_text(self.directionData[self.direction_displayed].compass_graphic_special_url)
-	self.directionEditor.never_traveled_compass_graphic_textentry.set_text(self.directionData[self.direction_displayed].compass_graphic_never_traveled)
+	self.directionEditor.previously_traveled_compass_graphic_textentry.set_text(self.directionData[self.direction_displayed].compass_graphic_previously_traveled)
 	self.directionEditor.last_direction_traveled_compass_graphic_textentry.set_text(self.directionData[self.direction_displayed].compass_graphic_last_direction_traveled)
 	self.directionEditor.compass_panel_display_position_textentry.set_text("%i" % self.directionData[self.direction_displayed].compass_panel_display_position)
 
@@ -45,6 +61,7 @@ def insert_data_into_direction_editor(self, current_direction_number):
 #####################################################################
 
 def read_direction_editor_data_into_memory(self):
+	
 	import string
 
 	if (self.directionEditor.name_textentry.get_text() != ""):
@@ -59,7 +76,7 @@ def read_direction_editor_data_into_memory(self):
 			self.directionData[current_direction_number].compass_graphic_available_url = self.directionEditor.available_compass_graphic_textentry.get_text()
 			self.directionData[current_direction_number].compass_graphic_unavailable_url = self.directionEditor.unavailable_compass_graphic_textentry.get_text()
 			self.directionData[current_direction_number].compass_graphic_special_url = self.directionEditor.special_compass_graphic_textentry.get_text()
-			self.directionData[current_direction_number].compass_graphic_never_traveled = self.directionEditor.never_traveled_compass_graphic_textentry.get_text()
+			self.directionData[current_direction_number].compass_graphic_previously_traveled = self.directionEditor.previously_traveled_compass_graphic_textentry.get_text()
 			self.directionData[current_direction_number].compass_graphic_last_direction_traveled = self.directionEditor.last_direction_traveled_compass_graphic_textentry.get_text()
 		try:
 			current_number = string.atoi(self.directionEditor.compass_panel_display_position_textentry.get_text())
@@ -83,9 +100,8 @@ def create_new_direction(self):
 #####################################################################
 
 def clear_current_direction(self):
-	self.directionData[self.direction_displayed] = self.directionObject()
+	self.directionData[self.direction_displayed] = self.DirectionInformationObject()
 	self.directionData[self.direction_displayed].number = self.direction_displayed
-	self.directionEditor.to_which_direction_textentry.set_text("")
 	self.direction_direction_displayed = 0
                          
 
@@ -146,9 +162,26 @@ def on_direction_editor_save_button_clicked(self, obj):
 
 #####################################################################
 
+def on_direction_editor_selection_textentry_changed(self, obj):
+
+	pass # this function results in a segmentation fault, altough I can find no fault with it
+
+#	new_text = self.directionEditor.direction_editor_selection_textentry.get_text()
+#
+#	if (new_text != "1 - New Direction") and \
+#	   (new_text != "%i - %s" % (self.direction_displayed, self.directionData[self.direction_displayed].name)):
+#
+#		self.on_direction_editor_selection_textentry_activate(None)
+
+
+#####################################################################
+
 def on_direction_editor_selection_textentry_activate(self, obj):
+
 	import string
+
 	new_direction_number_entry = self.directionEditor.direction_editor_selection_textentry.get_text()
+	new_direction_number_entry = string.split(new_direction_number_entry, '-')[0]
 	new_direction_number_entry = string.strip(new_direction_number_entry)
 	try:
 		new_direction_number = string.atoi(new_direction_number_entry)
@@ -160,7 +193,21 @@ def on_direction_editor_selection_textentry_activate(self, obj):
 			self.insert_data_into_direction_editor(new_direction_number)
 		else:
 			self.display_dialog_box("Error", "That direction number doesn't exist!")
-                   
+
+
+#####################################################################
+
+def on_direction_editor_go_button_clicked(self, obj):
+
+	self.on_direction_editor_selection_textentry_activate(None)
+
+
+#####################################################################
+
+def on_direction_editor_undo_button_clicked(self, obj):
+
+	self.insert_data_into_direction_editor(self.direction_displayed)
+
 
 #####################################################################
 

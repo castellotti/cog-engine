@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 #
-# CogEngine Data Upgrader (1.1.3 to 1.1.4)
+# CogEngine Data Upgrader (1.1.5 to 1.1.6)
 #
 # Copyright Steven M. Castellotti (2001, 2002)
 # The author can be reached at: SteveC@innocent.com
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.19
+# Last Update: 2002.07.13
 #
 # Calling Convention:
-# ./upgrade_cog_data_1.1.3_to_1.1.4.py <CogDevApp 1.1.3 file> <CogDevApp 1.1.4 file>
+# ./upgrade_cog_data_1.1.5_to_1.1.6.py <CogDevApp 1.1.5 file> <CogDevApp 1.1.6 file>
 #
 #
 #####################################################################
@@ -86,15 +86,17 @@ if __name__ == '__main__':
 
 
 
-	file_format_version_number = "1.1.5"
+	file_format_version_number = "1.1.6"
 
-
-
-	gameInformation.audio_directory = ""
-	gameInformation.output_history = ""
 
 
 	playerInformation.last_room = -1
+
+
+	for direction in directionData.keys():
+		directionData[direction].compass_graphic_previously_traveled = \
+		     directionData[direction].compass_graphic_never_traveled
+
 
 
 	pickle_python_data_file(output_filename, \

@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.21
+# Last Update: 2002.07.12
 #
 ######################################################################
 
@@ -183,7 +183,7 @@ class icon_panel:
 			current_row = current_row + 1
 
 		if (self.use_scrollbars):
-			
+
 			if (self.row_to_display_as_top_row != 0):
 				self.scroll_up_panel.set_image(self.scroll_up_available_image_path)
 			else:
@@ -196,13 +196,13 @@ class icon_panel:
 
 
 	#####################################################################
-	
+
 	def set_icon_from_name(self, name, image_file_path):
 
 		for row in self.panel_widget_row_list:
 
 			for column in row:
-			
+
 				if (column.name == name):
 
 					column.set_image(image_file_path)
@@ -213,7 +213,7 @@ class icon_panel:
 	def set_icon(self, name, image_file_path):
 
 		self.icon_list[name].set_image(image_file_path)
-                                      
+
 
 	#####################################################################
 
@@ -379,14 +379,14 @@ class layered_graphic_panel:
 
 	def __init__(self, Xoffset, Yoffset, \
 					 pygame_instance, screen_instance, debug_mode):
-					 
+
 		self.Xoffset = Xoffset
 		self.Yoffset = Yoffset
-		
+
 		self.pygame = pygame_instance
 		self.screen = screen_instance
 		self.debug_mode = debug_mode
-		
+
 		self.rect = None # This variable will store the pygame rect information for the panel
 
 		self.image_layer_list = []
@@ -416,7 +416,8 @@ class layered_graphic_panel:
 				current_image['object_type'] = object_type
 
 
-				if (name == "Background Image") and (Xpos ==  0) and (Ypos == 0):
+				if ((name == "Background Image") or (name[0:14] == "Object CloseUp")) and \
+				   (Xpos ==  0) and (Ypos == 0):
 					self.image_layer_list = []
 
 				self.image_layer_list.append(current_image)
@@ -492,7 +493,7 @@ class mouse_pointer:
 																					  # cycling through pointers easier
 		self.pygame = pygame_instance
 		self.debug_mode = debug_mode
-		
+
 		self.current_pointer = None
 		self.name = ""
 		self.graphic = None
@@ -534,7 +535,7 @@ class mouse_pointer:
 			self.rect = self.graphic.get_rect()
 		except:
 			if (self.debug_mode):
-				print "Error loading %s compass Graphic: \n%s\n" % (self.curent_pointer['name'], self.current_pointer['image'])
+				print "Error loading %s mouse pointer Graphic: \n%s\n" % (self.curent_pointer['name'], self.current_pointer['image'])
 			self.graphic = None
 			self.rect = (0,0,0,0)
 
@@ -567,7 +568,7 @@ class mouse_pointer:
 			self.rect = self.graphic.get_rect()
 		except:
 			if (self.debug_mode):
-				print "Error loading compass graphic for ", self.name, ":\n", self.current_pointer['image']
+				print "Error loading mouse pointer graphic for ", self.name, ":\n", self.current_pointer['image']
 			self.set_default_cursor()
 
 
@@ -581,7 +582,7 @@ class mouse_pointer:
 			self.appended_rect = self.appended_graphic.get_rect()
 #		except:
 #			if (self.debug_mode):
-#				print "Error loading compass graphic for ", self.name, ":\n", self.current_pointer
+#				print "Error loading mouse pointer graphic for ", self.name, ":\n", self.current_pointer
 
 
 	#####################################################################
@@ -619,7 +620,7 @@ class Background_TTS(threading.Thread):
 	def stop(self):
 
 		self.loop = 0
-		
+
 
 	#####################################################################
 		
@@ -667,7 +668,8 @@ class CogEngine_GtkSDL(CogEngine):
 		pygame.display.set_caption('CogEngine Graphic Window')
 		background = pygame.Surface(self.screen.get_size())
 		#background.fill((255,255,255)) # black background
-		background.fill((128,128,128)) # grey background
+		#background.fill((128,128,128)) # grey background
+		background.fill((64,64,64)) # dark grey background
 
 		self.screen.blit(background, (0,0))
 
@@ -1211,21 +1213,47 @@ class CogEngine_GtkSDL(CogEngine):
 					(self.obstructionData[each].icon_graphic_url != ""):
 
 					object_icon = self.default_image_path + self.obstructionData[each].icon_graphic_url
-					
+
 
 		return(object_icon)
 
 
 	#####################################################################
 
+	def resolve_object_closeup(self, object_name):
+
+		import string
+
+		object_type = string.split(object_name, '[')[1]
+		object_type = string.split(object_type, ']')[0]
+
+		object_number = string.split(object_name, '(')[1]
+		object_number = string.split(object_number, ')')[0]
+		object_number = string.atoi(object_number)
+
+		if (object_type == "Item"):
+
+			object_name = self.itemData[object_number].name
+			object_image = self.default_image_path + self.itemData[object_number].icon_graphic_url
+
+		elif (object_type == "Obstruction"):
+
+			object_name = self.obstructionData[object_number].name
+			object_image = self.default_image_path + self.obstructionData[object_number].icon_graphic_url
+
+		return(object_name, object_image)
+
+
+	#####################################################################
+
 	def execute_graphical_compass_movement(self, Xpos, Ypos):
-	
+
 		command_name = self.compass.get_object_information(Xpos, Ypos)[0]
-		
+
 		if (command_name == "Menu"):
 			#self.parse_command_line("Help")
 			self.execute_pygame_loop = 0
-		
+
 		else:
 			self.parse_command_line(command_name)
 
@@ -1259,7 +1287,7 @@ class CogEngine_GtkSDL(CogEngine):
 					if (object_image == ""): # The did not click on an image of an object
 
 						self.parse_command_line("Look")
-						
+                                                                        
 					else:
 
 						self.parse_command_line("Examine %s" % object_name)
@@ -1267,9 +1295,18 @@ class CogEngine_GtkSDL(CogEngine):
 				else:
 
 					if (object_name != "Blank") and (object_name != "Background Image"):
+
+						# Check to see if image is a Close Up of an object
+						if (object_name[0:14] == "Object CloseUp"):
+							(object_name, object_image) = self.resolve_object_closeup(object_name)
+
+
 						self.mouse_pointer.add_icon_to_pointer(object_name, object_image)
+
+						
 					else:
-						print object_name
+						if (self.gameInformation.debug_mode):
+							print object_name
 
 			else:
 
@@ -1337,7 +1374,7 @@ class CogEngine_GtkSDL(CogEngine):
 
 			self.inventory_textbox.delete_text(0, -1)
 			self.inventory_textbox.insert_defaults(text)
-			
+
 		
 #		if (self.gameInformation.show_graphic_area) and \
 #		   (self.gameInformation.show_graphical_inventory_panel):
@@ -1393,6 +1430,17 @@ class CogEngine_GtkSDL(CogEngine):
 							self.compass.set_icon_from_name(self.directionData[direction].name, self.default_image_path + \
 														self.directionData[direction].compass_graphic_special_url)
 							self.directionStates[direction] = "Obstructed"
+
+						elif (direction_state == "Previously Traveled"):
+							self.compass.set_icon_from_name(self.directionData[direction].name, self.default_image_path + \
+														self.directionData[direction].compass_graphic_previously_traveled)
+							self.directionStates[direction] = "Previously Traveled"
+
+						elif (direction_state == "Last Direction Traveled"):
+							self.compass.set_icon_from_name(self.directionData[direction].name, self.default_image_path + \
+														self.directionData[direction].compass_graphic_last_direction_traveled)
+							self.directionStates[direction] = "Last Direction Traveled"
+
 
 			self.compass.draw_panel_graphics()
 

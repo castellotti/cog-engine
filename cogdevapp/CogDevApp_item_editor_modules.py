@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.05.19
+# Last Update: 2002.07.18
 #
 #####################################################################
 
@@ -31,8 +31,23 @@ def insert_data_into_item_editor(self, current_item_number):
 	if (len(self.itemData) is 0):
 		self.itemData[self.item_displayed] = self.ItemObject()
 		self.itemData[self.item_displayed].number = 1
+   
 
-	self.itemEditor.item_editor_selection_textentry.set_text("%i" % self.itemData[self.item_displayed].number)
+	# Setup Room Selection Combo List
+	item_keys = self.itemData.keys()
+	item_keys.sort()
+	item_list = []
+	for each in item_keys:
+		item_list.append("%i - %s" % (each, self.itemData[each].name) )
+
+	self.itemEditor.item_editor_selection_combo.set_popdown_strings(item_list)
+	self.itemEditor.item_editor_selection_combo.disable_activate(self.gtk.TRUE)
+
+	if (self.itemData[self.item_displayed].name == ""):
+		self.itemEditor.item_editor_selection_textentry.set_text("%i - New Item" % self.item_displayed)
+	else:
+		self.itemEditor.item_editor_selection_textentry.set_text("%i - %s" % (self.item_displayed, self.itemData[self.item_displayed].name))
+
 
 	self.itemEditor.number_textentry.set_text("%i" % self.itemData[self.item_displayed].number)
 	self.itemEditor.name_textentry.set_text(self.itemData[self.item_displayed].name)
@@ -160,9 +175,8 @@ def create_new_item(self):
 #####################################################################
 
 def clear_current_item(self):
-	self.itemData[self.item_displayed] = self.itemObject()
+	self.itemData[self.item_displayed] = self.ItemObject()
 	self.itemData[self.item_displayed].number = self.item_displayed
-	self.itemEditor.to_which_item_textentry.set_text("")
 	self.item_item_displayed = 0
 
 
@@ -224,9 +238,13 @@ def on_item_editor_save_button_clicked(self, obj):
 #####################################################################
 
 def on_item_editor_selection_textentry_activate(self, obj):
+	
 	import string
+	
 	new_item_number_entry = self.itemEditor.item_editor_selection_textentry.get_text()
+	new_item_number_entry = string.split(new_item_number_entry, '-')[0]	
 	new_item_number_entry = string.strip(new_item_number_entry)
+
 	try:
 		new_item_number = string.atoi(new_item_number_entry)
 	except ValueError:
@@ -237,6 +255,20 @@ def on_item_editor_selection_textentry_activate(self, obj):
 			self.insert_data_into_item_editor(new_item_number)
 		else:
 			self.display_dialog_box("Error", "That item number doesn't exist!")
+
+
+#####################################################################
+
+def on_item_editor_go_button_clicked(self, obj):
+
+	self.on_item_editor_selection_textentry_activate(None)
+
+
+#####################################################################
+
+def on_item_editor_undo_button_clicked(self, obj):
+
+	self.insert_data_into_item_editor(self.item_displayed)
 
 
 #####################################################################

@@ -1,11 +1,19 @@
-Changelog - Cog Development Application 1.1.5
+Changelog - Cog Development Application 1.1.6
 
                        The Cog Development Application
 
-                                Version 1.1.5
+                                Version 1.1.6
 
                    Copyright (C) 2001,2002 Steven M. Castellotti
                             <SteveC@innocent.com>
+
+Version (1.1.6):
+Released 2002.07.18
+
+	- Object Dropdown List added to Direction, Room, Item, Obstruction, and Verb Editors
+	- "Undo" button added to Direction, Room, Item, Obstruction, and Verb Editors
+	- CogEngine v1.1.6 embedded
+
 
 Version (1.1.5):
 Released 2002.07.09

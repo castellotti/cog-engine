@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.07
+# Last Update: 2002.07.18
 #
 #####################################################################
 #
@@ -36,7 +36,22 @@ def insert_data_into_obstruction_editor(self, current_obstruction_number):
 		self.obstructionData[self.obstruction_displayed] = self.ObstructionObject()
 		self.obstructionData[self.obstruction_displayed].number = 1
 
-	self.obstructionEditor.obstruction_editor_selection_textentry.set_text("%i" % self.obstructionData[self.obstruction_displayed].number)
+
+	# Setup Obstruction Selection Combo List
+	obstruction_keys = self.obstructionData.keys()
+	obstruction_keys.sort()
+	obstruction_list = []
+	for each in obstruction_keys:
+		obstruction_list.append("%i - %s" % (each, self.obstructionData[each].name) )
+
+	self.obstructionEditor.obstruction_editor_selection_combo.set_popdown_strings(obstruction_list)
+	self.obstructionEditor.obstruction_editor_selection_combo.disable_activate(self.gtk.TRUE)
+
+	if (self.obstructionData[self.obstruction_displayed].name == ""):
+		self.obstructionEditor.obstruction_editor_selection_textentry.set_text("%i - New Obstruction" % self.obstruction_displayed)
+	else:
+		self.obstructionEditor.obstruction_editor_selection_textentry.set_text("%i - %s" % (self.obstruction_displayed, self.obstructionData[self.obstruction_displayed].name))
+
 
 	self.obstructionEditor.number_textentry.set_text("%i" % self.obstructionData[self.obstruction_displayed].number)
 	self.obstructionEditor.name_textentry.set_text(self.obstructionData[self.obstruction_displayed].name)
@@ -159,9 +174,8 @@ def create_new_obstruction(self):
 #####################################################################
 
 def clear_current_obstruction(self):
-	self.obstructionData[self.obstruction_displayed] = self.obstructionObject()
+	self.obstructionData[self.obstruction_displayed] = self.ObstructionObject()
 	self.obstructionData[self.obstruction_displayed].number = self.obstruction_displayed
-	self.obstructionEditor.to_which_obstruction_textentry.set_text("")
 	self.obstruction_obstruction_displayed = 0
 
 #####################################################################
@@ -210,9 +224,13 @@ def on_obstruction_editor_last_button_clicked(self, obj):
 #####################################################################
 
 def on_obstruction_editor_selection_textentry_activate(self, obj):
+	
 	import string
+	
 	new_obstruction_number_entry = self.obstructionEditor.obstruction_editor_selection_textentry.get_text()
+	new_obstruction_number_entry = string.split(new_obstruction_number_entry, '-')[0]
 	new_obstruction_number_entry = string.strip(new_obstruction_number_entry)
+
 	try:
 		new_obstruction_number = string.atoi(new_obstruction_number_entry)
 	except ValueError:
@@ -223,6 +241,20 @@ def on_obstruction_editor_selection_textentry_activate(self, obj):
 			self.insert_data_into_obstruction_editor(new_obstruction_number)
 		else:
 			self.display_dialog_box("Error", "That obstruction number doesn't exist!")
+
+#####################################################################
+
+def on_obstruction_editor_go_button_clicked(self, obj):
+
+	self.on_obstruction_editor_selection_textentry_activate(None)
+
+
+#####################################################################
+
+def on_obstruction_editor_undo_button_clicked(self, obj):
+
+	self.insert_data_into_obstruction_editor(self.obstruction_displayed)
+
 
 #####################################################################
 

@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.05.19
+# Last Update: 2002.07.17
 #
 #####################################################################
 
@@ -29,7 +29,22 @@ def insert_data_into_room_editor(self, current_room_number):
 
 	self.room_displayed = current_room_number
 
-	self.roomEditor.room_editor_selection_textentry.set_text("%i" % self.room_displayed)
+
+	# Setup Room Selection Combo List
+	room_keys = self.roomData.keys()
+	room_keys.sort()
+	room_list = []
+	for each in room_keys:
+		room_list.append("%i - %s" % (each, self.roomData[each].name) )
+
+	self.roomEditor.room_editor_selection_combo.set_popdown_strings(room_list)
+	self.roomEditor.room_editor_selection_combo.disable_activate(self.gtk.TRUE)
+
+	if (self.roomData[self.room_displayed].name == ""):
+		self.roomEditor.room_editor_selection_textentry.set_text("%i - New Room" % self.room_displayed)
+	else:
+		self.roomEditor.room_editor_selection_textentry.set_text("%i - %s" % (self.room_displayed, self.roomData[self.room_displayed].name))
+
 
 	self.roomEditor.number_textentry.set_text("%i" % self.roomData[self.room_displayed].number)
 	self.roomEditor.name_textentry.set_text(self.roomData[self.room_displayed].name)
@@ -421,6 +436,7 @@ def on_room_editor_save_button_clicked(self, obj):
 def on_room_editor_selection_textentry_activate(self, obj):
 	import string
 	new_room_number_entry = self.roomEditor.room_editor_selection_textentry.get_text()
+	new_room_number_entry = string.split(new_room_number_entry, '-')[0]
 	new_room_number_entry = string.strip(new_room_number_entry)
 	try:
 		new_room_number = string.atoi(new_room_number_entry)
@@ -432,6 +448,20 @@ def on_room_editor_selection_textentry_activate(self, obj):
 			self.insert_data_into_room_editor(new_room_number)
 		else:
 			self.display_dialog_box("Error", "That room number doesn't exist!")
+
+
+#####################################################################
+
+def on_room_editor_go_button_clicked(self, obj):
+
+	self.on_room_editor_selection_textentry_activate(None)
+
+
+#####################################################################
+
+def on_room_editor_undo_button_clicked(self, obj):
+
+	self.insert_data_into_room_editor(self.room_displayed)
 
 
 #####################################################################
