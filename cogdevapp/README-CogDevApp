@@ -1,8 +1,8 @@
-README - Cog Development Application 0.82
+README - Cog Development Application 0.90
 
                        The Cog Development Application
 
-                                Version 0.82
+                                Version 0.90
 
                    Copyright (C) 2001 Steven M. Castellotti
                             <SteveC@innocent.com>
@@ -50,6 +50,9 @@ CogEngine homepage, link listed below.
 Prerequisits
 ------------
 
+Python information is available at:
+http://www.python.org/
+
 Python/GTK information is available at:
 http://www.daa.com.au/~james/pygtk/
 http://theopenlab.uml.edu/pygtools/
@@ -90,8 +93,18 @@ libglade-gnome
 install, as of version 2.2 (potato).
 
 
+If you are running Microsoft Windows, you will need to download and
+install Python, from python.org. The currently supported version is 2.1.1. 
+You will also need to install a Java Virtual Machine (JVM), as well as 
+Jython in order to be able to convert game editor files into a format 
+readable by the online Java Applet (The Cog Engine). See the instructions 
+below.
+
+
 Quick Installation Instructions
 -------------------------------
+
+For Linux:
 
 1) Download and install the above listed prerequisits.
 
@@ -109,19 +122,68 @@ readable by the Cog Engine via the "export_cog_data.py" script, and you
 convert those file back for editing using the "import_cog_data.py" script.
 
 6) The current version of the CogDevApp includes class files from version
-0.91 of the CogEngine (the current version). If you are going to be using
+0.92 of the CogEngine (the current version). If you are going to be using
 CogDevApp with a different version of the CogEngine, you will need to
 replace these class files with the new ones.
 
 
 Example (Under Linux):
-tar xvzf CogDevApp-0.82-source.tar.gz
-tar xvzf CyconOdyssey-0.91-data.tar.gz
-cp CyconOdyssey-0.91/Cycon-COG.dat CogDevApp-0.82
-cd CogDevApp-0.82
+tar xvzf CogDevApp-0.90-source.tar.gz
+tar xvzf CyconOdyssey-0.93-data.tar.gz
+cp CyconOdyssey-0.93/Cycon-COG.dat CogDevApp-0.90
+cd CogDevApp-0.90
 ./import_cog_data.py Cycon-COG.dat Cycon-COG.dev
 ./CogDevApp.py Cycon-COG.dev
 ./export_cog_data.py Cycon-COG.dev Cycon-COG.dat
+
+
+For Windows:
+
+1) Down the installation program for Python from python.org.
+The current supported version is 2.1.1.
+
+2) Run the installation program, and take note of the installtion 
+directory you choose. (The default installation directory is 
+"C:\Python21". We shall assume this to be the directory you choose to 
+install into for the remainder of this document.)
+
+3) Download the current CogDevApp source zip file, if you haven't done so 
+already, and unzip the files into a new folder. If you don't already have 
+a zip file utility, you can find one at winzip.com.
+
+4) Open the folder you installed the CogDevApp files into, and 
+double-click the "CogDevApp.py" file. If python is associated 
+with the file correctly, you should be finished. Otherwise, continue onto 
+step 5.
+
+5) Open a command line window, either from the program files menu, or by 
+entering the appropriate command into the run dialog box (cmd for windows 
+nt, command for windows 9x/ME).
+
+6) Load the CogDevApp.py according to this example:
+cd CogDevApp-0.90
+C:\python21\python CogDevApp.py
+
+7) Enjoy!
+
+
+Converting From CogDevApp files to CogEngine files:
+
+	Currently you'll need to install a JVM and Jython 
+(jython.sourceforge.net) to do this. A program is under development to 
+remove this requirement however. If you want to try to install Jython 
+yourself, you can use the import_cog_data.py and export_cog_data.py files 
+to convert between the two formats.
+
+
+Special Note
+--------------------
+
+	Due to changes in the file format between this and the previous
+version, it is necessary to convert old game files using the conversion
+script included. An example:
+
+./convert-0.82-to-0.90.py Cycon-COG.dev.old Cycon-COG.dev.new
 
 
 FOR MORE INFORMATION
@@ -130,7 +192,7 @@ FOR MORE INFORMATION
 Website:           <http://cogengine.sourceforge.net/>.
 Developement site: <https://sourceforge.net/projects/cogengine/>.
 Mailing lists:     <http://lists.sourceforge.net/lists/listinfo/cogengine-devel>.
- 
+
 
 REPORTING BUGS
 --------------

@@ -8,7 +8,7 @@
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
 # Version x.x
-# Last Update: 2001.06.12
+# Last Update: 2001.09.22
 #
 # Calling Convention:
 # ./export_cog_data.py <CogDevApp file> <CogEngine file>
@@ -80,6 +80,7 @@ def convert_game_information(java, python):
 	python.introduction_text = java.Introduction_Text
 	python.image_loading_graphic_url = java.ImageLoading_GraphicURL
 	python.introduction_graphic_url = java.Introduction_GraphicURL
+	python.image_directory = java.Image_Directory
 	python.preferred_graphic_size_X = java.PreferredGraphicSizeX
 	python.preferred_graphic_size_Y = java.PreferredGraphicSizeY
 	python.show_stats = java.ShowStats

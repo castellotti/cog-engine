@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.01.18
+# Last Update: 2001.09.22
 #
 # Note: Portions of this code was take from SQmaiL (version 0.1.1-alpha)
 #        by David Given (dtrg@users.sourceforge.net), also
@@ -70,7 +70,8 @@ class Callback:
 #####################################################################
 
 def load_data_file(filename):
-	print "Loading: " + filename + "...",
+# 	if (self.debug_mode):
+# 		print "Loading: " + filename + "...",
 	import cPickle
 	from CogObjects import *
 	file = open(filename, 'r')
@@ -82,7 +83,8 @@ def load_data_file(filename):
 	obstructionData = cPickle.load(file)
 	verbData = cPickle.load(file)
 	file.close()
-	print "done"
+# 	if (self.debug_mode):
+# 		print "done"
 	return(gameInformation, playerInformation, \
 	       directionData, roomData, \
 	       itemData, obstructionData, verbData)
@@ -91,7 +93,8 @@ def save_data_file(filename, \
                    gameInformation, playerInformation, \
                    directionData, roomData, \
                    itemData, obstructionData, verbData):
-	print "Saving: " + filename + "...",
+# 	if (self.debug_mode):
+# 		print "Saving: " + filename + "...",
 	import cPickle
 	from CogObjects import *
 	file = open(filename, 'w')
@@ -103,6 +106,7 @@ def save_data_file(filename, \
 	cPickle.dump(obstructionData, file)
 	cPickle.dump(verbData, file)
 	file.close()
-	print "done"
+# 	if (self.debug_mode):
+# 		print "done"
 
 # EOF

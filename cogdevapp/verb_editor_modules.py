@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.02.01
+# Last Update: 2001.09.22
 #
 #####################################################################
 
@@ -51,7 +51,7 @@ def read_verb_editor_data_into_memory(self):
 		try:
 			current_verb_number = string.atoi(self.verbEditor.number_textentry.get_text())
 		except ValueError:
-			print "Non-integer entered into current verb's number field"
+			self.display_dialog_box("Error", "Non-integer entered into current verb's number field")
 		else:
 			self.verbData[current_verb_number].number = current_verb_number
 			self.verbData[current_verb_number].name = self.verbEditor.name_textentry.get_text()
@@ -60,7 +60,7 @@ def read_verb_editor_data_into_memory(self):
 			self.verbData[current_verb_number].notes = gtk.GtkEntry.get_chars(self.verbEditor.notes_textbox, 0, -1)
 
 	else:
-		print "No name entered for this verb! verb will be skipped."
+		self.display_dialog_box("Error", "No name entered for this verb! verb will be skipped.")
 
 
 #####################################################################
@@ -91,8 +91,8 @@ def on_verb_editor_first_button_clicked(self, obj):
 	if (self.verb_displayed != 1):
 		self.read_verb_editor_data_into_memory()
 		self.insert_data_into_verb_editor(1)
-	else:
-		print "Already in first verb"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in first verb")
 
 #####################################################################
 
@@ -100,8 +100,8 @@ def on_verb_editor_previous_button_clicked(self, obj):
 	if ((self.verb_displayed - 1) > 0):
 		self.read_verb_editor_data_into_memory()
 		self.insert_data_into_verb_editor(self.verb_displayed - 1)
-	else:
-		print "Already in first verb"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in first verb")
 
 #####################################################################
 
@@ -109,8 +109,8 @@ def on_verb_editor_next_button_clicked(self, obj):
 	if ((self.verb_displayed + 1) <= len(self.verbData)):
 		self.read_verb_editor_data_into_memory()
 		self.insert_data_into_verb_editor(self.verb_displayed + 1)
-	else:
-		print "Already in last verb"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in last verb")
 
 #####################################################################
 
@@ -118,8 +118,8 @@ def on_verb_editor_last_button_clicked(self, obj):
 	if (self.verb_displayed != len(self.verbData)):
 		self.read_verb_editor_data_into_memory()
 		self.insert_data_into_verb_editor(len(self.verbData))
-	else:
-		print "Already in last verb"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in last verb")
 
 #####################################################################
 
@@ -130,13 +130,13 @@ def on_verb_editor_selection_textentry_activate(self, obj):
 	try:
 		new_verb_number = string.atoi(new_verb_number_entry)
 	except ValueError:
-		print "Bad value entered into verb Editor's goto field"
+		self.display_dialog_box("Error", "Bad value entered into verb Editor's goto field")
 	else:
 		if (self.verbData.has_key(new_verb_number)):
 			self.read_verb_editor_data_into_memory()
 			self.insert_data_into_verb_editor(new_verb_number)
 		else:
-			print "That verb number doesn't exist!"
+			self.display_dialog_box("Error", "That verb number doesn't exist!")
 
 #####################################################################
 

@@ -1,17 +1,76 @@
-Changelog - Cog Development Application 0.82
+Changelog - Cog Development Application 0.90
 
                        The Cog Development Application
 
-                                Version 0.82
+                                Version 0.90
 
                    Copyright (C) 2001 Steven M. Castellotti
                             <SteveC@innocent.com>
 
+Version (0.90):
+Released 2001.09.26
 
-Version (0.80):
-Released 2001.06.12
+	- Windows support added! The Cog Development Application now runs 
+	  correctly and completely under Microsoft Windows. The only 
+	  requirement is that Python is installed.
 
-	Inital Public Release
+	- Gnome support removed from Glade, and all widgets recreated 
+	  to use GTK+ only. Currently, on the GTK+ libraries are supported 
+	  on Windows, and incorporating the Gnome libraries was just using 
+	  unecessary memory. This was necessary to run the program under 
+	  Windows.
+
+	- All Glade windows rewritten to use a dynamic layout, instead of
+	  a fixed layout. Besides a cleaner, more consistent look, this 
+	  also means that different fonts can be used without labels being
+	  obscured (this was an issue under Windows).
+
+	- Debug Mode added. Debugging messages are never printed to stdout 
+	  when Debug Mode is enabled.
+
+	- "Image Directory" entry added. This makes it easier to use 
+	  the same game data with different graphics files. For instance, 
+	  if you have a high and a low resolution version of the same 
+	  game, you only have to change this entry to point to another 
+	  directory, and the rest of the game data remains intact.
+
+	- After adding the Image Directory option, an incompatibility was
+	   made between this release and earlier game files. A conversion
+	   script was included to transition old game files to the new format.
+
+	- About box rewritten, since this was previously a Gnome
+	  Component.
+
+	- General code cleanup; many unecessary comments were removed.
+
+
+Version (0.82):
+Released 2001.06.19
+
+	- Event builder and editor have been updated to include object
+	  numbers as well as names in their listings. The CogScript API
+	  has been updated to reflect this change.
+
+	- New directions are selected by default after being added to a 
+	  room in the room editor
+
+	- Added direction description handler to room editor
+
+	- Fixed a bug in the code to add a new obstruction
+
+	- Fixed a bug in the event editor that caused events to be dropped
+
+	- If you enter a filename for loading on the command line, the
+	  same file name will be used by default when saving
+
+	- Fixed bugs in both item and obstruction editors which caused 
+	  blank graphics to overwrite room's graphic when examining
+	  objects
+
+	- Fixed a typo in the room editor that caused problems when adding 
+	  a new room and clearing the current room
+
+	- Fixed a bug with the inventory lister in the player editor
 
 
 Version (0.81):
@@ -42,30 +101,7 @@ Released 2001.06.14
 	  object" commands to function correctly
 
 
-Version (0.82):
-Released 2001.06.19
+Version (0.80):
+Released 2001.06.12
 
-	- Event builder and editor have been updated to include object
-	  numbers as well as names in their listings. The CogScript API
-	  has been updated to reflect this change.
-
-	- New directions are selected by default after being added to a 
-	  room in the room editor
-
-	- Added direction description handler to room editor
-
-	- Fixed a bug in the code to add a new obstruction
-
-	- Fixed a bug in the event editor that caused events to be dropped
-
-	- If you enter a filename for loading on the command line, the
-	  same file name will be used by default when saving
-
-	- Fixed bugs in both item and obstruction editors which caused 
-	  blank graphics to overwrite room's graphic when examining
-	  objects
-
-	- Fixed a typo in the room editor that caused problems when adding 
-	  a new room and clearing the current room
-
-	- Fixed a bug with the inventory lister in the player editor
+	Inital Public Release

@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.06.19
+# Last Update: 2001.09.15
 #
 #####################################################################
 # Notes
@@ -35,6 +35,7 @@
 # def setup_event_builder_effect_menu(self, key):
 # def setup_event_builder_itemlocation_menu(self, key):
 # def setup_event_builder_room_reference_combo(self, key):
+# def setup_event_builder_nowhere_room_reference_combo(self, key):
 # def setup_event_builder_direction_reference_optionmenu(self, key):
 # def setup_event_builder_direction_reference_combo(self, key):
 # def setup_event_builder_modifies_menu(self, key):
@@ -403,6 +404,32 @@ def setup_event_builder_room_reference_combo(self, key):
 
 	reference_combo = gtk.GtkCombo()
 	reference_list = []
+
+	if ( self.roomData != {} ):
+		room_list = self.roomData.keys()
+		room_list.sort()
+
+		for each in room_list:
+			reference_list.append( "%i - %s" % (each ,self.roomData[each].name) )
+
+	reference_combo.set_popdown_strings(reference_list)
+
+	if (self.eventTree.has_key('%s:selection' % key)) and \
+	   (self.eventTree['%s:selection' % key] in reference_list):
+		reference_combo.entry.set_text(self.eventTree['%s:selection' % key])
+	else:
+		self.eventTree['%s:selection' % key] = reference_combo.entry.get_text()
+
+	return(reference_combo)
+
+
+#####################################################################
+
+def setup_event_builder_nowhere_room_reference_combo(self, key):
+	import gtk
+
+	reference_combo = gtk.GtkCombo()
+	reference_list = ['0 - Nowhere']
 
 	if ( self.roomData != {} ):
 		room_list = self.roomData.keys()
@@ -854,7 +881,8 @@ def add_new_requirement_toolbar(self):
 
 	key_index = total_requirement_toolbars # we start with the 0th toolbar, so this line works
 
-	print "Requirement toolbar key index: %i" % key_index
+	if (self.debug_mode):
+		print "Requirement toolbar key index: %i" % key_index
 
 	# Setup requires_label
 	requires_label = gtk.GtkLabel(" Requires: ")
@@ -1058,7 +1086,6 @@ def handle_action_selection(self, obj, new_selection):
 #####################################################################
 
 def handle_optionmenu_change(self, obj, key, selection):
-	#print "%s selects %s" % (key, selection)
 
 	self.eventTree['%s:selection' % key] = selection
 
@@ -1075,15 +1102,14 @@ def handle_optionmenu_change(self, obj, key, selection):
 def handle_entry_change(self, obj, key):
 
 	self.eventTree['%s:selection' % key] = obj.get_text()
-	#print "%s changes to %s" % ( key, self.eventTree['%s:selection' % key] )
-
+	if (self.debug_mode):
+		print "%s changes to %s" % ( key, self.eventTree['%s:selection' % key] )
 
 #####################################################################
 
 def handle_radiobutton_toggled(self, obj, key):
 
 	self.eventTree['%s:selection' % key] = obj.get_active()
-	#print "%s changes to %s" % ( key, self.eventTree['%s:selection' % key] )
 
 
 #####################################################################
@@ -1220,6 +1246,7 @@ def rebuild_requirement_toolbars(self):
 			# Setup requires_not_checkbutton
 			requires_not_checkbutton = gtk.GtkCheckButton(' (Not) ')
 			self.eventTree['requires_not_checkbutton:%i' % key_index] = requires_not_checkbutton
+
 			# Setup toggled status
 			requires_not_checkbutton.set_active( 0 )
 			requires_not_checkbutton.show()
@@ -1548,8 +1575,6 @@ def rebuild_requirement_toolbars(self):
 
 					else:
 						each = string.atoi( string.split( requirement_item_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.itemData.keys():
-#							if ( requirement_item_reference_combo.entry.get_text() == self.itemData[each].name ):
 						if (self.itemData[each].weight != -1):
 							requires_item_comparison_weight_entry.set_text( "%i" % self.itemData[each].weight )
 							self.eventTree['requires_item_comparison_weight_entry:%s:selection' % key_index] = "%i" % self.itemData[each].weight
@@ -1584,8 +1609,6 @@ def rebuild_requirement_toolbars(self):
 
 					else:
 						each = string.atoi( string.split( requirement_item_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.itemData.keys():
-#							if ( requirement_item_reference_combo.entry.get_text() == self.itemData[each].name ):
 						if (self.itemData[each].bulk != -1):
 							requires_item_comparison_bulk_entry.set_text( "%i" % self.itemData[each].bulk )
 							self.eventTree['requires_item_comparison_bulk_entry:%s:selection' % key_index] = "%i" % self.itemData[each].bulk
@@ -1956,9 +1979,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_room_textdescription_long_vbox
 						effect_modifies_textdescription_long_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_room_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.roomData.keys():
-#							if ( ( effect_modifies_room_reference_combo.entry.get_text() == self.roomData[each].name ) \
-#							   and (self.roomData[each].description_long != None) ):
 						if (self.roomData[each].description_long != None):
 							effect_modifies_textdescription_long_entry.set_text(self.roomData[each].description_long)
 							self.eventTree['effect_modifies_textdescription_long_entry:%s:selection' % key_index] = self.roomData[each].description_long
@@ -1976,9 +1996,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_room_textdescription_short_vbox
 						effect_modifies_textdescription_short_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_room_reference_combo.entry.get_text(), ' - ')[0] )
-# 						for each in self.roomData.keys():
-# 							if ( ( effect_modifies_room_reference_combo.entry.get_text() == self.roomData[each].name ) \
-# 							   and (self.roomData[each].description_short != None) ):
 						if (self.roomData[each].description_short != None):
 							effect_modifies_textdescription_short_entry.set_text(self.roomData[each].description_short)
 							self.eventTree['effect_modifies_textdescription_short_entry:%s:selection' % key_index] = self.roomData[each].description_short
@@ -1996,9 +2013,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_room_direction_description_vbox
 						effect_modifies_direction_description_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_room_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.roomData.keys():
-#							if ( ( effect_modifies_room_reference_combo.entry.get_text() == self.roomData[each].name ) \
-#								and (self.roomData[each].direction_description != None) ):
 						if (self.roomData[each].direction_description != None):
 							effect_modifies_direction_description_entry.set_text(self.roomData[each].direction_description)
 							self.eventTree['effect_modifies_direction_description_entry:%s:selection' % key_index] = self.roomData[each].direction_description
@@ -2016,9 +2030,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_room_graphic_url_vbox
 						effect_modifies_graphic_url_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_room_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.roomData.keys():
-#							if ( ( effect_modifies_room_reference_combo.entry.get_text() == self.roomData[each].name ) \
-#							   and (self.roomData[each].graphic_url != None) ):
 						if (self.roomData[each].graphic_url != None):
 							effect_modifies_graphic_url_entry.set_text(self.roomData[each].graphic_url)
 							self.eventTree['effect_modifies_graphic_url_entry:%s:selection' % key_index] = self.roomData[each].graphic_url
@@ -2036,8 +2047,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_room_visited_vbox
 
 						each = string.atoi( string.split( effect_modifies_room_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.roomData.keys():
-#							if ( effect_modifies_room_reference_combo.entry.get_text() == self.roomData[each].name ):
 						truth_boolean = self.roomData[each].visited
 
 						effect_modifies_room_visited_radiobutton_vbox = self.setup_radiobutton_vbox(\
@@ -2077,10 +2086,8 @@ def rebuild_effect_toolbars(self):
 
 						if ( self.eventTree['effect_modifies_room_direction_optionmenu:%s:selection' % key_index] == 'ToWhichRoom' ):
 							# Setup effect_modifies_room_direction_to_which_room_reference_vbox
-							effect_modifies_room_direction_to_which_room_reference_combo = self.setup_event_builder_room_reference_combo('effect_modifies_room_direction_to_which_room_reference_combo:%s' % key_index)
+							effect_modifies_room_direction_to_which_room_reference_combo = self.setup_event_builder_nowhere_room_reference_combo('effect_modifies_room_direction_to_which_room_reference_combo:%s' % key_index)
 							each = string.atoi( string.split( effect_modifies_room_reference_combo.entry.get_text(), ' - ')[0] )
-#							for each in self.roomData.keys():
-#								if ( effect_modifies_room_reference_combo.entry.get_text() == self.roomData[each].name ):
 							direction_name = self.eventTree['effect_modifies_room_direction_reference_optionmenu:%s:selection' % key_index]
 							for direction in self.roomData[each].direction.keys():
 								if ( direction_name == self.directionData[ direction ].name ):
@@ -2098,8 +2105,6 @@ def rebuild_effect_toolbars(self):
 							# Setup effect_modifies_room_direction_firsttransitiontext_vbox
 							effect_modifies_room_direction_firsttransitiontext_entry = gtk.GtkEntry()
 							each = string.atoi( string.split( effect_modifies_room_reference_combo.entry.get_text(), ' - ')[0] )
-#							for each in self.roomData.keys():
-#								if ( effect_modifies_room_reference_combo.entry.get_text() == self.roomData[each].name ):
 							direction_name = self.eventTree['effect_modifies_room_direction_reference_optionmenu:%s:selection' % key_index]
 							for direction in self.roomData[each].direction.keys():
 								if ( ( direction_name == self.directionData[ direction ].name ) \
@@ -2119,8 +2124,6 @@ def rebuild_effect_toolbars(self):
 							# Setup effect_modifies_room_direction_transitiontext_vbox
 							effect_modifies_room_direction_transitiontext_entry = gtk.GtkEntry()
 							each = string.atoi( string.split( effect_modifies_room_reference_combo.entry.get_text(), ' - ')[0] )
-#							for each in self.roomData.keys():
-#								if ( effect_modifies_room_reference_combo.entry.get_text() == self.roomData[each].name ):
 							direction_name = self.eventTree['effect_modifies_room_direction_reference_optionmenu:%s:selection' % key_index]
 							for direction in self.roomData[each].direction.keys():
 								if ( ( direction_name == self.directionData[ direction ].name ) \
@@ -2141,8 +2144,6 @@ def rebuild_effect_toolbars(self):
 							# Setup effect_modifies_room_direction_firsttransitiongraphic_vbox
 							effect_modifies_room_direction_firsttransitiongraphic_entry = gtk.GtkEntry()
 							each = string.atoi( string.split( effect_modifies_room_reference_combo.entry.get_text(), ' - ')[0] )
-#							for each in self.roomData.keys():
-#								if ( effect_modifies_room_reference_combo.entry.get_text() == self.roomData[each].name ):
 							direction_name = self.eventTree['effect_modifies_room_direction_reference_optionmenu:%s:selection' % key_index]
 							for direction in self.roomData[each].direction.keys():
 								if ( ( direction_name == self.directionData[ direction ].name ) \
@@ -2163,8 +2164,6 @@ def rebuild_effect_toolbars(self):
 							# Setup effect_modifies_room_direction_transitiongraphic_vbox
 							effect_modifies_room_direction_transitiongraphic_entry = gtk.GtkEntry()
 							each = string.atoi( string.split( effect_modifies_room_reference_combo.entry.get_text(), ' - ')[0] )
-#							for each in self.roomData.keys():
-#								if ( effect_modifies_room_reference_combo.entry.get_text() == self.roomData[each].name ):
 							direction_name = self.eventTree['effect_modifies_room_direction_reference_optionmenu:%s:selection' % key_index]
 							for direction in self.roomData[each].direction.keys():
 								if ( ( direction_name == self.directionData[ direction ].name ) \
@@ -2185,8 +2184,6 @@ def rebuild_effect_toolbars(self):
 							# Setup effect_modifies_room_direction_hasmovedthisway_vbox
 
 							each = string.atoi( string.split( effect_modifies_room_reference_combo.entry.get_text(), ' - ')[0] )
-#							for each in self.roomData.keys():
-#								if ( effect_modifies_room_reference_combo.entry.get_text() == self.roomData[each].name ):
 							direction_name = self.eventTree['effect_modifies_room_direction_reference_optionmenu:%s:selection' % key_index]
 							for direction in self.roomData[each].direction.keys():
 								if ( direction_name == self.directionData[ direction ].name ):
@@ -2231,8 +2228,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_item_equipped_vbox
 
 						each = string.atoi( string.split( effect_modifies_item_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.itemData.keys():
-#							if ( effect_modifies_item_reference_combo.entry.get_text() == self.itemData[each].name ):
 						truth_boolean = self.itemData[each].equipped
 
 						effect_modifies_item_equipped_radiobutton_vbox = self.setup_radiobutton_vbox(\
@@ -2251,8 +2246,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_item_weight_vbox
 						effect_modifies_item_weight_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_item_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.itemData.keys():
-#							if ( effect_modifies_item_reference_combo.entry.get_text() == self.itemData[each].name ):
 						effect_modifies_item_weight_entry.set_text("%i" % self.itemData[each].weight)
 						self.eventTree['effect_modifies_item_weight_entry:%s:selection' % key_index] = self.itemData[each].weight
 
@@ -2268,8 +2261,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_item_bulk_vbox
 						effect_modifies_item_bulk_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_item_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.itemData.keys():
-#							if ( effect_modifies_item_reference_combo.entry.get_text() == self.itemData[each].name ):
 						effect_modifies_item_bulk_entry.set_text("%i" % self.itemData[each].bulk)
 						self.eventTree['effect_modifies_item_bulk_entry:%s:selection' % key_index] = self.itemData[each].bulk
 
@@ -2285,9 +2276,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_item_textdescription_vbox
 						effect_modifies_item_textdescription_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_item_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.itemData.keys():
-#							if ( ( effect_modifies_item_reference_combo.entry.get_text() == self.itemData[each].name ) \
-#							   and (self.itemData[each].description != None) ):
 						if (self.itemData[each].description != None):
 							effect_modifies_item_textdescription_entry.set_text(self.itemData[each].description)
 							self.eventTree['effect_modifies_item_textdescription_entry:%s:selection' % key_index] = self.itemData[each].description
@@ -2305,9 +2293,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_item_environment_graphic_url_vbox
 						effect_modifies_item_environment_graphic_url_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_item_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.itemData.keys():
-#							if ( ( effect_modifies_item_reference_combo.entry.get_text() == self.itemData[each].name ) \
-#							   and (self.itemData[each].environment_graphic_url != None) ):
 						if (self.itemData[each].environment_graphic_url != None):
 							effect_modifies_item_environment_graphic_url_entry.set_text(self.itemData[each].environment_graphic_url)
 							self.eventTree['effect_modifies_item_environment_graphic_url_entry:%s:selection' % key_index] = self.itemData[each].environment_graphic_url
@@ -2325,8 +2310,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_item_xpos_vbox
 						effect_modifies_item_xpos_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_item_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.itemData.keys():
-#							if ( effect_modifies_item_reference_combo.entry.get_text() == self.itemData[each].name ):
 						effect_modifies_item_xpos_entry.set_text("%i" % self.itemData[each].environment_graphic_Xpos)
 						self.eventTree['effect_modifies_item_xpos_entry:%s:selection' % key_index] = self.itemData[each].environment_graphic_Xpos
 
@@ -2338,8 +2321,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_item_ypos_vbox
 						effect_modifies_item_ypos_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_item_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.itemData.keys():
-#							if ( effect_modifies_item_reference_combo.entry.get_text() == self.itemData[each].name ):
 						effect_modifies_item_ypos_entry.set_text("%i" % self.itemData[each].environment_graphic_Ypos)
 						self.eventTree['effect_modifies_item_ypos_entry:%s:selection' % key_index] = self.itemData[each].environment_graphic_Ypos
 
@@ -2356,9 +2337,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_item_closeup_graphic_url_vbox
 						effect_modifies_item_closeup_graphic_url_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_item_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.itemData.keys():
-#							if ( ( effect_modifies_item_reference_combo.entry.get_text() == self.itemData[each].name ) \
-#							   and (self.itemData[each].closeup_graphic_url != None) ):
 						if (self.itemData[each].closeup_graphic_url != None):
 							effect_modifies_item_closeup_graphic_url_entry.set_text(self.itemData[each].closeup_graphic_url)
 							self.eventTree['effect_modifies_item_closeup_graphic_url_entry:%s:selection' % key_index] = self.itemData[each].closeup_graphic_url
@@ -2376,9 +2354,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_item_icon_graphic_url_vbox
 						effect_modifies_item_icon_graphic_url_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_item_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.itemData.keys():
-#							if ( ( effect_modifies_item_reference_combo.entry.get_text() == self.itemData[each].name ) \
-#							   and (self.itemData[each].icon_graphic_url != None) ):
 						if (self.itemData[each].icon_graphic_url != None):
 							effect_modifies_item_icon_graphic_url_entry.set_text(self.itemData[each].icon_graphic_url)
 							self.eventTree['effect_modifies_item_icon_graphic_url_entry:%s:selection' % key_index] = self.itemData[each].icon_graphic_url
@@ -2396,9 +2371,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_item_equipped_graphic_url_vbox
 						effect_modifies_item_equipped_graphic_url_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_item_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.itemData.keys():
-#							if ( ( effect_modifies_item_reference_combo.entry.get_text() == self.itemData[each].name ) \
-#							   and (self.itemData[each].equipped_graphic_url != None) ):
 						if (self.itemData[each].equipped_graphic_url != None):
 							effect_modifies_item_equipped_graphic_url_entry.set_text(self.itemData[each].equipped_graphic_url)
 							self.eventTree['effect_modifies_item_equipped_graphic_url_entry:%s:selection' % key_index] = self.itemData[each].equipped_graphic_url
@@ -2437,8 +2409,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_obstruction_visible_vbox
 
 						each = string.atoi( string.split( effect_modifies_obstruction_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.obstructionData.keys():
-#							if ( effect_modifies_obstruction_reference_combo.entry.get_text() == self.obstructionData[each].name ):
 						truth_boolean = self.obstructionData[each].visible
 
 						effect_modifies_obstruction_visible_radiobutton_vbox = self.setup_radiobutton_vbox(\
@@ -2457,9 +2427,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_obstruction_textdescription_vbox
 						effect_modifies_obstruction_textdescription_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_obstruction_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.obstructionData.keys():
-#							if ( ( effect_modifies_obstruction_reference_combo.entry.get_text() == self.obstructionData[each].name ) \
-#							   and (self.obstructionData[each].description != None) ):
 						if (self.obstructionData[each].description != None):
 							effect_modifies_obstruction_textdescription_entry.set_text(self.obstructionData[each].description)
 							self.eventTree['effect_modifies_obstruction_textdescription_entry:%s:selection' % key_index] = self.obstructionData[each].description
@@ -2477,9 +2444,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_obstruction_environment_graphic_url_vbox
 						effect_modifies_obstruction_environment_graphic_url_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_obstruction_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.obstructionData.keys():
-#							if ( ( effect_modifies_obstruction_reference_combo.entry.get_text() == self.obstructionData[each].name ) \
-#							   and (self.obstructionData[each].environment_graphic_url != None) ):
 						if (self.obstructionData[each].environment_graphic_url != None):
 							effect_modifies_obstruction_environment_graphic_url_entry.set_text(self.obstructionData[each].environment_graphic_url)
 							self.eventTree['effect_modifies_obstruction_environment_graphic_url_entry:%s:selection' % key_index] = self.obstructionData[each].environment_graphic_url
@@ -2497,8 +2461,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_obstruction_xpos_vbox
 						effect_modifies_obstruction_xpos_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_obstruction_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.obstructionData.keys():
-#							if ( effect_modifies_obstruction_reference_combo.entry.get_text() == self.obstructionData[each].name ):
 						effect_modifies_obstruction_xpos_entry.set_text("%i" % self.obstructionData[each].environment_graphic_Xpos)
 						self.eventTree['effect_modifies_obstruction_xpos_entry:%s:selection' % key_index] = self.obstructionData[each].environment_graphic_Xpos
 
@@ -2510,8 +2472,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_obstruction_ypos_vbox
 						effect_modifies_obstruction_ypos_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_obstruction_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.obstructionData.keys():
-#							if ( effect_modifies_obstruction_reference_combo.entry.get_text() == self.obstructionData[each].name ):
 						effect_modifies_obstruction_ypos_entry.set_text("%i" % self.obstructionData[each].environment_graphic_Ypos)
 						self.eventTree['effect_modifies_obstruction_ypos_entry:%s:selection' % key_index] = self.obstructionData[each].environment_graphic_Ypos
 
@@ -2528,9 +2488,6 @@ def rebuild_effect_toolbars(self):
 						# Setup effect_modifies_obstruction_closeup_graphic_url_vbox
 						effect_modifies_obstruction_closeup_graphic_url_entry = gtk.GtkEntry()
 						each = string.atoi( string.split( effect_modifies_obstruction_reference_combo.entry.get_text(), ' - ')[0] )
-#						for each in self.obstructionData.keys():
-#							if ( ( effect_modifies_obstruction_reference_combo.entry.get_text() == self.obstructionData[each].name ) \
-#							   and (self.obstructionData[each].closeup_graphic_url != None) ):
 						if (self.obstructionData[each].closeup_graphic_url != None):
 							effect_modifies_obstruction_closeup_graphic_url_entry.set_text(self.obstructionData[each].closeup_graphic_url)
 							self.eventTree['effect_modifies_obstruction_closeup_graphic_url_entry:%s:selection' % key_index] = self.obstructionData[each].closeup_graphic_url

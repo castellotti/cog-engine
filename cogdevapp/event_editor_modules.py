@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.06.19
+# Last Update: 2001.09.22
 #
 #####################################################################
 # Notes
@@ -180,14 +180,6 @@ def convert_reference_names_to_numbers(self, reference_string):
 
 		current_number = string.atoi( string.split( current_string, ' - ')[0] )
 
-# 		# we need to handle for moving to location [] (room #0)
-# 		current_number = 0
-#
-# 		# we search for names until we find a match
-# 		for each in self.roomData.keys():
-# 			if ( self.roomData[each].name == current_string ):
-# 				current_number = each
-
 		reference_string = "%sRoom(%i)%s" % (reference_string[:index], current_number, reference_string[index + index2 + 1:])
 		index = string.find(reference_string, 'Room[')
 
@@ -200,12 +192,6 @@ def convert_reference_names_to_numbers(self, reference_string):
 
 		current_number = string.atoi( string.split( current_string, ' - ')[0] )
 
-# 		current_number = 0
-# 		# we search for names until we find a match
-# 		for each in self.itemData.keys():
-# 			if ( self.itemData[each].name == current_string ):
-# 				current_number = each
-
 		reference_string = "%sItem(%i)%s" % (reference_string[:index], current_number, reference_string[index + index2 + 1:])
 		index = string.find(reference_string, 'Item[')
 
@@ -217,12 +203,6 @@ def convert_reference_names_to_numbers(self, reference_string):
 		current_string = current_string[12:index2]
 
 		current_number = string.atoi( string.split( current_string, ' - ')[0] )
-
-# 		current_number = 0
-# 		# we search for names until we find a match
-# 		for each in self.obstructionData.keys():
-# 			if ( self.obstructionData[each].name == current_string ):
-# 				current_number = each
 
 		reference_string = "%sObstruction(%s)%s" % (reference_string[:index], current_number, reference_string[index + index2 + 1:])
 		index = string.find(reference_string, 'Obstruction[')
@@ -410,7 +390,6 @@ def on_import_event_script_fileselection_ok_button_clicked(self, obj):
 	import os
 	if (os.path.isfile(filename)): # Check if entry is a file (will follow symlinks)
 		if (os.access(filename, os.R_OK)):
-			print "File Accepted"
 			self.event_script_filename = filename
 
 			input = open(filename, 'r')
@@ -418,10 +397,12 @@ def on_import_event_script_fileselection_ok_button_clicked(self, obj):
 			self.eventEditor.event_editor_textbox.delete_text(0, -1)
 			self.eventEditor.event_editor_textbox.insert_defaults(event_buffer)
 
+			self.display_dialog_box("Import File", "File imported successfully")
+
 		else:
-			print "File not readable!"
+			self.display_dialog_box("Error", "The file is not readable!")
 	else:
-		print "Not a file!"
+		self.display_dialog_box("Error", "This is not a file!")
 	self.importEventScriptFileselection.import_event_script_fileselection.destroy()
 
 
@@ -447,29 +428,29 @@ def on_export_event_script_fileselection_ok_button_clicked(self, obj):
 	# The following section verifies that a valid file was entered
 	import os, gtk
 	if (os.access(filename, os.W_OK)):
-			print "File Accepted"
 			self.event_script_filename = filename
 
 			output = open(filename, 'w')
 			event_buffer = gtk.GtkEntry.get_chars(self.eventEditor.event_editor_textbox, 0, -1)
-			event_buffer = self.clean_event_buffer(event_buffer)
+			#event_buffer = self.clean_event_buffer(event_buffer)
 			output.write(event_buffer)
+			self.display_dialog_box("Export File", "File exported successfully")
 	else:
 		if (os.access(filename, os.F_OK)):
-			print "File not writable!"
+			self.display_dialog_box("Error", "The file not writable!")
 		else:
 			# Check if directory is writable
 			if (os.access(os.path.dirname(filename), os.W_OK)):
-				print "File Accepted"
 				self.database_filename = filename
 
 				output = open(filename, 'w')
 				event_buffer = gtk.GtkEntry.get_chars(self.eventEditor.event_editor_textbox, 0, -1)
-				event_buffer = self.clean_event_buffer(event_buffer)
+				#event_buffer = self.clean_event_buffer(event_buffer)
 				output.write(event_buffer)
+				self.display_dialog_box("Export File", "File exported successfully")
 
 			else:
-				print "Write permission not granted!"
+				self.display_dialog_box("Error", "Write permission not granted!")
 	self.exportEventScriptFileselection.export_event_script_fileselection.destroy()
 
 

@@ -6,32 +6,10 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.01.21
+# Last Update: 2001.09.22
 #
 #####################################################################
 
-#####################################################################
-# Classes
-#####################################################################
-
-# class GameInformationEditorReader:
-#
-# 	import CogDevApp
-# 	import libglade
-# 	import utils
-#
-# 	def __init__(self):
-# 		editor = self.readglade("game_information_editor")
-# 		self.widget = utils.WidgetStore(editor)
-#
-# 	def readglade(self, name, o=None):
-# 		# Read in a Glade tree. Signals are attached to methods on the
-# 		# supplied object o; if o is omitted, this object is used.
-# 		if not o:
-# 			o = self
-# 		obj = libglade.GladeXML("CogDevApp.glade", name)
-# 		obj.signal_autoconnect(utils.Callback(o))
-# 		return obj
 
 #####################################################################
 # Functions
@@ -54,6 +32,7 @@ def insert_data_into_game_editor(self):
 	self.gameInformationEditor.last_update_textentry.set_text(self.gameInformation.last_update)
 	self.gameInformationEditor.game_url_textentry.set_text(self.gameInformation.game_url)
 	self.gameInformationEditor.database_url_textentry.set_text(self.gameInformation.database_url)
+	self.gameInformationEditor.image_directory_textentry.set_text(self.gameInformation.image_directory)
 	self.gameInformationEditor.image_loading_graphic_textentry.set_text(self.gameInformation.image_loading_graphic_url)
 	self.gameInformationEditor.introduction_graphic_textentry.set_text(self.gameInformation.introduction_graphic_url)
 
@@ -87,6 +66,11 @@ def read_game_editor_data_into_memory(self):
 	self.gameInformation.last_update = self.gameInformationEditor.last_update_textentry.get_text()
 	self.gameInformation.game_url = self.gameInformationEditor.game_url_textentry.get_text()
 	self.gameInformation.database_url = self.gameInformationEditor.database_url_textentry.get_text()
+	self.gameInformation.image_directory = self.gameInformationEditor.image_directory_textentry.get_text()
+
+	if (self.gameInformation.image_directory != "") and (self.gameInformation.image_directory[0] == "/"):
+		self.gameInformation.image_directory = self.gameInformation.image_directory[1:]
+
 	self.gameInformation.image_loading_graphic_url = self.gameInformationEditor.image_loading_graphic_textentry.get_text()
 	self.gameInformation.introduction_graphic_url = self.gameInformationEditor.introduction_graphic_textentry.get_text()
 

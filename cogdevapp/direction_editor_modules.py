@@ -46,7 +46,7 @@ def read_direction_editor_data_into_memory(self):
 		try:
 			current_direction_number = string.atoi(self.directionEditor.number_textentry.get_text())
 		except ValueError:
-			print "Non-integer entered into current direction's number field"
+			self.display_dialog_box("Error", "Non-integer entered into current direction's number field")
 		else:
 			self.directionData[current_direction_number].number = current_direction_number
 			self.directionData[current_direction_number].name = self.directionEditor.name_textentry.get_text()
@@ -55,7 +55,7 @@ def read_direction_editor_data_into_memory(self):
 			self.directionData[current_direction_number].compass_graphic_unavailable_url = self.directionEditor.unavailable_compass_graphic_textentry.get_text()
 			self.directionData[current_direction_number].compass_graphic_special_url = self.directionEditor.special_compass_graphic_textentry.get_text()
 	else:
-		print "No name entered for this direction! Direction will be skipped."
+		self.display_dialog_box("Warning", "No name entered for this direction! Direction will be skipped.")
 
 #####################################################################
 
@@ -85,8 +85,8 @@ def on_direction_editor_first_button_clicked(self, obj):
 	if (self.direction_displayed != 1):
 		self.read_direction_editor_data_into_memory()
 		self.insert_data_into_direction_editor(1)
-	else:
-		print "Already in first direction"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in first direction")
 
 #####################################################################
 
@@ -94,8 +94,8 @@ def on_direction_editor_previous_button_clicked(self, obj):
 	if ((self.direction_displayed - 1) > 0):
 		self.read_direction_editor_data_into_memory()
 		self.insert_data_into_direction_editor(self.direction_displayed - 1)
-	else:
-		print "Already in first direction"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in first direction")
 
 #####################################################################
 
@@ -103,8 +103,8 @@ def on_direction_editor_next_button_clicked(self, obj):
 	if ((self.direction_displayed + 1) <= len(self.directionData)):
 		self.read_direction_editor_data_into_memory()
 		self.insert_data_into_direction_editor(self.direction_displayed + 1)
-	else:
-		print "Already in last direction"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in last direction")
 
 #####################################################################
 
@@ -112,8 +112,8 @@ def on_direction_editor_last_button_clicked(self, obj):
 	if (self.direction_displayed != len(self.directionData)):
 		self.read_direction_editor_data_into_memory()
 		self.insert_data_into_direction_editor(len(self.directionData))
-	else:
-		print "Already in last direction"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in last direction")
 
 #####################################################################
 
@@ -124,13 +124,13 @@ def on_direction_editor_selection_textentry_activate(self, obj):
 	try:
 		new_direction_number = string.atoi(new_direction_number_entry)
 	except ValueError:
-		print "Bad value entered into direction Editor's goto field"
+		self.display_dialog_box("Error", "Bad value entered into direction Editor's goto field")
 	else:
 		if (self.directionData.has_key(new_direction_number)):
 			self.read_direction_editor_data_into_memory()
 			self.insert_data_into_direction_editor(new_direction_number)
 		else:
-			print "That direction number doesn't exist!"
+			self.display_dialog_box("Error", "That direction number doesn't exist!")
 
 #####################################################################
 

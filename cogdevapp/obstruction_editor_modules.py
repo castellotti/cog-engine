@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.06.11
+# Last Update: 2001.09.22
 #
 #####################################################################
 #
@@ -112,7 +112,7 @@ def read_obstruction_editor_data_into_memory(self):
 		try:
 			current_obstruction_number = string.atoi(self.obstructionEditor.number_textentry.get_text())
 		except ValueError:
-			print "Non-integer entered into current obstruction's number field"
+			self.display_dialog_box("Error", "Non-integer entered into current obstruction's number field")
 		else:
 			self.obstructionData[current_obstruction_number].number = current_obstruction_number
 			self.obstructionData[current_obstruction_number].name = self.obstructionEditor.name_textentry.get_text()
@@ -136,7 +136,7 @@ def read_obstruction_editor_data_into_memory(self):
 
 
 	else:
-		print "No name entered for this obstruction! obstruction will be skipped."
+		self.display_dialog_box("Error", "No name entered for this obstruction! obstruction will be skipped.")
 
 
 #####################################################################
@@ -167,8 +167,8 @@ def on_obstruction_editor_first_button_clicked(self, obj):
 	if (self.obstruction_displayed != 1):
 		self.read_obstruction_editor_data_into_memory()
 		self.insert_data_into_obstruction_editor(1)
-	else:
-		print "Already in first obstruction"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in first obstruction")
 
 #####################################################################
 
@@ -176,8 +176,8 @@ def on_obstruction_editor_previous_button_clicked(self, obj):
 	if ((self.obstruction_displayed - 1) > 0):
 		self.read_obstruction_editor_data_into_memory()
 		self.insert_data_into_obstruction_editor(self.obstruction_displayed - 1)
-	else:
-		print "Already in first obstruction"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in first obstruction")
 
 #####################################################################
 
@@ -185,8 +185,8 @@ def on_obstruction_editor_next_button_clicked(self, obj):
 	if ((self.obstruction_displayed + 1) <= len(self.obstructionData)):
 		self.read_obstruction_editor_data_into_memory()
 		self.insert_data_into_obstruction_editor(self.obstruction_displayed + 1)
-	else:
-		print "Already in last obstruction"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in last obstruction")
 
 #####################################################################
 
@@ -194,8 +194,8 @@ def on_obstruction_editor_last_button_clicked(self, obj):
 	if (self.obstruction_displayed != len(self.obstructionData)):
 		self.read_obstruction_editor_data_into_memory()
 		self.insert_data_into_obstruction_editor(len(self.obstructionData))
-	else:
-		print "Already in last obstruction"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in last obstruction")
 
 #####################################################################
 
@@ -206,13 +206,13 @@ def on_obstruction_editor_selection_textentry_activate(self, obj):
 	try:
 		new_obstruction_number = string.atoi(new_obstruction_number_entry)
 	except ValueError:
-		print "Bad value entered into obstruction Editor's goto field"
+		self.display_dialog_box("Error", "Bad value entered into obstruction Editor's goto field")
 	else:
 		if (self.obstructionData.has_key(new_obstruction_number)):
 			self.read_obstruction_editor_data_into_memory()
 			self.insert_data_into_obstruction_editor(new_obstruction_number)
 		else:
-			print "That obstruction number doesn't exist!"
+			self.display_dialog_box("Error", "That obstruction number doesn't exist!")
 
 #####################################################################
 

@@ -98,6 +98,7 @@ def convert_game_information(python):
 	java.Introduction_Text = python.introduction_text
 	java.ImageLoading_GraphicURL = python.image_loading_graphic_url
 	java.Introduction_GraphicURL =  python.introduction_graphic_url
+	java.Image_Directory = python.image_directory
 	java.PreferredGraphicSizeX = python.preferred_graphic_size_X
 	java.PreferredGraphicSizeY = python.preferred_graphic_size_Y
 	java.ShowStats = python.show_stats

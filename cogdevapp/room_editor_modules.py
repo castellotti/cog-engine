@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.06.19
+# Last Update: 2001.09.22
 #
 #####################################################################
 
@@ -251,7 +251,7 @@ def read_room_editor_data_into_memory(self):
 	try:
 		current_room_number = string.atoi(self.roomEditor.number_textentry.get_text())
 	except ValueError:
-		print "Non-integer entered into current room's number field"
+		self.display_dialog_box("Error", "Non-integer entered into current room's number field")
 	else:
 		self.roomData[current_room_number].number = current_room_number
 		self.roomData[current_room_number].name = self.roomEditor.name_textentry.get_text()
@@ -298,13 +298,12 @@ def read_direction_object_information_data_into_memory(self, room_number):
 	# Collect previous room's data
 	if (self.room_direction_displayed != 0):
 		if (self.roomEditor.to_which_room_combo.entry.get_text() == "Nowhere"):
-			print "Warning! No to_which_room defined for previous direction... removing direction!"
+			self.display_dialog_box("Warning", "Warning! No to_which_room defined for previous direction... removing direction!")
 			del (self.roomData[self.room_displayed].direction[self.room_direction_displayed])
 			self.room_direction_displayed = 0
 			setup_directional_object_optionmenu(self, 1)
 
 		else:
-			#print gtk.GtkEntry.get_chars(self.roomEditor.transition_text_textbox, 0, -1)
 			to_which_room_string = self.roomEditor.to_which_room_combo.entry.get_text()
 			self.roomData[room_number].direction[self.room_direction_displayed].to_which_room = string.atoi( string.split(to_which_room_string, ' ')[1] )
 			self.roomData[room_number].direction[self.room_direction_displayed].has_moved_this_way = self.roomEditor.player_moved_this_way_true_radiobutton.get_active()
@@ -368,8 +367,8 @@ def on_room_editor_first_button_clicked(self, obj):
 	if (self.room_displayed != 1):
 		self.read_room_editor_data_into_memory()
 		self.insert_data_into_room_editor(1)
-	else:
-		print "Already in first room"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in first room")
 
 
 #####################################################################
@@ -378,8 +377,8 @@ def on_room_editor_previous_button_clicked(self, obj):
 	if ((self.room_displayed - 1) > 0):
 		self.read_room_editor_data_into_memory()
 		self.insert_data_into_room_editor(self.room_displayed - 1)
-	else:
-		print "Already in first room"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in first room")
 
 
 #####################################################################
@@ -388,8 +387,8 @@ def on_room_editor_next_button_clicked(self, obj):
 	if ((self.room_displayed + 1) <= len(self.roomData)):
 		self.read_room_editor_data_into_memory()
 		self.insert_data_into_room_editor(self.room_displayed + 1)
-	else:
-		print "Already in last room"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in last room")
 
 
 #####################################################################
@@ -398,8 +397,8 @@ def on_room_editor_last_button_clicked(self, obj):
 	if (self.room_displayed != len(self.roomData)):
 		self.read_room_editor_data_into_memory()
 		self.insert_data_into_room_editor(len(self.roomData))
-	else:
-		print "Already in last room"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in last room")
 
 
 #####################################################################
@@ -411,13 +410,13 @@ def on_room_editor_selection_textentry_activate(self, obj):
 	try:
 		new_room_number = string.atoi(new_room_number_entry)
 	except ValueError:
-		print "Bad value entered into Room Editor's goto field"
+		self.display_dialog_box("Error", "Bad value entered into Room Editor's goto field")
 	else:
 		if (self.roomData.has_key(new_room_number)):
 			self.read_room_editor_data_into_memory()
 			self.insert_data_into_room_editor(new_room_number)
 		else:
-			print "That room number doesn't exist!"
+			self.display_dialog_box("Error", "That room number doesn't exist!")
 
 
 #####################################################################

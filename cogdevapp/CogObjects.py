@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.02.01
+# Last Update: 2001.09.22
 #
 #####################################################################
 
@@ -33,6 +33,7 @@ class GameInformationObject:
 		self.introduction_text = ""
 		self.image_loading_graphic_url = ""
 		self.introduction_graphic_url = ""
+		self.image_directory = ""
 		self.preferred_graphic_size_X = -1
 		self.preferred_graphic_size_Y = -1
 		self.show_stats = 1                    # boolean
@@ -153,7 +154,7 @@ class ObstructionObject:
 		self.description = ""
 		self.type = "" # set to "Antagonist" or "Obstacle"
 		self.locations = "" # usage is depricated
-		self.visible = 0 # boolean
+		self.visible = 1 # boolean
 		self.notes = ""
 
 

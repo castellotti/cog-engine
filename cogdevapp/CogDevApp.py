@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.06.08
+# Last Update: 2001.09.23
 #
 #####################################################################
 # To Do List:
@@ -16,16 +16,23 @@
 # - None
 #
 # Non-Critial Items:
+# - Event Builder still calls graphic images "GraphicURL"
 # - do URL entries need to be stripped of their "http://" and servername portions?
-# - Display dialog boxes with proper error message during file selection errors
 # - Handle current_room information for player editor (default to 1)
 #
 #####################################################################
 
+# Import windows gtk module if os is windows
+import os, sys
+if (os.name == "nt") or (os.name == "dos"):
+	sys.path.append('win32')
+
+
 import gtk
-import gnome.ui
+#import gnome.ui
 import libglade
 import utils
+
 
 #####################################################################
 # Classes
@@ -36,6 +43,7 @@ class CogDevAppReader:
 	gladefilename = "CogDevApp.glade"
 	database_filename = ""
 	data_loaded = 0
+	debug_mode = 0
 # 	current_direction = 1
 # 	current_room = 1
 # 	current_item = 1
@@ -138,7 +146,57 @@ class CogDevAppReader:
 
 	def on_about_activate(self, obj):
 		# This handler opens the about dialog
-		self.readglade("about")
+		self.about = self.readglade("about")
+
+#		The following statements will create a Gnome About Box
+# 		application_title = "Cog Development Application"
+# 		application_version = "0.90"
+# 		application_copyright = "Copyright (2001)"
+# 		application_authors = []
+# 		application_authors.append("Steven M. Castellotti (SteveC@innocent.com)")
+# 		application_comments = "The Cog Development Application creates and modifies game databases "
+# 		application_comments = application_comments +  "used by the COG Engine. For more information, please visit:\n"
+# 		application_comments = application_comments +  "http://cogengine.sourceforge.net"
+# 		application_logo = "icon-cycon.jpg"
+#
+# 		about_box = gnome.ui.GnomeAbout(application_title, application_version, application_copyright, \
+# 			application_authors, application_comments, application_logo)
+# 		about_box.show(self)
+
+
+	def destroy_about_box(self, obj):
+		obj.destroy()
+
+
+	def display_dialog_box(self, title, message):
+
+		# This method creates a dialog box with the title and message passed to it
+
+		# First we clean up the message
+		message = "\n     %s     \n" % message
+
+		# Then we create the label and the OK Button
+		dialog_box_label = gtk.GtkLabel()
+		dialog_box_label.set_text(message)
+		dialog_box_button = gtk.GtkButton("OK")
+
+		# Next we set up the dialog box
+		dialog_box = gtk.GtkDialog()
+		dialog_box.set_title(title)
+		dialog_vbox = dialog_box.children()[0]
+		dialog_vbox.pack_start(dialog_box_label)
+		dialog_action_area = dialog_box.children()[0].children()[-1]
+		dialog_action_area.add(dialog_box_button)
+
+		# Now we configure the OK button to destroy the dialog box when clicked
+		dialog_box_button.connect("clicked", self.destroy_dialog_box, dialog_box)
+
+		# Finally we display the dialog box
+		dialog_box.show_all()
+
+
+	def destroy_dialog_box(self, obj, box):
+		box.destroy()
 
 
 	def on_open_fileselection_ok_button_clicked(self, obj):
@@ -147,17 +205,17 @@ class CogDevAppReader:
 		import os
 		if (os.path.isfile(filename)): # Check if entry is a file (will follow symlinks)
 			if (os.access(filename, os.R_OK)):
-				print "File Accepted"
 				self.database_filename = filename
 				(self.gameInformation, self.playerInformation, \
 				self.directionData, self.roomData, \
 				self.itemData, self.obstructionData, self.verbData) \
 				= utils.load_data_file(filename)
 				self.data_loaded = 1
+				self.display_dialog_box("Open File", "File opened successfully")
 			else:
-				print "File not readable!"
+				self.display_dialog_box("Error", "The file is not readable!")
 		else:
-			print "Not a file!"
+			self.display_dialog_box("Error", "This is not a file!")
 		self.openFileselection.open_fileselection.destroy()
 
 
@@ -170,27 +228,27 @@ class CogDevAppReader:
 		# The following section verifies that a valid file was entered
 		import os
 		if (os.access(filename, os.W_OK)):
-				print "File Accepted"
 				self.database_filename = filename
 				utils.save_data_file(self.database_filename, \
 											self.gameInformation, self.playerInformation, \
 											self.directionData, self.roomData, \
 											self.itemData, self.obstructionData, self.verbData)
+				self.display_dialog_box("File Saved", "File saved successfully")
 
 		else:
 			if (os.access(filename, os.F_OK)):
-				print "File not writable!"
+				self.display_dialog_box("Error", "The file is not writable!")
 			else:
 				# Check if directory is writable
 				if (os.access(os.path.dirname(filename), os.W_OK)):
-					print "File Accepted"
 					self.database_filename = filename
 					utils.save_data_file(self.database_filename, \
 												self.gameInformation, self.playerInformation, \
 												self.directionData, self.roomData, \
 												self.itemData, self.obstructionData, self.verbData)
+					self.display_dialog_box("File Saved", "File saved successfully")
 				else:
-					print "Write permission not granted!"
+					self.display_dialog_box("Error", "Write permission not granted!")
 		self.saveAsFileselection.save_as_fileselection.destroy()
 
 
@@ -207,17 +265,12 @@ class CogDevAppReader:
 		# (when the togglebutton's activity is set to "1" then it was just depressed)
 		if (self.widget.game_information_togglebutton.get_active()):
 			try:
-				#print self.gameInformationEditor.game_information_editor.flags(gtk.VISIBLE)
 				self.widget.gameInformationEditor.show()
 			except:
-				#print "exception raised"
 				editor = self.readglade("game_information_editor")
 				self.gameInformationEditor = utils.WidgetStore(editor)
 				self.insert_data_into_game_editor()
-				#print self.gameInformationEditor.game_information_editor.flags(gtk.VISIBLE)
 		else:
-			#print self.gameInformationEditor.game_information_editor.flags(gtk.VISIBLE)
-			#self.gameInformationEditor.game_information_editor.hide()
 			self.read_game_editor_data_into_memory()
 			self.gameInformationEditor.game_information_editor.hide()
 

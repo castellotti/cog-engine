@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.06.11
+# Last Update: 2001.09.22
 #
 #####################################################################
 
@@ -132,7 +132,7 @@ def read_item_editor_data_into_memory(self):
 		try:
 			current_item_number = string.atoi(self.itemEditor.number_textentry.get_text())
 		except ValueError:
-			print "Non-integer entered into current item's number field"
+			self.display_dialog_box("Error", "Non-integer entered into current item's number field")
 		else:
 			self.itemData[current_item_number].number = current_item_number
 			self.itemData[current_item_number].name = self.itemEditor.name_textentry.get_text()
@@ -163,7 +163,7 @@ def read_item_editor_data_into_memory(self):
 
 
 	else:
-		print "No name entered for this item! item will be skipped."
+		self.display_dialog_box("Warning", "No name entered for this item! item will be skipped.")
 
 
 #####################################################################
@@ -197,8 +197,8 @@ def on_item_editor_first_button_clicked(self, obj):
 	if (self.item_displayed != 1):
 		self.read_item_editor_data_into_memory()
 		self.insert_data_into_item_editor(1)
-	else:
-		print "Already in first item"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in first item")
 
 
 #####################################################################
@@ -207,8 +207,8 @@ def on_item_editor_previous_button_clicked(self, obj):
 	if ((self.item_displayed - 1) > 0):
 		self.read_item_editor_data_into_memory()
 		self.insert_data_into_item_editor(self.item_displayed - 1)
-	else:
-		print "Already in first item"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in first item")
 
 
 #####################################################################
@@ -217,8 +217,8 @@ def on_item_editor_next_button_clicked(self, obj):
 	if ((self.item_displayed + 1) <= len(self.itemData)):
 		self.read_item_editor_data_into_memory()
 		self.insert_data_into_item_editor(self.item_displayed + 1)
-	else:
-		print "Already in last item"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in last item")
 
 
 #####################################################################
@@ -227,8 +227,8 @@ def on_item_editor_last_button_clicked(self, obj):
 	if (self.item_displayed != len(self.itemData)):
 		self.read_item_editor_data_into_memory()
 		self.insert_data_into_item_editor(len(self.itemData))
-	else:
-		print "Already in last item"
+# 	else:
+# 		self.display_dialog_box("Message", "Already in last item")
 
 
 #####################################################################
@@ -240,13 +240,13 @@ def on_item_editor_selection_textentry_activate(self, obj):
 	try:
 		new_item_number = string.atoi(new_item_number_entry)
 	except ValueError:
-		print "Bad value entered into item Editor's goto field"
+		self.display_dialog_box("Error", "Bad value entered into item Editor's goto field")
 	else:
 		if (self.itemData.has_key(new_item_number)):
 			self.read_item_editor_data_into_memory()
 			self.insert_data_into_item_editor(new_item_number)
 		else:
-			print "That item number doesn't exist!"
+			self.display_dialog_box("Error", "That item number doesn't exist!")
 
 
 #####################################################################
