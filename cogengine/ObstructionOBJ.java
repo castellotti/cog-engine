@@ -20,7 +20,7 @@ public class ObstructionOBJ implements Serializable {
 	public String CloseUp_GraphicURL;
 	public String Description;
 	public String Type; // set to "Antagonist" or "Obstacle" etc.
-	public String Locations;
+	public String Locations; // usage is depricated
 	public boolean Visible;
 	public String Notes;
 } // ObstructionOBJ class

@@ -21,7 +21,7 @@ public class ItemOBJ implements Serializable {
 	public String Icon_GraphicURL;
 	public String Equipped_GraphicURL;
 	public String Description;
-	public String Location;
+	public String Location; // usage is depricated
 	public boolean Equipped;
 	public int Weight; // negative weight implies that object cannot be picked up
 	public int Bulk; // negative bulk indicates how much a "container" can hold

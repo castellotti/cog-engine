@@ -27,6 +27,7 @@ public class GameInfoOBJ implements Serializable {
 	public int TotalVerbs;
 	public boolean ShowAllVerbs;
 	public String Introduction_Text;
+	public String Image_Directory;
 	public String ImageLoading_GraphicURL;
 	public String Introduction_GraphicURL;
 	public int PreferredGraphicSizeX;

@@ -45,7 +45,7 @@ should be a subdirectory of this directory.
 Java Appletviewer.
 
 
-Example:
+Example (Under Linux):
 
 tar xvzf CogEngine-0.91-classes.tar.gz
 tar xvzf CyconOdyssey-0.91-data.tar.gz

@@ -1,0 +1,18 @@
+Version (0.92)
+
+	- "Image Directory" variable added. This makes it easier to use 
+	  the same game data with different graphics files. For instance, 
+	  if you have a high and a low resolution version of the same 
+	  game, you only have to change this entry to point to another 
+	  directory, and the rest of the game data remains intact.
+
+	- Inventory display adjusted to now display an "(eqipped)" tag on 
+	  the end of all listed equipped items
+
+	- If an obstruction was marked visible but didn't have a graphic,
+	  it's name would not get printed to the output area. This has
+	  been fixed.
+
+	- CogEngine updated to skip introduction when started with a
+	  current room number greater than one (will be useful when saving
+	  and loading games becomes available)

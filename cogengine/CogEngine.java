@@ -10,12 +10,13 @@
 		For more information please refer to http://www.gnu.org/copyleft/gpl.html
 		Copyright (1999-2001) Steven M. Castellotti
 
-		Version : 0.91
-		Last Update : 2001.05.18
+		Version : 0.92
+		Last Update : 2001.09.22
 
 
 	Bug List
 	--------
+		 - "Looking around, you see a leaves."
 		 - If you click in the OutputArea, it will no longer scroll automatically,
 			unless you scroll down manually and click at the end of the last
 			line of output (Under certain implementations of Java)
@@ -73,11 +74,11 @@
 	public void CheckEmptyDirection( int RoomNumber, int DirectionNumber ) {
 	public boolean MakeComparison( String Comparison, int val1, int val2 ) {
 	public int EvaluateExpression( String Expression, int val1, int val2 ) {
-	public boolean StartsWithVowel(String InputString) {	
+	public boolean StartsWithVowel(String InputString) {
 	public void InitializeGUI() {
-	public void addGB( Container container, Component component, int x, int y  ) {	
+	public void addGB( Container container, Component component, int x, int y  ) {
 	public String GetDirectionState(int DirectionNumber ) {
-	
+
 */
 
 import java.applet.Applet;
@@ -162,9 +163,14 @@ public class CogEngine extends Applet implements ActionListener {
 		if (GameInfo.DebugMode)
 			System.err.println("Debug Mode Enabled.\n");
 
-		if ( GameInfo.TotalRooms != RoomArray.length-1 )
+		if ( GameInfo.TotalRooms != (RoomArray.length - 1) )
 			System.err.println("Warning: TotalRooms Discrepancy!\n");
 		// Do the same thing for DatabaseURL (parameter <-> GameInfo)
+
+		// Make certain that Image Directory values have been entered correctly
+		if ( GameInfo.Image_Directory.valueOf( GameInfo.Image_Directory.length() - 1 ) != "/" ) {
+			GameInfo.Image_Directory = GameInfo.Image_Directory + "/";
+		}
 
 		InitializeGUI(); // Sets up the Graphic Interface
 
@@ -176,20 +182,29 @@ public class CogEngine extends Applet implements ActionListener {
 		// This method first makes a call to Display the Game's Introduction,
 		// and then displays the first room that the player starts out in
 
-		DisplayIntroduction();
-		Player.CurrentRoom = RoomArray[1];
-		// OutputArea.append("Press Enter to Begin.\n");
+		if ( Player.CurrentRoom == null ) {
+			Player.CurrentRoom = RoomArray[1];
+		}
+
+		if ( ( Player.CurrentRoom.Number == 1 ) && ( Player.CurrentRoom.Visited == false ) ) {
+			DisplayIntroduction();
+			// OutputArea.append("Press Enter to Begin.\n");
+		}
+
 		DisplayRoom(Player.CurrentRoom);
 		repaint();// if i dont do this, i won't see the graphics correctly. (Why?)
+
 	} // start
 
 
 	public void stop() {
 
-		// This method gets called when a user stops the applet. 
+		// This method gets called when a user stops the applet.
+		// As it is also called whenever an appletview window is shaded,
+      // the following two lines are commented out
 
-		OutputArea.append("\n\n");
-		OutputArea.append("Thank you for playing " + GameInfo.Game_Title + ".\n");
+		//OutputArea.append("\n\n");
+		//OutputArea.append("Thank you for playing " + GameInfo.Game_Title + ".\n");
 	} // stop
 
 
@@ -227,7 +242,7 @@ public class CogEngine extends Applet implements ActionListener {
 		if (GameInfo.ShowCommandLine)
 			PreviousCommandLine = CommandLine.getText(); // use this to return to original command line after displaying graphic
 		try {
-		CurrentURL = new URL(getCodeBase() + GraphicURLString);
+			CurrentURL = new URL(getCodeBase() + GameInfo.Image_Directory + GraphicURLString);
 		} catch (Exception BadURL) {
 			System.err.println("Graphic URL \"");
 			System.err.println( GraphicURLString );
@@ -247,7 +262,7 @@ public class CogEngine extends Applet implements ActionListener {
 		// as part of the InitializeGUI routine.
 
 		try {
-			CurrentURL = new URL(getCodeBase() + GameInfo.Introduction_GraphicURL);
+			CurrentURL = new URL(getCodeBase() + GameInfo.Image_Directory + GameInfo.Introduction_GraphicURL);
 		} catch (Exception e) {
 			System.err.println("Bad URL for Introduction Graphic:");
 			System.err.println(GameInfo.Introduction_GraphicURL);
@@ -266,7 +281,7 @@ public class CogEngine extends Applet implements ActionListener {
 		// will be created to download and then display each room's graphic. That way, if a player
 		// wants to move before the graphic has finished downloading (a very reasonable desire for
 		// slow connections) the thread can be killed and a new one will be created by the new
-		// DisplayRoom method. 
+		// DisplayRoom method.
 
 		int TempInt;
 		String TempStr;
@@ -284,7 +299,7 @@ public class CogEngine extends Applet implements ActionListener {
 			InfoArea.append("Player's Name : " + Player.Name + "\n");
 			if (GameInfo.DebugMode)
 				InfoArea.append("Current Room # : " + Player.CurrentRoom.Number + "\n"); // comment this out unless debugging
-			if (Player.Points != -1)	
+			if (Player.Points != -1)
 				InfoArea.append("Points : " + Player.Points + "\n");
 			if (Player.Exp != -1)
 				InfoArea.append("Experience : " + Player.Exp + "\n");
@@ -304,10 +319,14 @@ public class CogEngine extends Applet implements ActionListener {
 			InventoryArea.append("Inventory: \n\n");
 			for (int TempCount = 1; TempCount <= Player.Items.length-1; TempCount++)
 				if (Player.Items[TempCount])
-					InventoryArea.append(ItemArray[TempCount].Name + "\n");
+				   if (ItemArray[TempCount].Equipped) {
+					   InventoryArea.append(ItemArray[TempCount].Name + " (equipped)\n");
+					} else {
+					   InventoryArea.append(ItemArray[TempCount].Name + "\n");
+					}
 		}
 
-		// Sequence to display Current Room		
+		// Sequence to display Current Room
 		if (!Player.CurrentRoom.Visited) {
 			OutputArea.append("\n\n");
 			OutputArea.append("  " + Room.Description_Long + "\n");
@@ -322,22 +341,22 @@ public class CogEngine extends Applet implements ActionListener {
 		// Sequence to Update CompassButton Graphics
 		// Graphics should only be downloaded (by calling setImage) if
 		// a different graphic is used that the one currently displayed
-		
+
 		for(TempInt = 1; TempInt <= GameInfo.TotalDirections; TempInt++) {
 			TempStr = GetDirectionState(TempInt);
 			if ( !(DirectionStates[TempInt].equals(TempStr))
 			&& !( (GameInfo.CenterButtonIndicatesItems) && (TempInt == 5) ) )
 				try {
 					if (TempStr.equals("Available")) {
-						CurrentURL = new URL( getCodeBase() + DirectionInfoArray[TempInt].CG_AvailableURL );
+						CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[TempInt].CG_AvailableURL );
 						DirectionStates[TempInt] = "Available";
 					}
 					else if (TempStr.equals("Unavailable")) {
-						CurrentURL = new URL( getCodeBase() + DirectionInfoArray[TempInt].CG_UnavailableURL );
+						CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[TempInt].CG_UnavailableURL );
 						DirectionStates[TempInt] = "Unavailable";
 					}
 					else if (TempStr.equals("Obstructed")) {
-						CurrentURL = new URL( getCodeBase() + DirectionInfoArray[TempInt].CG_SpecialURL );
+						CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[TempInt].CG_SpecialURL );
 						DirectionStates[TempInt] = "Obstructed";
 					}
 					switch (TempInt) {
@@ -368,16 +387,16 @@ public class CogEngine extends Applet implements ActionListener {
 							U.setImage(this, CurrentURL); break;
 						case (11) :
 							D.setImage(this, CurrentURL); break;
-					}					
+					}
 				} catch (Exception e) {
 					System.err.println("Error setting new Image for Compass Button #" + TempInt + "!");
 				}
 		} // for loop
-				
-		
+
+
 		// Sequence for displaying Obstrucions in Current Room
 		for (int TempCount = 1; TempCount <= Player.CurrentRoom.DirectionArray.length-1; TempCount++)
-			if ( ( Player.CurrentRoom.DirectionArray[TempCount] != null ) 
+			if ( ( Player.CurrentRoom.DirectionArray[TempCount] != null )
 			&& ( (Player.CurrentRoom.DirectionArray[TempCount].Obstructions != null) ) ) {
 				DisplayedSomething = false; // keeps track of whether or not any "Visible" obstructions are present
 				RoomToken = new StringTokenizer(Player.CurrentRoom.DirectionArray[TempCount].Obstructions, ",");
@@ -391,14 +410,14 @@ public class CogEngine extends Applet implements ActionListener {
 					// We first want to output any Environmental Item Graphics
     			if (ObstructionArray[TempInt].Environment_GraphicURL != null) {
 						try {
-							CurrentURL = new URL ( getCodeBase() + ObstructionArray[TempInt].Environment_GraphicURL );
+							CurrentURL = new URL ( getCodeBase() + GameInfo.Image_Directory + ObstructionArray[TempInt].Environment_GraphicURL );
 							GraphicArea.addImageLayer(this, CurrentURL,
 							ObstructionArray[TempInt].Environment_Graphic_Xpos,
 							ObstructionArray[TempInt].Environment_Graphic_Ypos);
-						} catch (Exception e) { System.err.println("Item Obstruction Display broke"); }
-					OutputArea.append( " " + ObstructionArray[TempInt].Name.toLowerCase() );
+						} catch (Exception e) { System.err.println("Obstruction Display broke"); }
 					}
-				} // (2)			
+				OutputArea.append( " " + ObstructionArray[TempInt].Name.toLowerCase() );
+				} // (2)
 				while ( RoomToken.hasMoreTokens() ) {
 					TempStr = RoomToken.nextToken().trim();
 					TempInt = Integer.parseInt(TempStr);
@@ -424,7 +443,7 @@ public class CogEngine extends Applet implements ActionListener {
 				} // then (2)
 			} // then (1)
 
-		
+
 		// Sequence to display Items in Current Room
 		if ( Player.CurrentRoom.Items != null ) {
 			if ( (GameInfo.CenterButtonIndicatesItems)
@@ -432,7 +451,7 @@ public class CogEngine extends Applet implements ActionListener {
 				// We want to change the center button's image to the special image
 				// only if it's not already set to that image (and this feature is turned on!)
 				try {
-					CurrentURL = new URL ( getCodeBase() + DirectionInfoArray[5].CG_SpecialURL );
+					CurrentURL = new URL ( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[5].CG_SpecialURL );
 					C.setImage(this, CurrentURL);
 					DirectionStates[5] = "ItemsPresent";
 				} catch (Exception e) {
@@ -448,7 +467,7 @@ public class CogEngine extends Applet implements ActionListener {
 					// We first want to output any Environmental Item Graphics
     			if (ItemArray[TempInt].Environment_GraphicURL != null) {
 					try {
-						CurrentURL = new URL ( getCodeBase() + ItemArray[TempInt].Environment_GraphicURL );
+						CurrentURL = new URL ( getCodeBase() + GameInfo.Image_Directory + ItemArray[TempInt].Environment_GraphicURL );
 						GraphicArea.addImageLayer(this, CurrentURL,
 							ItemArray[TempInt].Environment_Graphic_Xpos,
 							ItemArray[TempInt].Environment_Graphic_Ypos);
@@ -467,27 +486,27 @@ public class CogEngine extends Applet implements ActionListener {
 			if ( (GameInfo.CenterButtonIndicatesItems)
 			&&  (DirectionStates[5].equals("ItemsPresent")) )
 				try {
-					CurrentURL = new URL ( getCodeBase() + DirectionInfoArray[5].CG_AvailableURL );
+					CurrentURL = new URL ( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[5].CG_AvailableURL );
 					C.setImage(this,CurrentURL);
 					DirectionStates[5] = ("ItemsNotPresent");
 				} catch (Exception e) {
 					System.err.println("Error setting new image for Center Compass Button!");
 				}
 		// End of Item display sequence
-	
+
 	} // DisplayRoom
 
-	
+
 	public void CommandLineParser(String Command) {
 
 		// This method gets called after an ActionEvent occurs, which is whenever a carriage return
 		// is entered into the command line and whenever a button is depressed. It takes the first
 		// word of the command line, assumes it to be the verb, and stores the rest into the Remainder
 		// variable. A Legal Command line is of the form: <Verb> [ <Object> [ <Preposition> ] [ <Object> ] ]
-		// A <Preposition> can be any word or phrase, and may include spaces. The <Object>'s may 
+		// A <Preposition> can be any word or phrase, and may include spaces. The <Object>'s may
 		// be entered as either the literal object's name, or it's alias (as long as the alias is unique
 		// as far the the current room and player's inventory are concerned).
-		// This method's code may be fairly messy, but it works. 
+		// This method's code may be fairly messy, but it works.
 
 		StringTokenizer CommandLineToken;
 		int Direction = 0;
@@ -503,7 +522,7 @@ public class CogEngine extends Applet implements ActionListener {
 		if ( Command.endsWith(".") )
 			Command = Command.substring( 0, Command.length() - 1 ); // removes trailing period, if one exists
 		CommandLineToken = new StringTokenizer ( Command, " " );
-		if ( CommandLineToken.hasMoreTokens() ) 
+		if ( CommandLineToken.hasMoreTokens() )
 			Verb = CommandLineToken.nextToken();
 		Verb = Verb.toLowerCase(); // very cool way of reducing number of conditionals
 
@@ -551,8 +570,8 @@ public class CogEngine extends Applet implements ActionListener {
 		// Debug Mode Verbs
 		// ----------------
 
-		if ( (GameInfo.DebugMode) 
-		&& ( (Verb.equals("warp")) || (Verb.equals("xyzzy")) ) 
+		if ( (GameInfo.DebugMode)
+		&& ( (Verb.equals("warp")) || (Verb.equals("xyzzy")) )
 		&& !(Remainder.equals("")) ) {
 			CommandExecuted = true;
 			RoomWarp( Remainder );
@@ -566,7 +585,7 @@ public class CogEngine extends Applet implements ActionListener {
 		} // Execute
 
 		// ------------------
-		// User Defined Verbs	
+		// User Defined Verbs
 		// ------------------
 
 		if ( !(CommandExecuted) )
@@ -605,9 +624,9 @@ public class CogEngine extends Applet implements ActionListener {
 								OutputArea.append("\n\nYou can't do that.");
 								CommandExecuted = true;
 						}
-					}					
+					}
 				}
-		
+
 		if (GameInfo.ShowCommandLine)
 			CommandLine.setText(""); // This clears the command line after a permissable command has been entered
 
@@ -619,12 +638,12 @@ public class CogEngine extends Applet implements ActionListener {
 		}
 
 		if ( !(CommandExecuted) )
-			OutputArea.append("\n\nI don't understand you command.");
+			OutputArea.append("\n\nI don't understand your command.");
 
 		LastCommand = Command;
 
 	} // CommandLineParser
-		
+
 
 	public void DisplayVerbs() {
 
@@ -719,7 +738,7 @@ public class CogEngine extends Applet implements ActionListener {
 							OutputArea.append("\n\nYour path ");
 							OutputArea.append( DirectionInfoArray[Direction].Name.toLowerCase() );
 							OutputArea.append(" because your path is blocked by a ");
-						} 
+						}
 						OutputArea.append( ObstructionArray[TempInt].Name.toLowerCase() );
 					}  // then (3)
 				} // while
@@ -732,13 +751,13 @@ public class CogEngine extends Applet implements ActionListener {
 				OutputArea.append("You move ");
 				OutputArea.append( DirectionInfoArray[Direction].Name );
 				OutputArea.append(".");
-				if ( ( Player.CurrentRoom.DirectionArray[Direction].FirstTransitionText != null ) 
+				if ( ( Player.CurrentRoom.DirectionArray[Direction].FirstTransitionText != null )
 				&& ( !(Player.CurrentRoom.DirectionArray[Direction].HasMovedThisWay) ) )
 						OutputArea.append(" " + Player.CurrentRoom.DirectionArray[Direction].FirstTransitionText);
 				if ( Player.CurrentRoom.DirectionArray[Direction].TransitionText != null )
 					OutputArea.append(" " + Player.CurrentRoom.DirectionArray[Direction].TransitionText);
 				Player.CurrentRoom.DirectionArray[Direction].HasMovedThisWay = true;
-				
+
 				// Set Player.CurrentRoom to the new Room
 				Player.CurrentRoom = RoomArray[Player.CurrentRoom.DirectionArray[Direction].ToWhichRoom];
 
@@ -810,7 +829,7 @@ public class CogEngine extends Applet implements ActionListener {
 		boolean OkToPickUp = true;
 		StringTokenizer ItemToken;
 		boolean GetAll = false;
-		
+
 		if ( ( ItemName.equalsIgnoreCase("All") ) || ( ItemName.equalsIgnoreCase("Everything") ) ) {
 			GetAll = true;
 			if ( Player.CurrentRoom.Items == null )
@@ -835,14 +854,14 @@ public class CogEngine extends Applet implements ActionListener {
 		// and now begin to decide what happens next.
 
 		switch( ItemNumber ) {
-			case 0 : 
+			case 0 :
 				if ( !(GetAll) )
 					OutputArea.append("\n\nYou don't see anything like that here."); // we don't want to display this if we are getting all
 				break;
 			case -1 :
 				OutputArea.append("\n\nI'm not sure precisely what you are referring to. Please be more specific.");
 				break;
-			case -2 : 
+			case -2 :
 				OutputArea.append("\n\nThere's nothing to get in this room.");
 				break;
 			default :
@@ -850,7 +869,7 @@ public class CogEngine extends Applet implements ActionListener {
 				if ( EffectString != null )
 					// An Event exists for this Item
 					ExecuteEffect( EffectString );
-				else { 
+				else {
 					// No Event exists for this Item, so we execute the default Actions
 					if ( ItemArray[ItemNumber].Weight == -1 ) {
 						OutputArea.append("\n\nYou can't pick up the " + ItemArray[ItemNumber].Name + ".");
@@ -897,7 +916,7 @@ public class CogEngine extends Applet implements ActionListener {
 		int ItemNumber = 0;
 		String EffectString;
 		boolean DropAll = false;
-		
+
 		if ( ( ItemName.equalsIgnoreCase("All") ) || ( ItemName.equalsIgnoreCase("Everything") ) ) {
 			boolean HasDroppedAnything = false;
 			DropAll = true;
@@ -923,14 +942,14 @@ public class CogEngine extends Applet implements ActionListener {
 		// and now begin to decide what happens next.
 
 		switch( ItemNumber ) {
-			case 0 : 
+			case 0 :
 				if ( !(DropAll) )
 					OutputArea.append("\n\nYou don't anything like that here in your inventory."); // we don't want to display this if we are getting all
 				break;
 			case -1 :
 				OutputArea.append("\n\nI'm not sure precisely what you are referring to. Please be more specific.");
 				break;
-			case -2 : 
+			case -2 :
 				OutputArea.append("\n\nYou don't have anything in your inventory to drop!");
 				break;
 			default :
@@ -938,7 +957,7 @@ public class CogEngine extends Applet implements ActionListener {
 				if ( EffectString != null )
 					// An Event exists for this Item
 					ExecuteEffect( EffectString );
-				else { 
+				else {
 					// No Event exists for this Item, so we execute the default Actions
 					if (ItemArray[ItemNumber].Equipped) {
 						ItemArray[ItemNumber].Equipped = false;
@@ -957,7 +976,7 @@ public class CogEngine extends Applet implements ActionListener {
 
 
 	public void RoomWarp(String Word) {
-	
+
 		// This method, otherwise known as the "Xyzzy feature" allows the player to jump into
 		// any room in the game. CommandLineParser makes sure that Debug Mode is turned
 		// on in order for this feature to be used.
@@ -977,7 +996,7 @@ public class CogEngine extends Applet implements ActionListener {
 		// ExecuteEffect works as a recursive method that executes an event's effect field.
 		// The first effect found is executed, and if an "and" is found instead of a semicolon
 		// at the end of that effect (indicating that another effect is supposed to take place)
-		// the method recursively calls itself, feeding the new instance the remainder of the 
+		// the method recursively calls itself, feeding the new instance the remainder of the
 		// current event's effect string. Damn I'm good.
 
 		String Word;
@@ -988,7 +1007,7 @@ public class CogEngine extends Applet implements ActionListener {
 		int ItemNumber;
 		int ObstructionNumber;
 		int TempIndex;
-		
+
 		if (GameInfo.DebugMode)
 			System.err.println("Executing : \"" + Effect + "\"");
 
@@ -1227,10 +1246,10 @@ public class CogEngine extends Applet implements ActionListener {
 
 					if ( TempString.startsWith( "HasMovedThisWay" ) )
 						RoomArray[RoomNumber].DirectionArray[DirectionNumber].HasMovedThisWay =
-							( ( Word.endsWith( "(true)" ) ) || ( Word.endsWith( "(1)" ) ) ); 
+							( ( Word.endsWith( "(true)" ) ) || ( Word.endsWith( "(1)" ) ) );
 
 					CheckEmptyDirection( RoomNumber, DirectionNumber );
-		
+
 				} // DirectionObject
 
 				// Set Player.CurrentRoom to the new Room
@@ -1255,7 +1274,7 @@ public class CogEngine extends Applet implements ActionListener {
 					TempWord = ( Word.substring( Word.indexOf( "(" ) + 1, Word.indexOf( ")" ) ) );
 					ItemArray[ItemNumber].Bulk = Integer.parseInt( TempWord );
 				}
-										
+
 				if ( Word.startsWith( "TextDescription" ) ) {
 					TempToken = new StringTokenizer( Word, "[]" );
 					TempToken.nextToken(); // now points to everything before open bracket
@@ -1391,8 +1410,8 @@ public class CogEngine extends Applet implements ActionListener {
 				}
 
 			} // Obstruction
-		
-		} // Modifies 
+
+		} // Modifies
 
 		if ( Word.startsWith("TextMessage[") ) {
 			OutputArea.append("\n\n");
@@ -1403,10 +1422,10 @@ public class CogEngine extends Applet implements ActionListener {
 			else {
 				Word = Word.substring(12, Word.length() );
 				OutputArea.append( Word );
-				Word = EffectToken.nextToken().trim();					
+				Word = EffectToken.nextToken().trim();
 				while ( !( Word.endsWith("]") ) ) {
 					OutputArea.append(" " + Word);
-					Word = EffectToken.nextToken().trim();					
+					Word = EffectToken.nextToken().trim();
 				}
 				Word = Word.substring( 0, Word.length() - 1 );
 				OutputArea.append( " " + Word );
@@ -1416,7 +1435,7 @@ public class CogEngine extends Applet implements ActionListener {
 		if ( Word.startsWith("GraphicMessage[") ) {
 
 			try {
-			CurrentURL = new URL( getCodeBase() + Word.substring( 15, Word.length() - 2 ) ); // the 2 removes the comma
+				CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + Word.substring( 15, Word.length() - 2 ) ); // the 2 removes the comma
 			} catch (Exception BadURL) {
 				System.err.println("GraphicMessageURL is Malformed!\n");
 			}
@@ -1467,7 +1486,7 @@ public class CogEngine extends Applet implements ActionListener {
 				System.err.println( "I am checking the following: " + Requirements );
 			RequirementToken = new StringTokenizer( Requirements, " " );
 			RequirementToken.nextToken(); // now points to "(Requires"
-			Word = RequirementToken.nextToken().trim(); 
+			Word = RequirementToken.nextToken().trim();
 			if ( ( Word.equalsIgnoreCase( "(Not)" ) ) || ( Word.equals( "!" ) ) ) {
 				ContainsNot = true;
 				Word = RequirementToken.nextToken().trim();
@@ -1480,25 +1499,25 @@ public class CogEngine extends Applet implements ActionListener {
 				TempString = Word.substring( Word.lastIndexOf( "(" ) + 1, Word.length() - 2 );
 				if ( Word.startsWith( "PlayerPoints" ) )
 					AllGood = MakeComparison( TempWord, Player.Points, Integer.parseInt(TempString) );
-				if ( Word.startsWith( "PlayerExp" ) ) 
+				if ( Word.startsWith( "PlayerExp" ) )
 					AllGood = MakeComparison( TempWord, Player.Exp, Integer.parseInt(TempString) );
-				if ( Word.startsWith( "PlayerHP" ) ) 
+				if ( Word.startsWith( "PlayerHP" ) )
 					AllGood = MakeComparison( TempWord, Player.HP, Integer.parseInt(TempString) );
-				if ( Word.startsWith( "PlayerMP" ) ) 
+				if ( Word.startsWith( "PlayerMP" ) )
 					AllGood = MakeComparison( TempWord, Player.MP, Integer.parseInt(TempString) );
-				if ( Word.startsWith( "PlayerStr" ) ) 
+				if ( Word.startsWith( "PlayerStr" ) )
 					AllGood = MakeComparison( TempWord, Player.Str, Integer.parseInt(TempString) );
-				if ( Word.startsWith( "PlayerIQ" ) ) 
+				if ( Word.startsWith( "PlayerIQ" ) )
 					AllGood = MakeComparison( TempWord, Player.IQ, Integer.parseInt(TempString) );
-				if ( Word.startsWith( "PlayerDex" ) ) 
+				if ( Word.startsWith( "PlayerDex" ) )
 					AllGood = MakeComparison( TempWord, Player.Dex, Integer.parseInt(TempString) );
 				if ( Word.startsWith( "PlayerAgil" ) )
 					AllGood = MakeComparison( TempWord, Player.Agil, Integer.parseInt(TempString) );
-				if ( Word.startsWith( "PlayerCharisma" ) ) 
+				if ( Word.startsWith( "PlayerCharisma" ) )
 					AllGood = MakeComparison( TempWord, Player.Charisma, Integer.parseInt(TempString) );
-				if ( Word.startsWith( "PlayerArmorLevel" ) ) 
+				if ( Word.startsWith( "PlayerArmorLevel" ) )
 					AllGood = MakeComparison( TempWord, Player.Armor_Level, Integer.parseInt(TempString) );
-				if ( Word.startsWith( "PlayerCurrentWeight" ) ) 
+				if ( Word.startsWith( "PlayerCurrentWeight" ) )
 					AllGood = MakeComparison( TempWord, Player.Current_Weight, Integer.parseInt(TempString) );
 			} // Player
 
@@ -1524,7 +1543,7 @@ public class CogEngine extends Applet implements ActionListener {
 				if ( Word.regionMatches( TempIndex + 1, "ExistsInRoom", 0, 12 ) ) {
 					TempString = Word.substring( Word.lastIndexOf( "(" ) + 1 , Word.length() - 2 ); // TempString now points to the Room Number
 					AllGood = RoomContainsItem( Integer.parseInt( TempString ), TempInt );
-				} 
+				}
 
 				if ( Word.regionMatches( TempIndex + 1, "Weight", 0, 6 ) ) {
 					// This one was pretty tricky
@@ -1547,7 +1566,7 @@ public class CogEngine extends Applet implements ActionListener {
 			} //  Item
 
 			if ( Word.startsWith( "Obstruction" ) ) {
-				TempIndex = Word.indexOf( ")" ); 
+				TempIndex = Word.indexOf( ")" );
 				TempInt = Integer.parseInt( Word.substring( 12, TempIndex ) ); // this is the Obstrucion to which we are referring
 
 				if ( Word.endsWith( "IsVisible" ) )
@@ -1561,7 +1580,7 @@ public class CogEngine extends Applet implements ActionListener {
 					StringTokenizer ObstructionToken;
 
 					TempToken = new StringTokenizer( Word, "()" );
-					TempToken.nextToken(); // now points to "Obstruction"				
+					TempToken.nextToken(); // now points to "Obstruction"
 					TempToken.nextToken(); // now points to <Ref> (1)
 					TempToken.nextToken(); // now points to "ExistsInRoom"
 					TempWord = TempToken.nextToken().trim(); // Room<Ref> (2)
@@ -1579,14 +1598,14 @@ public class CogEngine extends Applet implements ActionListener {
 										AllGood = true;
 								} // while
 							} // then
-					} 
+					}
 					else
 						// We are referring to any direction
 						AllGood = RoomContainsObstruction( RoomNumber, TempInt);
 
 				} // ExistsInRoom
 			} // Obstruction
-			
+
 			if ( RequirementToken.hasMoreTokens() ) {
 				Word = RequirementToken.nextToken().trim();
 				if ( Word.equalsIgnoreCase( "AND" ) ) {
@@ -1598,7 +1617,7 @@ public class CogEngine extends Applet implements ActionListener {
 						AllGood = !(AllGood);
 					AllGood = ( AllGood && RequirementsMet( Remainder ) );
 				} // AND
-				else 
+				else
 					if ( Word.equalsIgnoreCase( "OR" ) ) {
 						while ( RequirementToken.hasMoreTokens() ) {
 							Word = RequirementToken.nextToken().trim();
@@ -1733,7 +1752,7 @@ public class CogEngine extends Applet implements ActionListener {
 				Obstruction = ObstructionToken.nextToken().trim();
 				if ( Integer.parseInt(Obstruction) != ObstructionNumber ) {
 					if (WrittenSomething)
-						NewObstructionList += ", "; 
+						NewObstructionList += ", ";
 					NewObstructionList += Integer.parseInt(Obstruction);
 					WrittenSomething = true;
 				} // then (2)
@@ -1794,7 +1813,7 @@ public class CogEngine extends Applet implements ActionListener {
 
 	boolean FoundDirection = false;
 	int DirectionNumber = 0;
-          
+
 	for ( int dirCounter = 1; dirCounter <= DirectionInfoArray.length - 1; dirCounter++ )
 		if ( ( DirectionName.equalsIgnoreCase( DirectionInfoArray[dirCounter].Name ) )
 		|| ( DirectionName.equalsIgnoreCase( DirectionInfoArray[dirCounter].Abbreviation ) ) )
@@ -1889,7 +1908,7 @@ public class CogEngine extends Applet implements ActionListener {
 				ParsedObjects = "0";
 
 		if (GameInfo.DebugMode)
-			System.err.println("ParsedObjects = \"" + ParsedObjects + "\"");		
+			System.err.println("ParsedObjects = \"" + ParsedObjects + "\"");
 
 		return ( ParsedObjects );
 
@@ -1952,8 +1971,8 @@ public class CogEngine extends Applet implements ActionListener {
 						ObjectString += "[" + Scratch.length() + "]"; // we need this to see how much of the
 						                                              // command line we can skip over
 					}
-				
-				
+
+
 				// At this point, we should know if an obstruction name matching the current Scratch string has been found.
 				// If nothing matching has been found, we move on to searching for a matching item name.
 
@@ -1962,23 +1981,23 @@ public class CogEngine extends Applet implements ActionListener {
 				if ( ObjectNumber == 0 )
 					ObjectNumber = ResolveItemName( Scratch, "CurrentRoom" );
 				if ( ObjectNumber == 0 )
-					ObjectNumber = FindItemAlias( Scratch, "Inventory" );		
+					ObjectNumber = FindItemAlias( Scratch, "Inventory" );
 				if ( ObjectNumber == 0 )
 					ObjectNumber = FindItemAlias( Scratch, "CurrentRoom" );
 
 				if ( ( !(ObjectFound) )
-				&& ( ObjectNumber > 0 ) 
+				&& ( ObjectNumber > 0 )
 				&& ( !( RoomContainsItem( Player.CurrentRoom.Number, ObjectNumber) ) )
 				&& ( !( Player.Items[ObjectNumber] ) ) )
 					ObjectNumber = 0;
-				else 
+				else
 					if ( ( ObjectNumber > 0 ) && ( !(ObjectFound) ) ) {
 						ObjectFound = true;
 						ObjectString = "Item(" + ObjectNumber + ")";
 						ObjectString += "[" + Scratch.length() + "]"; // we need this to see how much of the
 						                                              // command line we can skip over
 					}
-				
+
 
 				if ( ObjectNumber == -1 ) {
 					// If we've found more than one valid alias, we want to print out an error and stop parsing the phrase
@@ -1998,7 +2017,7 @@ public class CogEngine extends Applet implements ActionListener {
 	return(ObjectString);
 
 	} // ParseFirstObject
-	
+
 
 	public int ResolveItemName(String ItemName, String WhereToLook) {
 
@@ -2007,7 +2026,7 @@ public class CogEngine extends Applet implements ActionListener {
 
 		for( int ItemCounter = 1; ItemCounter <= ItemArray.length - 1; ItemCounter++ )
 			if ( ItemName.equalsIgnoreCase(ItemArray[ItemCounter].Name) ) {
-				
+
 				// We've found a matching name for the item
 				// Now we must check to see if the location is correct
 
@@ -2042,7 +2061,7 @@ public class CogEngine extends Applet implements ActionListener {
 						FoundItem = true;
 						ItemNumber = ItemCounter;
 					}
-				}				
+				}
 
 			} // if
 
@@ -2082,7 +2101,7 @@ public class CogEngine extends Applet implements ActionListener {
 						FoundObstruction = true;
 						ObstructionNumber = ObstructionCounter;
 					}
-				}				
+				}
 
 			} // if
 
@@ -2105,7 +2124,7 @@ public class CogEngine extends Applet implements ActionListener {
 
 		if (GameInfo.DebugMode)
 			System.err.println("Seaching " + WhereToLook + " for Item with Alias \"" + ItemName + "\"");
-	
+
 		for (int ItemCounter = 1; ItemCounter <= ItemArray.length - 1; ItemCounter++ )
 			if (ItemArray[ItemCounter].Aliases != null ) {
 				AliasToken = new StringTokenizer(ItemArray[ItemCounter].Aliases, ",");
@@ -2122,7 +2141,7 @@ public class CogEngine extends Applet implements ActionListener {
 								FoundItem = true;
 								ItemNumber = ItemCounter;
 							}
-							else 
+							else
 								if ( RoomContainsItem( Player.CurrentRoom.Number, ItemCounter ) ) {
 									// More than one items in the CurrentRoom have the same Alias
 									if (GameInfo.DebugMode)
@@ -2138,7 +2157,7 @@ public class CogEngine extends Applet implements ActionListener {
 								FoundItem = true;
 								ItemNumber = ItemCounter;
 							}
-							else 
+							else
 								if ( Player.Items[ItemCounter] ) {
 									// More than one item in the player's inventory have this Alias
 									if (GameInfo.DebugMode)
@@ -2160,9 +2179,9 @@ public class CogEngine extends Applet implements ActionListener {
 									System.err.println("More than one items in the ItemArray have this Alias!");
 								ItemNumber = -1;
 							}
-						// End ItemArray Search				
+						// End ItemArray Search
 					}
-				} // while 
+				} // while
 			} // if
 
 	return(ItemNumber);
@@ -2201,7 +2220,7 @@ public class CogEngine extends Applet implements ActionListener {
 								FoundObstruction = true;
 								ObstructionNumber = ObstructionCounter;
 							}
-							else 
+							else
 								if ( RoomContainsObstruction( Player.CurrentRoom.Number, ObstructionCounter ) ) {
 									// More than one obstructions in the CurrentRoom have the same Alias
 									if (GameInfo.DebugMode)
@@ -2221,10 +2240,10 @@ public class CogEngine extends Applet implements ActionListener {
 								// More than one obstructions in the ObstructionArray have this Alias
 								if (GameInfo.DebugMode)
 									System.err.println("More than one obstructions in the ItemArray have this Alias!");
-								ObstructionNumber = -1;	
+								ObstructionNumber = -1;
 							}
 					}
-				} // while 
+				} // while
 			} // if
 
 		return(ObstructionNumber);
@@ -2233,22 +2252,29 @@ public class CogEngine extends Applet implements ActionListener {
 
 
 	public String ResolveEvent( String Action, String Object, String Object2 ) {
-		
+
+		// This method searches through all of the possible event strings and picks which
+		// one we want to use. It is possible that we can always just assume that which ever event
+		// appears first in the cog script, that one will take presedence.
+
 		boolean EventFound = false;
 		String EffectString = null;
 
-		for( int VerbIndex = 1; VerbIndex <= VerbArray.length - 1; VerbIndex++ )
-			if( (VerbArray[VerbIndex] != null) && (VerbArray[VerbIndex].Name.equalsIgnoreCase( Action ) ) )
-				for( int EventIndex = 1; EventIndex <= VerbArray[VerbIndex].Events.length - 1; EventIndex++ ) {
+		// Verb aliases have already been converted into the correct verb
+
+ 		for( int VerbIndex = 1; VerbIndex <= VerbArray.length - 1; VerbIndex++ )
+ 			if( (VerbArray[VerbIndex] != null) && (VerbArray[VerbIndex].Name.equalsIgnoreCase( Action ) ) )
+ 				for( int EventIndex = 1; EventIndex <= VerbArray[VerbIndex].Events.length - 1; EventIndex++ )
+
 					if ( ( !( EventFound ) )
 					&& ( VerbArray[VerbIndex].Events[EventIndex] != null )
 
-					&& ( ( ( ( VerbArray[VerbIndex].Events[EventIndex].Object == null ) 
+					&& ( ( ( ( VerbArray[VerbIndex].Events[EventIndex].Object == null )
 						|| ( VerbArray[VerbIndex].Events[EventIndex].Object.equalsIgnoreCase( Object ) ) )
 					&& ( ( VerbArray[VerbIndex].Events[EventIndex].Object2 == null )
 						|| ( VerbArray[VerbIndex].Events[EventIndex].Object2.equalsIgnoreCase( Object2 ) ) ) )
 
-					|| ( ( ( VerbArray[VerbIndex].Events[EventIndex].Object2 == null ) 
+					|| ( ( ( VerbArray[VerbIndex].Events[EventIndex].Object2 == null )
 						|| ( VerbArray[VerbIndex].Events[EventIndex].Object2.equalsIgnoreCase( Object ) ) )
 					&& ( ( VerbArray[VerbIndex].Events[EventIndex].Object == null )
 						|| ( VerbArray[VerbIndex].Events[EventIndex].Object.equalsIgnoreCase( Object2 ) ) ) ) )
@@ -2257,7 +2283,7 @@ public class CogEngine extends Applet implements ActionListener {
 						EventFound = true;
 						EffectString = VerbArray[VerbIndex].Events[EventIndex].EffectString;
 					}
-				}
+
 
 		return(EffectString);
 
@@ -2278,7 +2304,7 @@ public class CogEngine extends Applet implements ActionListener {
 
 
 	public boolean MakeComparison( String Comparison, int val1, int val2 ) {
-		
+
 		boolean result = false;
 
 		if ( Comparison.equals( "==" ) )
@@ -2359,7 +2385,7 @@ public class CogEngine extends Applet implements ActionListener {
 		// Setup for Navigation Panel
 		// (inclues Compass Area)
 		if (GameInfo.ShowCompass) {
-			constraints.fill = GridBagConstraints.NONE;		
+			constraints.fill = GridBagConstraints.NONE;
 			constraints.weightx = 0.0;
 			constraints.weighty = 1.0;
 			addGB ( Control, Compass = new Panel(), 0, 1);
@@ -2375,7 +2401,7 @@ public class CogEngine extends Applet implements ActionListener {
 		constraints.weighty = 0.0;
 
 		try {
-		CurrentURL = new URL(getCodeBase() + GameInfo.ImageLoading_GraphicURL);
+			CurrentURL = new URL(getCodeBase() + GameInfo.Image_Directory + GameInfo.ImageLoading_GraphicURL);
 		} catch (Exception BadURL) {
 			System.err.println("Graphic URL \"");
 			System.err.println( GameInfo.ImageLoading_GraphicURL );
@@ -2442,7 +2468,7 @@ public class CogEngine extends Applet implements ActionListener {
 		*/
 
 		// Setup for the Compass
-		
+
 		if (GameInfo.ShowCompass) {
 			constraints.anchor = GridBagConstraints.CENTER;
 			constraints.fill = GridBagConstraints.BOTH;
@@ -2451,149 +2477,149 @@ public class CogEngine extends Applet implements ActionListener {
 
 			if (GameInfo.MenuButton_GraphicURL != null) {
 				try {
-					CurrentURL = new URL( getCodeBase() + GameInfo.MenuButton_GraphicURL );
+					CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + GameInfo.MenuButton_GraphicURL );
 				} catch (Exception e) { System.err.println(" Uhm... no."); };
 				addGB( Compass, CompassMenuGraphic = new GraphicButton( this, CurrentURL ), 0, 0);
 				CompassMenuGraphic.setActionCommand( "Help" );
 				CompassMenuGraphic.addActionListener( this );
-			} else {		
+			} else {
 				addGB( Compass, CompassMenuText = new Button( "Help" ), 0, 0);
 				CompassMenuText.addActionListener ( this );
 			}
-			
+
 			if (GameInfo.LoadAllCompassImages) {
 				// Loading all of the compass button graphics during game
 				// initialization will help to speed up gameplay later
 				MediaTracker tracker;
 				Image TempImage;
-				
+
 				if (GameInfo.DebugMode)
 					System.err.print("Downloading Compass Button Graphic Images...");
-				
+
 				for (int TempCounter = 1; TempCounter <= GameInfo.TotalDirections; TempCounter++) {
 					try {
-						CurrentURL = new URL( getCodeBase() + DirectionInfoArray[TempCounter].CG_AvailableURL );
+						CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[TempCounter].CG_AvailableURL );
 						TempImage = getImage(CurrentURL);
 						tracker = new MediaTracker(this);
 						tracker.addImage( TempImage, 0);
-						tracker.waitForID( 0 );		
+						tracker.waitForID( 0 );
 
-						CurrentURL = new URL( getCodeBase() + DirectionInfoArray[TempCounter].CG_UnavailableURL );
+						CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[TempCounter].CG_UnavailableURL );
 						TempImage = getImage(CurrentURL);
 						tracker = new MediaTracker(this);
 						tracker.addImage( TempImage, 0);
-						tracker.waitForID( 0 );		
-						
-						CurrentURL = new URL( getCodeBase() + DirectionInfoArray[TempCounter].CG_SpecialURL );
+						tracker.waitForID( 0 );
+
+						CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[TempCounter].CG_SpecialURL );
 						TempImage = getImage(CurrentURL);
 						tracker = new MediaTracker(this);
 						tracker.addImage( TempImage, 0);
-						tracker.waitForID( 0 );		
+						tracker.waitForID( 0 );
 					}
 					catch (Exception e) {
 						System.err.println("Error Downloading Compass Button Graphic!");
-						System.err.println("Exception was:\n" + e);		
-					}					
+						System.err.println("Exception was:\n" + e);
+					}
 				}
 				System.err.println("Done.");
 				TempImage = null;
 				tracker = null;
 			} // LoadAllCompassImages
 
-			
+
 			if (GameInfo.TotalDirections >= 3) {
 
 				// NorthWest
 				try {
-					CurrentURL = new URL( getCodeBase() + DirectionInfoArray[1].CG_AvailableURL );
+					CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[1].CG_AvailableURL );
 				} catch (Exception e) { System.err.println(" Uhm... no."); };
 				addGB( Compass, NW = new GraphicButton( this, CurrentURL ), 1, 0);
 				NW.setActionCommand( DirectionInfoArray[1].Name );
 				NW.addActionListener( this );
-   	
+
 				// North
 				try {
-					CurrentURL = new URL( getCodeBase() + DirectionInfoArray[2].CG_AvailableURL );
+					CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[2].CG_AvailableURL );
 				} catch (Exception e) { System.err.println(" Uhm... no."); };
 				addGB( Compass, N = new GraphicButton( this, CurrentURL ), 2, 0);
 				N.setActionCommand( DirectionInfoArray[2].Name );
 				N.addActionListener( this );
-   	
+
 				// NorthEast
 				try {
-					CurrentURL = new URL( getCodeBase() + DirectionInfoArray[3].CG_AvailableURL );
+					CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[3].CG_AvailableURL );
 				} catch (Exception e) { System.err.println(" Uhm... no."); };
 				addGB( Compass, NE = new GraphicButton( this, CurrentURL ), 3, 0);
 				NE.setActionCommand( DirectionInfoArray[3].Name );
 				NE.addActionListener( this );
-   	
+
 			}
 
 			if (GameInfo.TotalDirections >= 9) {
 
 				// West
 				try {
-					CurrentURL = new URL( getCodeBase() + DirectionInfoArray[4].CG_AvailableURL );
+					CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[4].CG_AvailableURL );
 				} catch (Exception e) { System.err.println(" Uhm... no."); };
 				addGB( Compass, W = new GraphicButton( this, CurrentURL ), 1, 1);
 				W.setActionCommand( DirectionInfoArray[4].Name );
 				W.addActionListener( this );
-   	
+
 				// Center
 				try {
-					CurrentURL = new URL( getCodeBase() + DirectionInfoArray[5].CG_AvailableURL );
+					CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[5].CG_AvailableURL );
 				} catch (Exception e) { System.err.println(" Uhm... no."); };
 				addGB( Compass, C = new GraphicButton( this, CurrentURL ), 2, 1);
 				C.setActionCommand( DirectionInfoArray[5].Name );
 				C.addActionListener( this );
-   	
+
 				// East
 				try {
-					CurrentURL = new URL( getCodeBase() + DirectionInfoArray[6].CG_AvailableURL );
+					CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[6].CG_AvailableURL );
 				} catch (Exception e) { System.err.println(" Uhm... no."); };
 				addGB( Compass, E = new GraphicButton( this, CurrentURL ), 3, 1);
 				E.setActionCommand( DirectionInfoArray[6].Name );
 				E.addActionListener( this );
-     	
+
 				// SouthWest
 				try {
-					CurrentURL = new URL( getCodeBase() + DirectionInfoArray[7].CG_AvailableURL );
+					CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[7].CG_AvailableURL );
 				} catch (Exception e) { System.err.println(" Uhm... no."); };
 				addGB( Compass, SW = new GraphicButton( this, CurrentURL ), 1, 2);
 				SW.setActionCommand( DirectionInfoArray[7].Name );
 				SW.addActionListener( this );
-      	
+
 				// South
 				try {
-					CurrentURL = new URL( getCodeBase() + DirectionInfoArray[8].CG_AvailableURL );
+					CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[8].CG_AvailableURL );
 				} catch (Exception e) { System.err.println(" Uhm... no."); };
 				addGB( Compass, S = new GraphicButton( this, CurrentURL ), 2, 2);
 				S.setActionCommand( DirectionInfoArray[8].Name );
 				S.addActionListener( this );
- 	
+
 				// SouthEast
 				try {
-					CurrentURL = new URL( getCodeBase() + DirectionInfoArray[9].CG_AvailableURL );
+					CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[9].CG_AvailableURL );
 				} catch (Exception e) { System.err.println(" Uhm... no."); };
 				addGB( Compass, SE = new GraphicButton( this, CurrentURL ), 3, 2);
 				SE.setActionCommand( DirectionInfoArray[9].Name );
 				SE.addActionListener( this );
- 	
+
 			}
 
 			if (GameInfo.TotalDirections >= 11) {
- 	
+
 				// Up
 				try {
-					CurrentURL = new URL( getCodeBase() + DirectionInfoArray[10].CG_AvailableURL );
+					CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[10].CG_AvailableURL );
 				} catch (Exception e) { System.err.println(" Uhm... no."); };
 				addGB( Compass, U = new GraphicButton( this, CurrentURL ), 0, 1);
 				U.setActionCommand( DirectionInfoArray[10].Name );
 				U.addActionListener( this );
- 	
+
 				// Down
 				try {
-					CurrentURL = new URL( getCodeBase() + DirectionInfoArray[11].CG_AvailableURL );
+					CurrentURL = new URL( getCodeBase() + GameInfo.Image_Directory + DirectionInfoArray[11].CG_AvailableURL );
 				} catch (Exception e) { System.err.println(" Uhm... no."); };
 					addGB( Compass, D = new GraphicButton( this, CurrentURL ), 0, 2);
 					D.setActionCommand( DirectionInfoArray[11].Name );
