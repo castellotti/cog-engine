@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.15
+# Last Update: 2002.06.19
 #
 #####################################################################
 # To Do List:
@@ -104,67 +104,15 @@ class CogEngine:
 		import string
 
 		# Display Room's Graphic
-		self.display_image(self.roomData[self.playerInformation.current_room].graphic_url, 0, 0)
+		self.display_image(self.roomData[self.playerInformation.current_room].graphic_url, "Background Image", 0, 0)
 
 
 		# Display Game Statistics
-		if (self.gameInformation.show_stats):
-			stats_output = "%s\n\n" % self.gameInformation.game_title
-			if (self.playerInformation.name != ""):
-				stats_output = "%sPlayer's Name: %s\n" % (stats_output, self.playerInformation.name)
-			if (self.playerInformation.email_address != ""):
-				stats_output = "%sPlayer's Email Address: %s\n" % (stats_output, self.playerInformation.email_address)
-			if (self.gameInformation.debug_mode):
-				stats_output = "%s\nCurrent Room Number: %s\n" % (stats_output, self.playerInformation.current_room)
-				stats_output = "%sCurrent Room Name: %s\n\n" % (stats_output, self.roomData[self.playerInformation.current_room].name)
-			if (self.playerInformation.points != -1):
-				stats_output = "%sPoints: %s\n" % (stats_output, self.playerInformation.points)
-			if (self.playerInformation.experience_level != -1):
-				stats_output = "%sExperience Level: %s\n" % (stats_output, self.playerInformation.experience_level)
-			if (self.playerInformation.experience != -1):
-				stats_output = "%sExperience: %s\n" % (stats_output, self.playerInformation.experience)
-			if (self.playerInformation.hp != -1):
-				stats_output = "%sHealth Points (HP): %s\n" % (stats_output, self.playerInformation.hp)
-			if (self.playerInformation.mp != -1):
-				stats_output = "%sMagic Points (MP): %s\n" % (stats_output, self.playerInformation.mp)
-			if (self.playerInformation.strength != -1):
-				stats_output = "%sStrength: %s\n" % (stats_output, self.playerInformation.strength)
-			if (self.playerInformation.intelligence != -1):
-				stats_output = "%sIntelligence: %s\n" % (stats_output, self.playerInformation.intelligence)
-			if (self.playerInformation.dexterity != -1):
-				stats_output = "%sDexterity: %s\n" % (stats_output, self.playerInformation.dexterity)
-			if (self.playerInformation.agility != -1):
-				stats_output = "%sAgility: %s\n" % (stats_output, self.playerInformation.agility)
-			if (self.playerInformation.charisma != -1):
-				stats_output = "%sCharisma: %s\n" % (stats_output, self.playerInformation.charisma)
-			if (self.playerInformation.armor_level != -1):
-				stats_output = "%sArmor Level: %s\n" % (stats_output, self.playerInformation.armor_level)
-			if (self.playerInformation.current_weight != -1):
-				stats_output = "%sCurrent Weight: %s\n" % (stats_output, self.playerInformation.current_weight)
-			if (self.playerInformation.max_weight != -1):
-				stats_output = "%sMaximum Weight: %s\n" % (stats_output, self.playerInformation.max_weight)
-			if (self.playerInformation.current_bulk != -1):
-				stats_output = "%sCurrent Bulk: %s\n" % (stats_output, self.playerInformation.current_bulk)
-			if (self.playerInformation.max_bulk != -1):
-				stats_output = "%sMaximum Bulk: %s\n" % (stats_output, self.playerInformation.max_bulk)
-
-			self.set_statistics_text(stats_output)
-
+		self.display_game_statistics()
 
 		# Display Player's Inventory
-		if (self.gameInformation.show_inventory):
-			inventory_output = "Inventory:\n\n"
-
-			for each in self.playerInformation.items:
-
-					if (self.itemData[each].equipped):
-						# Item is equipped, so we want to display "(Equipped)" by its name in the inventory window
-						inventory_output = "%s%s (Equipped)\n" % (inventory_output, self.itemData[each].name)
-					else:
-						# Item is not equipped
-						inventory_output = "%s%s\n" % (inventory_output, self.itemData[each].name)
-
-			self.set_inventory_text(inventory_output)
+		self.display_player_inventory()
+		self.display_inventory_icons()
 
 
 		# Display Room Description
@@ -208,7 +156,7 @@ class CogEngine:
 				# Display Item Environmental Graphics
 				for current_obstruction in obstructions:
 					if (self.obstructionData[current_obstruction].environment_graphic_url != ""):
-						self.display_image(self.obstructionData[current_obstruction].environment_graphic_url, self.obstructionData[current_obstruction].environment_graphic_Xpos, self.obstructionData[current_obstruction].environment_graphic_Ypos)
+						self.display_image(self.obstructionData[current_obstruction].environment_graphic_url, self.obstructionData[current_obstruction].name, self.obstructionData[current_obstruction].environment_graphic_Xpos, self.obstructionData[current_obstruction].environment_graphic_Ypos, "Obstruction")
 
 				obstruction_output = "%s prevents you from moving %s." % (obstruction_output, self.directionData[ direction ].name)
 				self.output_text("\n" + obstruction_output, speak_text)
@@ -239,13 +187,80 @@ class CogEngine:
 			# Display Item Environmental Graphics
 			for current_item in items:
 				if (self.itemData[current_item].environment_graphic_url != ""):
-					self.display_image(self.itemData[current_item].environment_graphic_url, self.itemData[current_item].environment_graphic_Xpos, self.itemData[current_item].environment_graphic_Ypos)
+					self.display_image(self.itemData[current_item].environment_graphic_url, self.itemData[current_item].name, self.itemData[current_item].environment_graphic_Xpos, self.itemData[current_item].environment_graphic_Ypos, "Item")
 
 			item_output = "%s." % item_output
 			self.output_text("\n" + item_output, speak_text)
 
-		self.display_inventory_icons()
+
 		self.display_current_room_object_icons(room)
+
+
+	#####################################################################
+
+	def display_game_statistics(self):
+	
+		if (self.gameInformation.show_stats):
+			stats_output = "%s\n\n" % self.gameInformation.game_title
+			if (self.playerInformation.name != ""):
+				stats_output = "%sPlayer's Name: %s\n" % (stats_output, self.playerInformation.name)
+			if (self.playerInformation.email_address != ""):
+				stats_output = "%sPlayer's Email Address: %s\n" % (stats_output, self.playerInformation.email_address)
+			if (self.gameInformation.debug_mode):
+				stats_output = "%s\nCurrent Room Number: %s\n" % (stats_output, self.playerInformation.current_room)
+				stats_output = "%sCurrent Room Name: %s\n\n" % (stats_output, self.roomData[self.playerInformation.current_room].name)
+			if (self.playerInformation.points != -1):
+				stats_output = "%sPoints: %s\n" % (stats_output, self.playerInformation.points)
+			if (self.playerInformation.experience_level != -1):
+				stats_output = "%sExperience Level: %s\n" % (stats_output, self.playerInformation.experience_level)
+			if (self.playerInformation.experience != -1):
+				stats_output = "%sExperience: %s\n" % (stats_output, self.playerInformation.experience)
+			if (self.playerInformation.hp != -1):
+				stats_output = "%sHealth Points (HP): %s\n" % (stats_output, self.playerInformation.hp)
+			if (self.playerInformation.mp != -1):
+				stats_output = "%sMagic Points (MP): %s\n" % (stats_output, self.playerInformation.mp)
+			if (self.playerInformation.strength != -1):
+				stats_output = "%sStrength: %s\n" % (stats_output, self.playerInformation.strength)
+			if (self.playerInformation.intelligence != -1):
+				stats_output = "%sIntelligence: %s\n" % (stats_output, self.playerInformation.intelligence)
+			if (self.playerInformation.dexterity != -1):
+				stats_output = "%sDexterity: %s\n" % (stats_output, self.playerInformation.dexterity)
+			if (self.playerInformation.agility != -1):
+				stats_output = "%sAgility: %s\n" % (stats_output, self.playerInformation.agility)
+			if (self.playerInformation.charisma != -1):
+				stats_output = "%sCharisma: %s\n" % (stats_output, self.playerInformation.charisma)
+			if (self.playerInformation.armor_level != -1):
+				stats_output = "%sArmor Level: %s\n" % (stats_output, self.playerInformation.armor_level)
+			if (self.playerInformation.current_weight != -1):
+				stats_output = "%sCurrent Weight: %s\n" % (stats_output, self.playerInformation.current_weight)
+			if (self.playerInformation.max_weight != -1):
+				stats_output = "%sMaximum Weight: %s\n" % (stats_output, self.playerInformation.max_weight)
+			if (self.playerInformation.current_bulk != -1):
+				stats_output = "%sCurrent Bulk: %s\n" % (stats_output, self.playerInformation.current_bulk)
+			if (self.playerInformation.max_bulk != -1):
+				stats_output = "%sMaximum Bulk: %s\n" % (stats_output, self.playerInformation.max_bulk)
+
+			self.set_statistics_text(stats_output)
+                       
+
+	#####################################################################
+
+	def display_player_inventory(self):
+
+		if (self.gameInformation.show_inventory):
+
+			inventory_output = "Inventory:\n\n"
+
+			for each in self.playerInformation.items:
+
+					if (self.itemData[each].equipped):
+						# Item is equipped, so we want to display "(Equipped)" by its name in the inventory window
+						inventory_output = "%s%s (Equipped)\n" % (inventory_output, self.itemData[each].name)
+					else:
+						# Item is not equipped
+						inventory_output = "%s%s\n" % (inventory_output, self.itemData[each].name)
+
+			self.set_inventory_text(inventory_output)
 
 
 	#####################################################################
@@ -291,6 +306,7 @@ class CogEngine:
 		if ((verb == "quit") or (verb == "exit")):
 			#self.widget.play_togglebutton.set_active(0)
 			self.exit_cog_engine()
+			self.exit_to_system()
 
 		# Check to see if the command is to move in a particular direction
 		direction = self.resolve_direction_name(verb)
@@ -583,8 +599,9 @@ class CogEngine:
 					del(effect_word_list[0])
 
 				if (word == "Inventory"):
-					if ((self.gameInformation.debug_mode) and (item_number in self.playerInformation.items)):
-						print "Warning! Player already has Item #%i in their inventory!" % item_number
+					if (item_number in self.playerInformation.items):
+						if (self.gameInformation.debug_mode):
+							print "Warning! Player already has Item #%i in their inventory!" % item_number
 					else:
 						self.playerInformation.items.append(item_number)
 				if (word == "CurrentRoom"):
@@ -635,8 +652,9 @@ class CogEngine:
 					del(effect_word_list[0])
 
 				if (word == "Inventory"):
-					if ((self.gameInformation.debug_mode) and (item_number not in self.playerInformation.items)):
-						print "Warning! Player did not have Item #%i in their inventory!" % item_number
+					if (item_number not in self.playerInformation.items):
+						if (self.gameInformation.debug_mode):
+							print "Warning! Player did not have Item #%i in their inventory!" % item_number
 					else:
 						index = self.playerInformation.items.index(item_number)
 						del(self.playerInformation.items[ index ])
@@ -1034,7 +1052,7 @@ class CogEngine:
 			word = string.join(string.split(word, '[')[1:], '[') # Remove "TextMessage[" from word
 
 			self.output_text("\n\n")
-			
+
 			current_textmessage = ""
 
 			while (not word[-1] == "]"):
@@ -1059,7 +1077,24 @@ class CogEngine:
 
 			y = string.atoi(word[:-1])
 
-			self.display_image(image_file, x, y)
+			self.display_image(image_file, "GraphicMessage Image", x, y)
+
+         
+		if (word[0:13] == "PlaySoundFile"):
+
+			word = string.join(string.split(word, '[')[1:], '[') # Remove "PlaySoundFile[" from word
+
+			self.output_text("\n\n")
+
+			current_soundfilename = ""
+
+			while (not word[-1] == "]"):
+				current_soundfilename = current_soundfilename + word + " "
+				word = effect_word_list[0]
+				del(effect_word_list[0])
+
+			current_soundfilename = current_soundfilename + word[:-1]
+			self.play_sound_file(current_soundfilename)
 
 
 		# The following sequence makes to the recursive call to execute_effect if there
@@ -1219,8 +1254,9 @@ class CogEngine:
 					ok_to_pick_up = 0
 
 				if ( ok_to_pick_up):
-					if ( (self.gameInformation.debug_mode) and ( item_number in self.playerInformation.items ) ):
-						print "Warning! Player's Inventory already includes Item #%i (%s)!" % (item_number, self.itemData[item_number].name)
+					if (item_number in self.playerInformation.items):
+						if (self.gameInformation.debug_mode):
+							print "Warning! Player's Inventory already includes Item #%i (%s)!" % (item_number, self.itemData[item_number].name)
 					self.output_text("\n\nYou pick up the %s." % self.itemData[item_number].name)
 
 					self.remove_item_from_room(self.playerInformation.current_room, item_number)
@@ -1393,8 +1429,9 @@ class CogEngine:
 					(self.room_contains_item( self.playerInformation.current_room, each) ) ):
 	#				if (self.gameInformation.debug_mode):
 	#					print "Item \"" + self.itemData[each].name + "\" found."
-					if ( (self.gameInformation.debug_mode) and (item_found) ):
-						print "Item #%i and Item #%i have duplicate names!" % (each, item_number)
+					if (item_found):
+						if (self.gameInformation.debug_mode):
+							print "Item #%i and Item #%i have duplicate names!" % (each, item_number)
 					else:
 						item_found = 1
 						item_number = each
@@ -1404,8 +1441,9 @@ class CogEngine:
 					(each in self.playerInformation.items) ):
 					if (self.gameInformation.debug_mode):
 						print "Item \"" + self.itemData[each].name + "\" found."
-					if ( (self.gameInformation.debug_mode) and (item_found) ):
-						print "Item #%i and Item #%i have duplicate names!" % (each, item_number)
+					if (item_found):
+						if (self.gameInformation.debug_mode):
+							print "Item #%i and Item #%i have duplicate names!" % (each, item_number)
 					else:
 						item_found = 1
 						item_number = each
@@ -1439,8 +1477,9 @@ class CogEngine:
 				if ((location == "CurrentRoom") and (self.room_contains_obstruction(self.playerInformation.current_room, each) ) ):
 					if (self.gameInformation.debug_mode):
 						print "Obstruction \"" + self.obstructionData[each].name + "\" found."
-					if ( (self.gameInformation.debug_mode) and (found_obstruction) ):
-						print "Obstruction #%i and Obstruction #%i have duplicate names!" % (obstruction_number, each)
+					if (found_obstruction):
+						if (self.gameInformation.debug_mode):
+							print "Obstruction #%i and Obstruction #%i have duplicate names!" % (obstruction_number, each)
 					else:
 						found_obstruction = 1
 						obstruction_number = each
@@ -1577,8 +1616,9 @@ class CogEngine:
 		if (type(self.roomData[room_number].items) == type(None)):
 			self.roomData[room_number].items = "%i" % item_number
 		else:
-			if ( (self.gameInformation.debug_mode) and (self.room_contains_item(room_number, item_number)) ):
-				print "Warning! Room #%i already includes Item #%i!" % (room_number, item_number)
+			if (self.room_contains_item(room_number, item_number)):
+				if (self.gameInformation.debug_mode):
+					print "Warning! Room #%i already includes Item #%i!" % (room_number, item_number)
 			else:
 				self.roomData[room_number].items = "%s, %i" % ( self.roomData[room_number].items, item_number )
 
@@ -1595,8 +1635,9 @@ class CogEngine:
 		if (direction_number not in self.roomData[room_number].direction.keys()):
 			self.roomData[room_number].direction[direction_number] = self.DirectionObject()
 
-		if ((self.gameInformation.debug_mode) and (self.room_direction_contains_obstruction(room_number, direction_number, obstruction_number))):
-			print "Warning! Room #%i already contains Obstruction #%i in Direction #%i!" % (room_number, obstruction_number, direction_number)
+		if (self.room_direction_contains_obstruction(room_number, direction_number, obstruction_number)):
+			if (self.gameInformation.debug_mode):
+				print "Warning! Room #%i already contains Obstruction #%i in Direction #%i!" % (room_number, obstruction_number, direction_number)
 		else:
 			if (type(self.roomData[room_number].direction[direction_number].obstructions) == type(None)):
 				# If there's no obstruction in the current room's direction, we will add the new obstruction's number
@@ -2061,7 +2102,7 @@ class CogEngine:
 
 				if ((type(self.itemData[item_number].closeup_graphic_url) != type(None)) and
 				(self.itemData[item_number].closeup_graphic_url != "")):
-					self.display_image(self.itemData[item_number].closeup_graphic_url, 0, 0)
+					self.display_image(self.itemData[item_number].closeup_graphic_url, "Background Image", 0, 0)
 
 			if (resolved_object[0] == "Obstruction"):
 				obstruction_number = resolved_object[1]
@@ -2074,7 +2115,7 @@ class CogEngine:
 				if ( (type(self.obstructionData[obstruction_number].closeup_graphic_url) != type(None)) and
 				(self.obstructionData[obstruction_number].closeup_graphic_url != "") and
 				(self.obstructionData[obstruction_number].visible) ):
-					self.display_image(self.obstructionData[obstruction_number].closeup_graphic_url, 0, 0)
+					self.display_image(self.obstructionData[obstruction_number].closeup_graphic_url, "Background Image", 0, 0)
 
 		else:
 			self.output_text("\n\nYou don't see anything like that here.")
@@ -2130,15 +2171,17 @@ class CogEngine:
 		# originally loaded. It is useful whenever a game is reset, or
 		# when testing out games with the Cog Development Application
 
-		import copy
+		if ('backup_gameInformation' in dir(self)):
 
-		self.gameInformation = copy.deepcopy(self.backup_gameInformation)
-		self.playerInformation = copy.deepcopy(self.backup_playerInformation)
-		self.directionData = copy.deepcopy(self.backup_directionData)
-		self.roomData = copy.deepcopy(self.backup_roomData)
-		self.itemData = copy.deepcopy(self.backup_itemData)
-		self.obstructionData = copy.deepcopy(self.backup_obstructionData)
-		self.verbData = copy.deepcopy(self.backup_verbData)
+			import copy
+
+			self.gameInformation = copy.deepcopy(self.backup_gameInformation)
+			self.playerInformation = copy.deepcopy(self.backup_playerInformation)
+			self.directionData = copy.deepcopy(self.backup_directionData)
+			self.roomData = copy.deepcopy(self.backup_roomData)
+			self.itemData = copy.deepcopy(self.backup_itemData)
+			self.obstructionData = copy.deepcopy(self.backup_obstructionData)
+			self.verbData = copy.deepcopy(self.backup_verbData)
 
 
 	#####################################################################

@@ -1,24 +1,22 @@
 #!/usr/bin/env python
 #
-# CogEngine Data Upgrader
+# CogEngine Data Upgrader (1.1.3 to 1.1.4)
 #
-# Copyright Steven M. Castellotti (2001)
+# Copyright Steven M. Castellotti (2001, 2002)
 # The author can be reached at: SteveC@innocent.com
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Version x.x
-# Last Update: 2001.09.22
+# Last Update: 2002.06.19
 #
 # Calling Convention:
-# ./export_cog_data.py <CogDevApp 0.82 file> <CogDevApp 0.90 file>
+# ./upgrade_cog_data_1.1.3_to_1.1.4.py <CogDevApp 1.1.3 file> <CogDevApp 1.1.4 file>
 #
 #
 #####################################################################
 
-import sys
+import sys, pickle
 from CogObjects import *
-
 
 #####################################################################
 # Global Variables
@@ -27,28 +25,15 @@ from CogObjects import *
 input_filename = sys.argv[-2]
 output_filename = sys.argv[-1]
 
-
 #####################################################################
 # Functions
 #####################################################################
 
 def load_python_data(filename):
-	try:
-		import cPickle
-		pickle = cPickle
-	except:
-		try:
-			import pickle
-		except:
-			add_cPython_modules()
-			try:
-				import cPickle
-				pickle = cPickle
-			except:
-				import pickle
 
 	print "Importing Python Data File...",
 	file = open(filename, 'r')
+	file_format_version_number = pickle.load(file)
 	gameInformation = pickle.load(file)
 	playerInformation = pickle.load(file)
 	directionData = pickle.load(file)
@@ -59,34 +44,23 @@ def load_python_data(filename):
 	file.close()
 	print "done"
 
-	return(gameInformation, playerInformation, \
+	return(file_format_version_number, \
+	       gameInformation, playerInformation, \
 	       directionData, roomData, \
 	       itemData, obstructionData, \
 	       verbData)
 
-
 #####################################################################
 
 def pickle_python_data_file(filename, \
-	gameInformation, playerInformation, \
-	directionData, roomData, \
-	itemData, obstructionData, verbData):
-	try:
-		import cPickle
-		pickle = cPickle
-	except:
-		try:
-			import pickle
-		except:
-			add_cPython_modules()
-			try:
-				import cPickle
-				pickle = cPickle
-			except:
-				import pickle
+                            file_format_version_number, \
+                            gameInformation, playerInformation, \
+                            directionData, roomData, \
+									 itemData, obstructionData, verbData):
 
 	print "Writing Data File...",
 	file = open(filename, 'w')
+	pickle.dump(file_format_version_number, file)
 	pickle.dump(gameInformation, file)
 	pickle.dump(playerInformation, file)
 	pickle.dump(directionData, file)
@@ -104,16 +78,29 @@ def pickle_python_data_file(filename, \
 
 if __name__ == '__main__':
 
-	(gameInformation, playerInformation, \
+	(file_format_version_number, \
+	gameInformation, playerInformation, \
 	directionData, roomData, \
 	itemData, obstructionData, \
 	verbData) = load_python_data(input_filename)
 
-	gameInformation.image_directory = ""
+
+
+	file_format_version_number = "1.1.5"
+
+
+
+	gameInformation.audio_directory = ""
+	gameInformation.output_history = ""
+
+
 
 	pickle_python_data_file(output_filename, \
-	gameInformation, playerInformation, \
-	directionData, roomData, \
-	itemData, obstructionData, verbData)
+			file_format_version_number, \
+			gameInformation, playerInformation, \
+			directionData, roomData, \
+			itemData, obstructionData, verbData)
+
+
 
 # EOF

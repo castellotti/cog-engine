@@ -65,6 +65,7 @@ def insert_data_into_obstruction_editor(self, current_obstruction_number):
 		self.obstructionData[self.obstruction_displayed].icon_graphic_url = ""
 	self.obstructionEditor.icon_graphic_textentry.set_text(self.obstructionData[self.obstruction_displayed].icon_graphic_url)
 
+	self.obstructionEditor.description_textbox.set_word_wrap(self.gtk.TRUE)
 	self.obstructionEditor.description_textbox.delete_text(0, -1)
 	if (self.obstructionData[self.obstruction_displayed].description != None):
 		self.obstructionEditor.description_textbox.insert_defaults(self.obstructionData[self.obstruction_displayed].description)
@@ -94,6 +95,7 @@ def insert_data_into_obstruction_editor(self, current_obstruction_number):
 
 							location_display = "%sRoom[%i - %s]Direction[%s]\n" % (location_display, room, self.roomData[room].name, self.directionData[direction].name)
 
+	self.obstructionEditor.location_text.set_word_wrap(self.gtk.TRUE)
 	self.obstructionEditor.location_text.delete_text(0, -1)
 	self.obstructionEditor.location_text.insert_defaults(location_display)
 
@@ -105,6 +107,7 @@ def insert_data_into_obstruction_editor(self, current_obstruction_number):
 
 	self.obstructionEditor.notes_textbox.delete_text(0, -1)
 	if (self.obstructionData[self.obstruction_displayed].notes != None):
+		self.obstructionEditor.notes_textbox.set_word_wrap(self.gtk.TRUE)
 		self.obstructionEditor.notes_textbox.insert_defaults(self.obstructionData[self.obstruction_displayed].notes)
 
 #####################################################################

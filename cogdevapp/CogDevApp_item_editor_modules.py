@@ -65,30 +65,11 @@ def insert_data_into_item_editor(self, current_item_number):
 		self.itemData[self.item_displayed].equipped_graphic_url = ""
 	self.itemEditor.equipped_graphic_textentry.set_text(self.itemData[self.item_displayed].equipped_graphic_url)
 
+	self.itemEditor.description_textbox.set_word_wrap(self.gtk.TRUE)
 	self.itemEditor.description_textbox.delete_text(0, -1)
 	if (self.itemData[self.item_displayed].description != None):
 		self.itemEditor.description_textbox.insert_defaults(self.itemData[self.item_displayed].description)
 
-	# Setup Locations
-
-# 	# The follow code assumes that items can only exist in one location,
-# 	# which is currently not true, and therefore this code is disabled
-# 	location_list = []
-# 	location_list.append("Nowhere")
-# 	room_keys = self.roomData.keys()
-# 	room_keys.sort()
-# 	for each in room_keys:
-# 		location_list.append("Room %i - %s" % (each, self.roomData[each].name) )
-#
-# 	self.itemEditor.location_combo.set_popdown_strings(location_list)
-#
-# 	if (self.itemData[self.item_displayed].location != "") and \
-# 	   (self.itemData[self.item_displayed].location != "0"):
-# 		import string
-# 		current_item_location = string.atoi(self.itemData[self.item_displayed].location)
-# 		self.itemEditor.location_combo.entry.set_text("Room %i - %s" % (current_item_location, self.roomData[current_item_location].name) )
-#
-# 	self.itemEditor.location_textentry.set_text(self.itemData[self.item_displayed].location)
 
 	# Setup Location Display
 	location_display = ""
@@ -106,6 +87,7 @@ def insert_data_into_item_editor(self, current_item_number):
 	for each in room_list:
 		location_display = "%sRoom[%i - %s]\n" % (location_display, each, self.roomData[each].name)
 
+	self.itemEditor.location_text.set_word_wrap(self.gtk.TRUE)
 	self.itemEditor.location_text.delete_text(0, -1)
 	self.itemEditor.location_text.insert_defaults(location_display)
 
@@ -120,6 +102,7 @@ def insert_data_into_item_editor(self, current_item_number):
 
 	self.itemEditor.notes_textbox.delete_text(0, -1)
 	if (self.itemData[self.item_displayed].notes != None):
+		self.itemEditor.notes_textbox.set_word_wrap(self.gtk.TRUE)
 		self.itemEditor.notes_textbox.insert_defaults(self.itemData[self.item_displayed].notes)
 
 

@@ -6,11 +6,12 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.15
+# Last Update: 2002.06.21
 #
 ######################################################################
 
 from CogEngine_Modules import CogEngine
+import threading
 
 #####################################################################
 # Classes
@@ -203,7 +204,7 @@ class icon_panel:
 			for column in row:
 			
 				if (column.name == name):
-				
+
 					column.set_image(image_file_path)
 
 
@@ -301,11 +302,12 @@ class icon_panel:
 
 
 #####################################################################
+#####################################################################
 
 class graphic_panel:
 
 	def __init__(self, background_image_file_path, Xoffset, Yoffset, name, \
-					pygame_instance, screen_instance, debug_mode):
+					 pygame_instance, screen_instance, debug_mode):
 
 		self.background_image_file_path = background_image_file_path
 		self.image_file_path = background_image_file_path
@@ -371,6 +373,113 @@ class graphic_panel:
 
 
 #####################################################################
+#####################################################################
+
+class layered_graphic_panel:
+
+	def __init__(self, Xoffset, Yoffset, \
+					 pygame_instance, screen_instance, debug_mode):
+					 
+		self.Xoffset = Xoffset
+		self.Yoffset = Yoffset
+		
+		self.pygame = pygame_instance
+		self.screen = screen_instance
+		self.debug_mode = debug_mode
+		
+		self.rect = None # This variable will store the pygame rect information for the panel
+
+		self.image_layer_list = []
+
+
+	#####################################################################
+
+	def add_image_layer(self, image_file_path, name, Xpos, Ypos, object_type):
+
+		# This methond gets called by the Cog Engine whenever a room or object
+		# is displayed.
+
+		if (image_file_path != None):
+
+			try:
+
+				current_image = {}
+
+				sprite = self.pygame.image.load(image_file_path).convert()
+
+				current_image['image'] = image_file_path
+				current_image['sprite'] = sprite
+				current_image['rect'] = sprite.get_rect()
+				current_image['name'] = name
+				current_image['Xpos'] = Xpos
+				current_image['Ypos'] = Ypos
+				current_image['object_type'] = object_type
+
+
+				if (name == "Background Image") and (Xpos ==  0) and (Ypos == 0):
+					self.image_layer_list = []
+
+				self.image_layer_list.append(current_image)
+
+				self.screen.blit(sprite, (self.Xoffset + Xpos, \
+				                          self.Xoffset + Ypos))
+
+				self.pygame.display.flip()
+
+
+			except:
+				if (self.debug_mode):
+					print "Image failed to Load: %s" % image_file_path
+
+
+	#####################################################################
+
+	def get_object_information(self, Xpos, Ypos):
+
+		image_layers = self.image_layer_list[:] # create a copy of the image layer list
+		image_layers.reverse() # reverse the order of the list so that we can descend through them
+
+		object_clicked_name = ""
+		object_clicked_type = ""
+
+		for current_image in image_layers:
+
+			if (object_clicked_name == "") and (object_clicked_type == ""):
+
+				if (self.collide_solid_surface(current_image['sprite'], (Xpos - current_image['Xpos'], Ypos - current_image['Ypos']))):
+
+#				if ((Xpos >= (current_image['Xpos'] + self.Xoffset)) and \
+#				    (Ypos >= (current_image['Ypos'] + self.Yoffset)) and \
+#				    (Xpos <= (current_image['Xpos'] + current_image['rect'][2]) + self.Xoffset) and \
+#				    (Ypos <= (current_image['Ypos'] + current_image['rect'][3]) + self.Yoffset)):
+
+					object_clicked_name = current_image['name']
+					object_clicked_type = current_image['object_type']
+
+
+		return(object_clicked_name, object_clicked_type)
+
+
+	#####################################################################
+
+	def collide_solid_surface(self, sprite, position):
+		'return true if pixel at position is solid'
+		try:
+			pixel_rgb_values = sprite.get_at(position)
+			if (self.debug_mode):
+				print position
+				print pixel_rgb_values
+		except IndexError:
+			return (0)
+
+		if pixel_rgb_values == sprite.get_colorkey():
+			return (1)
+
+		return (pixel_rgb_values[3] > 4)
+
+
+#####################################################################
+#####################################################################
 
 class mouse_pointer:
 
@@ -391,7 +500,8 @@ class mouse_pointer:
 		self.appended_name = ""
 		self.appended_graphic = None
 		self.appended_rect = None
-		
+
+		self.current_pointer_index = 0
 		self.last_pointer_index = 0
 
 		self.set_default_pointer()
@@ -405,11 +515,15 @@ class mouse_pointer:
 
 
 	#####################################################################
-	
+
 	def set_pointer_by_index(self, index):
-		
+
+		if (index == 0) and (self.current_pointer_index != 0):
+			self.last_pointer_index = self.current_pointer_index
+
 		self.current_pointer = self.mouse_pointer_list[index]
 		self.name = self.current_pointer['name']
+		self.current_pointer_index = index
 
 		self.appended_graphic = None
 		self.appended_name = ""
@@ -426,29 +540,22 @@ class mouse_pointer:
 
 
 	#####################################################################
-	
+
 	def switch_to_last_pointer(self):
 
-		current_pointer_index = 0
-
-		for index in range(len(self.mouse_pointer_list)):
-
-			if (self.name == self.mouse_pointer_list[index]['name']):
-
-				current_pointer_index = index
-
-		if (self.last_pointer_index == current_pointer_index):
+		if (self.current_pointer_index != 0) and (self.last_pointer_index == self.current_pointer_index):
 			self.last_pointer_index = 0
-		else:
-			self.set_pointer_by_index(self.last_pointer_index)
-			self.last_pointer_index = current_pointer_index
+
+		self.set_pointer_by_index(self.last_pointer_index)
 
 
 	#####################################################################
 
 	def cycle_pointer(self):
 
-		self.current_pointer = self.mouse_pointer_list[self.mouse_pointer_list.index(self.current_pointer) + 1]
+		self.current_pointer_index = self.mouse_pointer_list.index(self.current_pointer) + 1
+
+		self.current_pointer = self.mouse_pointer_list[ self.current_pointer_index ]
 		self.name = self.current_pointer['name']
 
 		self.appended_graphic = None
@@ -460,7 +567,7 @@ class mouse_pointer:
 			self.rect = self.graphic.get_rect()
 		except:
 			if (self.debug_mode):
-				print "Error loading compass graphic for ", self.name, ":\n", self.current_pointer
+				print "Error loading compass graphic for ", self.name, ":\n", self.current_pointer['image']
 			self.set_default_cursor()
 
 
@@ -468,13 +575,13 @@ class mouse_pointer:
 
 	def add_icon_to_pointer(self, name, image_file_path):
 
-		try:
+#		try:
 			self.appended_graphic = self.pygame.image.load(image_file_path)
 			self.appended_name = name
 			self.appended_rect = self.appended_graphic.get_rect()
-		except:
-			if (self.debug_mode):
-				print "Error loading compass graphic for ", self.name, ":\n", self.current_pointer
+#		except:
+#			if (self.debug_mode):
+#				print "Error loading compass graphic for ", self.name, ":\n", self.current_pointer
 
 
 	#####################################################################
@@ -487,7 +594,53 @@ class mouse_pointer:
 
 
 #####################################################################
+#####################################################################
 
+class Background_TTS(threading.Thread):
+
+	def __init__(self, debug_mode):
+		threading.Thread.__init__(self)
+
+		self.debug_mode = debug_mode
+		self.loop = 1
+
+		import Queue
+		self.text_queue = Queue.Queue()
+
+
+	#####################################################################
+
+	def Speak(self, text, None):
+		self.text_queue.put(text)		
+
+		
+	#####################################################################
+
+	def stop(self):
+
+		self.loop = 0
+		
+
+	#####################################################################
+		
+	def run(self):
+		from win32com.client import constants
+		import win32com.client
+		import time
+
+		speech = win32com.client.Dispatch("SAPI.SpVoice")
+
+		while self.loop:
+
+			if not(self.text_queue.empty()):
+				text = self.text_queue.get()
+				speech.Speak(text)
+				
+			time.sleep(.001)
+
+
+#####################################################################
+#####################################################################
 
 class CogEngine_GtkSDL(CogEngine):
 
@@ -501,8 +654,11 @@ class CogEngine_GtkSDL(CogEngine):
 		import pygame.locals
 		import os
 
-		self.default_path = os.path.dirname( os.path.abspath(self.database_filename) ) + "/" + \
-							self.gameInformation.image_directory + "/"
+		self.default_path = os.path.dirname( os.path.abspath(self.database_filename) ) + "/"
+		self.default_image_path = self.default_path + self.gameInformation.image_directory + "/"
+		if ('audio_directory' in dir(self.gameInformation)):
+			self.default_audio_path = self.default_path + self.gameInformation.audio_directory + "/"
+
 
 		pygame.init()
 		self.screen = pygame.display.set_mode((self.gameInformation.graphical_display_window_x_dimension, \
@@ -510,26 +666,26 @@ class CogEngine_GtkSDL(CogEngine):
 															), pygame.locals.HWSURFACE|pygame.locals.DOUBLEBUF)
 		pygame.display.set_caption('CogEngine Graphic Window')
 		background = pygame.Surface(self.screen.get_size())
-	#	background.fill((255,255,255))
-		background.fill((128,128,128))
+		#background.fill((255,255,255)) # black background
+		background.fill((128,128,128)) # grey background
 
-
-		if (self.gameInformation.introduction_graphic_url != ""):
-			sprite_file = self.default_path + self.gameInformation.introduction_graphic_url
-		else:
-			sprite_file = self.default_path + self.gameInformation.image_loading_graphic_url
-
-		try:
-			sprite = pygame.image.load(sprite_file).convert()
-			self.screen.blit(background, (0,0))
-			self.screen.blit(sprite, (self.gameInformation.graphical_display_x_coordinate, \
-			                          self.gameInformation.graphical_display_y_coordinate))
-			pygame.display.flip()
-		except:
-			if (self.gameInformation.debug_mode):
-				print "Image failed to Load: %s" % sprite_file
+		self.screen.blit(background, (0,0))
 
 		self.pygame = pygame
+
+
+	#####################################################################
+
+	def initialize_sound(self):
+
+		if ('mixer' not in dir(self)):
+			try:
+				import pygame.mixer
+				self.mixer = pygame.mixer
+				self.mixer.init()
+			except:
+				if (self.gameInformation.debug_mode):
+					print "Mixer Initialization Failed"
 
 
 	#####################################################################
@@ -540,18 +696,9 @@ class CogEngine_GtkSDL(CogEngine):
 
 		if (self.operating_system == "posix"):
 
-			#pid = os.fork()
-
-			#if not pid:
-			#	os.execlp("which", "which", "festival_server")
-			#else:
-			#	childpid, exit_code = os.wait(pid)
-
-			#if exit_code:
-
 			try:
 				import CogEngine_Festival_Modules
-				self.speech = CogEngine_Festival_Modules.Festival()
+				self.speech = CogEngine_Festival_Modules.Festival_TTS(self.gameInformation.debug_mode)
 			except:
 				if (self.gameInformation.debug_mode):
 					print "Error Initializing Festival Server"
@@ -562,10 +709,8 @@ class CogEngine_GtkSDL(CogEngine):
 		elif (self.operating_system == "windows"):
 
 			try:
-				import sys
-				from win32com.client import constants
-				import win32com.client
-				self.speech = win32com.client.Dispatch("SAPI.SpVoice")
+				self.speech = Background_TTS(self.gameInformation.debug_mode)
+				self.speech.start()
 			except:
 				if (self.gameInformation.debug_mode):
 					print "Error Initializing Microsoft Speech API."
@@ -574,6 +719,17 @@ class CogEngine_GtkSDL(CogEngine):
 
 		if (self.text_to_speech_enabled) and (self.gameInformation.debug_mode):
 			print "Text-To-Speech Enabled"
+
+
+	#####################################################################
+
+	def initialize_graphic_display_panel(self):
+
+		self.graphic = layered_graphic_panel(self.gameInformation.graphical_display_x_coordinate, \
+		                                     self.gameInformation.graphical_display_y_coordinate, \
+														 self.pygame, self.screen, self.gameInformation.debug_mode)
+
+		self.display_introduction_graphic()
 
 
 	#####################################################################
@@ -590,7 +746,7 @@ class CogEngine_GtkSDL(CogEngine):
 										  self.gameInformation.graphical_compass_y_icons, \
 										  self.gameInformation.graphical_compass_panel_padding, \
 										  0, \
-										  self.default_path + self.gameInformation.graphical_compass_background_image, \
+										  self.default_image_path + self.gameInformation.graphical_compass_background_image, \
 										  "", \
 										  "", \
 										  "", \
@@ -601,8 +757,8 @@ class CogEngine_GtkSDL(CogEngine):
 
 		if (self.gameInformation.display_help_button):
 			new_icon_dict = {}
-			new_icon_dict['name'] = "Help"
-			new_icon_dict['image'] = self.default_path + self.gameInformation.menu_button_graphic_url
+			new_icon_dict['name'] = "Menu"
+			new_icon_dict['image'] = self.default_image_path + self.gameInformation.menu_button_graphic_url
 
 			icon_list[self.gameInformation.menu_button_display_position] = new_icon_dict
 
@@ -613,12 +769,12 @@ class CogEngine_GtkSDL(CogEngine):
 
 			if ((self.directionData[each].compass_graphic_available_url != None) and
 			    (self.directionData[each].compass_graphic_available_url != "")):
-				new_icon_dict['image'] = self.default_path + self.directionData[each].compass_graphic_available_url
+				new_icon_dict['image'] = self.default_image_path + self.directionData[each].compass_graphic_available_url
 
-			
+
 			icon_list[self.directionData[each].compass_panel_display_position] = new_icon_dict
 
-		
+
 		self.compass.set_icons_from_list(icon_list)
 		self.compass.draw_panel_graphics()
 
@@ -628,8 +784,8 @@ class CogEngine_GtkSDL(CogEngine):
 
 		if (self.gameInformation.center_button_indicates_items):
 			self.directionStates[5] = "ItemsNotPresent"
-	
-	
+
+
 	#####################################################################
 
 	def initialize_inventory_panel(self):
@@ -640,11 +796,11 @@ class CogEngine_GtkSDL(CogEngine):
 											 self.gameInformation.graphical_inventory_y_icons,
 											 self.gameInformation.graphical_inventory_panel_padding, \
 											 self.gameInformation.show_graphical_inventory_panel_scrollbars, \
-											 self.default_path + self.gameInformation.graphical_inventory_blank_icon, \
-											 self.default_path + self.gameInformation.inventory_panel_scroll_up_available_icon, \
-											 self.default_path + self.gameInformation.inventory_panel_scroll_up_unavailable_icon, \
-											 self.default_path + self.gameInformation.inventory_panel_scroll_down_available_icon, \
-											 self.default_path + self.gameInformation.inventory_panel_scroll_down_unavailable_icon, \
+											 self.default_image_path + self.gameInformation.graphical_inventory_blank_icon, \
+											 self.default_image_path + self.gameInformation.inventory_panel_scroll_up_available_icon, \
+											 self.default_image_path + self.gameInformation.inventory_panel_scroll_up_unavailable_icon, \
+											 self.default_image_path + self.gameInformation.inventory_panel_scroll_down_available_icon, \
+											 self.default_image_path + self.gameInformation.inventory_panel_scroll_down_unavailable_icon, \
 											 self.pygame, self.screen, self.gameInformation.debug_mode)
 
 
@@ -658,11 +814,11 @@ class CogEngine_GtkSDL(CogEngine):
 		                               self.gameInformation.object_panel_y_icons, \
 		                               self.gameInformation.object_panel_padding, \
 		                               self.gameInformation.show_graphical_object_panel_scrollbars, \
-		                               self.default_path + self.gameInformation.object_panel_blank_icon, \
-		                               self.default_path + self.gameInformation.object_panel_scroll_up_available_icon, \
-		                               self.default_path + self.gameInformation.object_panel_scroll_up_unavailable_icon, \
-		                               self.default_path + self.gameInformation.object_panel_scroll_down_available_icon, \
-		                               self.default_path + self.gameInformation.object_panel_scroll_down_unavailable_icon, \
+		                               self.default_image_path + self.gameInformation.object_panel_blank_icon, \
+		                               self.default_image_path + self.gameInformation.object_panel_scroll_up_available_icon, \
+		                               self.default_image_path + self.gameInformation.object_panel_scroll_up_unavailable_icon, \
+		                               self.default_image_path + self.gameInformation.object_panel_scroll_down_available_icon, \
+		                               self.default_image_path + self.gameInformation.object_panel_scroll_down_unavailable_icon, \
 		                               self.pygame, self.screen, self.gameInformation.debug_mode)
 
 
@@ -679,17 +835,20 @@ class CogEngine_GtkSDL(CogEngine):
 
 			cursor_item = {}
 			cursor_item['name'] = "Default"
-			cursor_item['image'] = self.default_path + self.gameInformation.default_mouse_pointer_graphic
+			cursor_item['image'] = self.default_image_path + self.gameInformation.default_mouse_pointer_graphic
 
 			mouse_cursor_list.append(cursor_item)
 
-			for each in self.verbData.keys():
+			verb_keys = self.verbData.keys()
+			verb_keys.sort()
+
+			for each in verb_keys:
 				if (self.verbData[each].mouse_pointer_graphic != None) and \
 				   (self.verbData[each].mouse_pointer_graphic != ""):
 
 					cursor_item = {}
 					cursor_item['name'] = self.verbData[each].name
-					cursor_item['image'] = self.default_path + self.verbData[each].mouse_pointer_graphic
+					cursor_item['image'] = self.default_image_path + self.verbData[each].mouse_pointer_graphic
 					mouse_cursor_list.append(cursor_item)
 
 
@@ -701,128 +860,144 @@ class CogEngine_GtkSDL(CogEngine):
 
 	#####################################################################
 
+	def display_introduction_graphic(self):
+
+		if (self.gameInformation.introduction_graphic_url != ""):
+			self.display_image(self.gameInformation.introduction_graphic_url, "Background Image", 0, 0)
+		else:
+			self.display_image(self.gameInformation.image_loading_graphic_url, "Background Image", 0, 0)
+
+
+	#####################################################################
+
 	def display_inventory_icons(self):
 
-		icon_list = {}
+		if (self.gameInformation.show_graphic_area) and \
+		   (self.gameInformation.show_graphical_inventory_panel):
 
-		for each in self.playerInformation.items:
+			icon_list = {}
 
-			new_icon_dict = {}
+			for each in self.playerInformation.items:
 
-			new_icon_dict['name'] = self.itemData[each].name
+				new_icon_dict = {}
 
-			if ((self.itemData[each].icon_graphic_url != None) and (self.itemData[each].icon_graphic_url != "")):
-				new_icon_dict['image'] = self.default_path + self.itemData[each].icon_graphic_url
-			else:
-				new_icon_dict['image'] = self.default_path + self.gameInformation.graphical_inventory_graphic_not_available_icon
+				new_icon_dict['name'] = self.itemData[each].name
 
-			icon_list[len(icon_list) + 1] = new_icon_dict
+				if ((self.itemData[each].icon_graphic_url != None) and (self.itemData[each].icon_graphic_url != "")):
+					new_icon_dict['image'] = self.default_image_path + self.itemData[each].icon_graphic_url
+				else:
+					new_icon_dict['image'] = self.default_image_path + self.gameInformation.graphical_inventory_graphic_not_available_icon
 
-		self.inventory.set_icons_from_list(icon_list)
-		self.inventory.draw_panel_graphics()
+				icon_list[len(icon_list) + 1] = new_icon_dict
+
+			self.inventory.set_icons_from_list(icon_list)
+			self.inventory.draw_panel_graphics()
 
 
 	#####################################################################
 
 	def display_current_room_object_icons(self, room):
 
-		import string
+		if (self.gameInformation.show_graphic_area) and \
+		   (self.gameInformation.show_graphical_object_panel):
 
-		obstructions = []
+			import string
 
-		# Create visible obstruction list
-		for direction in self.roomData[ room ].direction.keys():
-			obstruction_list = self.roomData[ room ].direction[direction].obstructions
-			if (type(obstruction_list) != type(None)):
-				# Convert string of comma-separated obstruction numbers into a list of integers
-				obstruction_strings = string.split(obstruction_list, ', ')
-				for each in obstruction_strings:
-					if (self.obstructionData[ string.atoi(each) ].visible):
-						obstructions.append(string.atoi(each))
+			obstructions = []
 
-
-		items = []
-
-		# Create item list
-		item_list = self.roomData[ room ].items
-		if (type(item_list) != type(None)):
-			# Convert string of comman-separated item numbers into a list of integers
-			item_strings = string.split(item_list, ', ')
-			for each in item_strings:
-				items.append(string.atoi(each))
+			# Create visible obstruction list
+			for direction in self.roomData[ room ].direction.keys():
+				obstruction_list = self.roomData[ room ].direction[direction].obstructions
+				if (type(obstruction_list) != type(None)):
+					# Convert string of comma-separated obstruction numbers into a list of integers
+					obstruction_strings = string.split(obstruction_list, ', ')
+					for each in obstruction_strings:
+						if (self.obstructionData[ string.atoi(each) ].visible):
+							obstructions.append(string.atoi(each))
 
 
- 		icon_list = {}
+			items = []
 
-		for each in obstructions:
-		
-			new_icon_dict = {}
-			new_icon_dict['name'] = self.obstructionData[each].name
-			if ((self.obstructionData[each].icon_graphic_url != None) and (self.obstructionData[each].icon_graphic_url != "")):
-				new_icon_dict['image'] = self.default_path + self.obstructionData[each].icon_graphic_url
-			else:
-				new_icon_dict['image'] = self.default_path + self.gameInformation.object_panel_graphic_not_available_icon
-
-			icon_list[len(icon_list) + 1] = new_icon_dict
+			# Create item list
+			item_list = self.roomData[ room ].items
+			if (type(item_list) != type(None)):
+				# Convert string of comman-separated item numbers into a list of integers
+				item_strings = string.split(item_list, ', ')
+				for each in item_strings:
+					items.append(string.atoi(each))
 
 
-		for each in items:
+			icon_list = {}
 
-			new_icon_dict = {}
-			new_icon_dict['name'] = self.itemData[each].name
-			if ((self.itemData[each].icon_graphic_url != None) and (self.itemData[each].icon_graphic_url != "")):
-				new_icon_dict['image'] = self.default_path + self.itemData[each].icon_graphic_url
-			else:
-				new_icon_dict['image'] = self.default_path + self.gameInformation.object_panel_graphic_not_available_icon
+			for each in obstructions:
 
-			icon_list[len(icon_list) + 1] = new_icon_dict
+				new_icon_dict = {}
+				new_icon_dict['name'] = self.obstructionData[each].name
+				if ((self.obstructionData[each].icon_graphic_url != None) and (self.obstructionData[each].icon_graphic_url != "")):
+					new_icon_dict['image'] = self.default_image_path + self.obstructionData[each].icon_graphic_url
+				else:
+					new_icon_dict['image'] = self.default_image_path + self.gameInformation.object_panel_graphic_not_available_icon
 
-		self.object_panel.set_icons_from_list(icon_list)
-		self.object_panel.draw_panel_graphics()
+				icon_list[len(icon_list) + 1] = new_icon_dict
+
+
+			for each in items:
+
+				new_icon_dict = {}
+				new_icon_dict['name'] = self.itemData[each].name
+				if ((self.itemData[each].icon_graphic_url != None) and (self.itemData[each].icon_graphic_url != "")):
+					new_icon_dict['image'] = self.default_image_path + self.itemData[each].icon_graphic_url
+				else:
+					new_icon_dict['image'] = self.default_image_path + self.gameInformation.object_panel_graphic_not_available_icon
+
+				icon_list[len(icon_list) + 1] = new_icon_dict
+
+			self.object_panel.set_icons_from_list(icon_list)
+			self.object_panel.draw_panel_graphics()
 
 
 	#####################################################################
 
-	def display_image(self, graphic_url, Xpos=0, Ypos=0):
+	def display_image(self, graphic_url, name="", Xpos=0, Ypos=0, object_type=""):
 
 		# This methond gets called by the Cog Engine whenever a room or object
 		# is displayed.
 
 		if ((self.gameInformation.show_graphic_area) and (graphic_url != None)):
 
+			image_file_path = self.default_image_path + graphic_url
+
+			self.graphic.add_image_layer(image_file_path, name, Xpos, Ypos, object_type)
+
+			self.current_surface = self.pygame.display.get_surface().convert()
+
+
+	#####################################################################
+
+	def play_sound_file(self, sound_filename):
+
+		if ('mixer' in dir(self)):
 			try:
-				sprite = self.pygame.image.load(self.default_path + graphic_url).convert()
-				self.screen.blit(sprite, (self.gameInformation.graphical_display_x_coordinate + Xpos, \
-				                          self.gameInformation.graphical_display_y_coordinate + Ypos))
-				self.pygame.display.flip()
-				self.current_surface = self.pygame.display.get_surface().convert()
+				self.mixer.music.load(self.default_audio_path + sound_filename)
+				self.mixer.music.play()
 			except:
-				if (self.gameInformation.debug_mode):
-					print "Image failed to Load: %s" % graphic_url
+				if(self.gameInformation.debug_mode):
+					print "Error playing audio file:", sound_filename
 
 
 	#####################################################################
 
 	def output_text(self, text, speak_text=0):
 
+		self.gameInformation.output_history = self.gameInformation.output_history + text
+
 		if (speak_text) and (self.text_to_speech_enabled):
-			# Send Text to the Text-To-Speech Synthesizer
-			#if (self.operating_system == "windows"):
-			#	import thread
-			#	thread.start_new_thread(self.speech.Speak(text))
-			#else:
-				self.speech.Speak(text)
+			self.speech.Speak(text, self.mixer)
 
 
 		# This method is used to append text to the text output area
 		if (self.gameInformation.show_text_output_area):
-
 			self.output_textbox.insert_defaults(text)
-			                                
-
-		if (self.gameInformation.debug_mode):
-
-			print "\nText Output:", text, "\n"
 
 
 	#####################################################################
@@ -836,23 +1011,28 @@ class CogEngine_GtkSDL(CogEngine):
 
 		self.current_surface = self.pygame.display.get_surface().convert()
 
-		while 1:
+		while self.execute_pygame_loop:
 
-			update_mouse_pointer_image = 0
+			last_mouse_x = Mouse_Xpos
+			last_mouse_y = Mouse_Ypos
+
+			(Mouse_Xpos, Mouse_Ypos) = self.pygame.mouse.get_pos()
 
 			#Handle Input Events
 			for event in self.pygame.event.get():
 
 				if event.type is self.pygame.locals.QUIT:
-					self.exit_cog_engine()
+					#self.exit_cog_engine()
+					self.execute_pygame_loop = 0
 
 				elif event.type is self.pygame.locals.KEYDOWN and event.key is self.pygame.locals.K_ESCAPE:
-					self.exit_cog_engine()
+					#self.exit_cog_engine()
+					self.execute_pygame_loop = 0
 
 				elif event.type is self.pygame.locals.MOUSEBUTTONDOWN:
 					# A mouse button was clicked
-					
-					update_mouse_pointer_image = 1
+
+					self.erase_previous_mouse_pointer(last_mouse_x, last_mouse_y)
 
 					if self.pygame.mouse.get_pressed()[0]:
 						# Left mouse button clicked
@@ -863,81 +1043,101 @@ class CogEngine_GtkSDL(CogEngine):
 							print "Pointer:", self.mouse_pointer.name
 
 						if (panel_clicked == "Graphic Panel"):
-							self.execute_graphical_command()
+							(object_name, object_type) = self.graphic.get_object_information(Mouse_Xpos, Mouse_Ypos)
+							object_icon = self.resolve_icon_graphic(object_name, object_type)
+							self.execute_graphical_command(object_name, object_icon, panel_clicked)
 
 						elif (panel_clicked == "Compass Panel"):
-							self.screen.blit(self.current_surface, self.mouse_pointer.rect)
 							self.execute_graphical_compass_movement(Mouse_Xpos, Mouse_Ypos)
-							self.current_surface = self.pygame.display.get_surface().convert()
 
 						elif (panel_clicked == "Inventory Panel"):
-							self.screen.blit(self.current_surface, self.mouse_pointer.rect)
 							(object_name, object_image) = self.inventory.get_object_information(Mouse_Xpos, Mouse_Ypos)
 							if (self.gameInformation.debug_mode):
 								print "Object:", object_name
 							if (object_name == "Scroll Up"):
 								self.inventory.scroll_panels_up()
-								self.current_surface = self.pygame.display.get_surface().convert()
 							elif (object_name == "Scroll Down"):
 								self.inventory.scroll_panels_down()
-								self.current_surface = self.pygame.display.get_surface().convert()
 							else:
 								self.execute_graphical_command(object_name, object_image, panel_clicked)
-								self.current_surface = self.pygame.display.get_surface().convert()
 
 						elif (panel_clicked == "Object Panel"):
-							self.screen.blit(self.current_surface, self.mouse_pointer.rect)
 							(object_name, object_image) = self.object_panel.get_object_information(Mouse_Xpos, Mouse_Ypos)
 							if (self.gameInformation.debug_mode):
 								print "Object:", object_name
 							if (object_name == "Scroll Up"):
 								self.object_panel.scroll_panels_up()
-								self.current_surface = self.pygame.display.get_surface().convert()
 							elif (object_name == "Scroll Down"):
 								self.object_panel.scroll_panels_down()
-								self.current_surface = self.pygame.display.get_surface().convert()
 							else:
 								self.execute_graphical_command(object_name, object_image, panel_clicked)
-								self.current_surface = self.pygame.display.get_surface().convert()
+
+						self.current_surface = self.pygame.display.get_surface().convert()
+
 
 					elif self.pygame.mouse.get_pressed()[1]:
 						# Middle mouse button clicked
-						self.screen.blit(self.current_surface, self.mouse_pointer.rect)
-						dirty_rects = []
-						dirty_rects.append(self.last_mouse_x, self.last_mouse_y, self.mouse_pointer.rect[2] + self.mouse_pointer.appended_rect[2], self.mouse_pointer.rect[3])
-						self.pygame.display.update(dirty_rects)
 						self.mouse_pointer.switch_to_last_pointer()
 
 
 					elif self.pygame.mouse.get_pressed()[2]:
 						# Right mouse button clicked
-						self.screen.blit(self.current_surface, self.mouse_pointer.rect)
-						dirty_rects = []
-						dirty_rects.append(self.last_mouse_x, self.last_mouse_y, self.mouse_pointer.rect[2] + self.mouse_pointer.appended_rect[2], self.mouse_pointer.rect[3])
-						self.pygame.display.update(dirty_rects)
-						if (self.mouse_pointer != None):
-							self.mouse_pointer.cycle_pointer()
+						self.mouse_pointer.cycle_pointer()
 
 
-			self.last_mouse_x = Mouse_Xpos
-			self.last_mouse_y = Mouse_Ypos
+					self.draw_current_mouse_pointer(Mouse_Xpos, Mouse_Ypos)
 
-			(Mouse_Xpos, Mouse_Ypos) = self.pygame.mouse.get_pos()
 
-			if (update_mouse_pointer_image) or (self.last_mouse_x != Mouse_Xpos) or (self.last_mouse_y != Mouse_Ypos):
+			if (last_mouse_x != Mouse_Xpos) or (last_mouse_y != Mouse_Ypos):
 
-				dirty_rects = []
-				dirty_rects.append(self.last_mouse_x, self.last_mouse_y, self.mouse_pointer.rect[2] + self.mouse_pointer.appended_rect[2], self.mouse_pointer.rect[3])
+				self.update_mouse_pointer_position(Mouse_Xpos, Mouse_Ypos, last_mouse_x, last_mouse_y)
 
-				self.screen.blit(self.current_surface, self.mouse_pointer.rect)
-				self.screen.blit(self.mouse_pointer.graphic, (Mouse_Xpos, Mouse_Ypos))
-				if (self.mouse_pointer.appended_graphic != None):
-					self.screen.blit(self.mouse_pointer.appended_graphic, (Mouse_Xpos + self.mouse_pointer.rect[2], Mouse_Ypos))
-
-				dirty_rects.append(Mouse_Xpos, Mouse_Ypos, self.mouse_pointer.rect[2] + self.mouse_pointer.appended_rect[2], self.mouse_pointer.rect[3])
-				self.pygame.display.update(dirty_rects)
 
 			time.sleep(.0001)
+
+
+	#####################################################################
+
+	def draw_current_mouse_pointer(self, Mouse_Xpos, Mouse_Ypos):
+
+		dirty_rects = []
+		self.screen.blit(self.mouse_pointer.graphic, (Mouse_Xpos, Mouse_Ypos))
+		if (self.mouse_pointer.appended_graphic != None):
+			self.screen.blit(self.mouse_pointer.appended_graphic, (Mouse_Xpos + self.mouse_pointer.rect[2], Mouse_Ypos))
+
+		dirty_rects.append((Mouse_Xpos, Mouse_Ypos, self.mouse_pointer.rect[2] + self.mouse_pointer.appended_rect[2], self.mouse_pointer.rect[3]))
+		self.pygame.display.update(dirty_rects)
+
+
+	#####################################################################
+
+	def erase_previous_mouse_pointer(self, last_mouse_x, last_mouse_y):
+
+		self.screen.blit(self.current_surface, self.mouse_pointer.rect)
+		dirty_rects = []
+		dirty_rects.append((last_mouse_x, last_mouse_y, self.mouse_pointer.rect[2] + self.mouse_pointer.appended_rect[2], self.mouse_pointer.rect[3]))
+		self.pygame.display.update(dirty_rects)
+
+
+	#####################################################################
+
+	def update_mouse_pointer_position(self, Mouse_Xpos, Mouse_Ypos, last_mouse_x, last_mouse_y):
+
+		dirty_rects = []
+		
+		# erase previous mouse pointer
+		self.screen.blit(self.current_surface, self.mouse_pointer.rect)
+		dirty_rects.append((last_mouse_x, last_mouse_y, self.mouse_pointer.rect[2] + self.mouse_pointer.appended_rect[2], self.mouse_pointer.rect[3]))
+
+		# draw current mouse pointer
+		self.screen.blit(self.mouse_pointer.graphic, (Mouse_Xpos, Mouse_Ypos))
+		if (self.mouse_pointer.appended_graphic != None):
+			self.screen.blit(self.mouse_pointer.appended_graphic, (Mouse_Xpos + self.mouse_pointer.rect[2], Mouse_Ypos))
+
+		dirty_rects.append((Mouse_Xpos, Mouse_Ypos, self.mouse_pointer.rect[2] + self.mouse_pointer.appended_rect[2], self.mouse_pointer.rect[3]))
+
+
+		self.pygame.display.update(dirty_rects)
 
 
 	#####################################################################
@@ -987,17 +1187,66 @@ class CogEngine_GtkSDL(CogEngine):
 
 	#####################################################################
 
-	def execute_graphical_compass_movement(self, Xpos, Ypos):
+	def resolve_icon_graphic(self, object_name, object_type):
 
-		self.parse_command_line(self.compass.get_object_information(Xpos, Ypos)[0])
+		object_icon = ""
+
+		if (object_type == "Item"):
+
+			for each in self.itemData.keys():
+
+				if (self.itemData[each].name == object_name) and \
+				   (self.itemData[each].icon_graphic_url != None) and \
+					(self.itemData[each].icon_graphic_url != ""):
+
+					object_icon = self.default_image_path + self.itemData[each].icon_graphic_url
+
+
+		elif (object_type == "Obstruction"):
+
+			for each in self.obstructionData.keys():
+
+				if (self.obstructionData[each].name == object_name) and \
+				   (self.obstructionData[each].icon_graphic_url != None) and \
+					(self.obstructionData[each].icon_graphic_url != ""):
+
+					object_icon = self.default_image_path + self.obstructionData[each].icon_graphic_url
+					
+
+		return(object_icon)
+
+
+	#####################################################################
+
+	def execute_graphical_compass_movement(self, Xpos, Ypos):
+	
+		command_name = self.compass.get_object_information(Xpos, Ypos)[0]
+		
+		if (command_name == "Menu"):
+			#self.parse_command_line("Help")
+			self.execute_pygame_loop = 0
+		
+		else:
+			self.parse_command_line(command_name)
 
 		if (self.mouse_pointer.name != "Default"):
-			self.mouse_pointer.switch_to_last_pointer()
+			self.mouse_pointer.set_default_pointer()
 
 
 	#####################################################################
 
 	def execute_graphical_command(self, object_name="", object_image="", panel_clicked=""):
+
+		if (self.mouse_pointer.name == "Default") and (self.mouse_pointer.appended_name == "") and \
+		   (object_name != "Blank") and (panel_clicked != "Graphic Panel"):
+
+			for index in range(len(self.mouse_pointer.mouse_pointer_list)):
+
+				if (self.mouse_pointer.mouse_pointer_list[index]['name'] == "Use"):
+
+					self.mouse_pointer.set_pointer_by_index(index)
+					self.mouse_pointer.last_pointer_index = 0
+
 
 		if (self.mouse_pointer.name != "Default"):
 
@@ -1006,10 +1255,21 @@ class CogEngine_GtkSDL(CogEngine):
 			if (self.mouse_pointer.appended_name == ""):
 
   				if (verb == "Look"):
-					self.parse_command_line("Examine %s" % object_name)
+
+					if (object_image == ""): # The did not click on an image of an object
+
+						self.parse_command_line("Look")
+						
+					else:
+
+						self.parse_command_line("Examine %s" % object_name)
 
 				else:
-					self.mouse_pointer.add_icon_to_pointer(object_name, object_image)
+
+					if (object_name != "Blank") and (object_name != "Background Image"):
+						self.mouse_pointer.add_icon_to_pointer(object_name, object_image)
+					else:
+						print object_name
 
 			else:
 
@@ -1030,7 +1290,12 @@ class CogEngine_GtkSDL(CogEngine):
 						self.parse_command_line("%s %s" % (verb, self.mouse_pointer.appended_name))
 
 					else:
-						self.parse_command_line("%s %s on %s" % (verb, self.mouse_pointer.appended_name, object_name))
+
+						if (object_image == ""): # User clicked on the background image:
+							self.parse_command_line("Drop %s" % self.mouse_pointer.appended_name)
+
+						else:
+							self.parse_command_line("%s %s on %s" % (verb, self.mouse_pointer.appended_name, object_name))
 
 
 				self.mouse_pointer.remove_icon_from_pointer()
@@ -1073,7 +1338,10 @@ class CogEngine_GtkSDL(CogEngine):
 			self.inventory_textbox.delete_text(0, -1)
 			self.inventory_textbox.insert_defaults(text)
 			
-			self.display_inventory_icons()
+		
+#		if (self.gameInformation.show_graphic_area) and \
+#		   (self.gameInformation.show_graphical_inventory_panel):
+#			self.display_inventory_icons()
 
 
 	#####################################################################
@@ -1085,44 +1353,46 @@ class CogEngine_GtkSDL(CogEngine):
 		# the compass are no longer accurate, and changes those images to the correct
 		# ones for the current room.
 
-		for direction in self.directionData.keys():
+		if (self.gameInformation.show_graphic_area) and (self.gameInformation.show_compass):
 
-			direction_state = self.get_direction_state(direction)
+			for direction in self.directionData.keys():
 
-			if (self.directionStates[direction] != direction_state):
+				direction_state = self.get_direction_state(direction)
 
-				# We need to handle the special case that the Center GraphicButton is being used
-				# to indicate the presense of items in the current room
-				if ((direction == 5) and (self.gameInformation.center_button_indicates_items)):
-					if (type(self.roomData[self.playerInformation.current_room].items) != type(None)):
-						# There are items in the room
-						if (self.directionStates[5] == "ItemsNotPresent"):
-							self.compass.set_icon_from_name("Center", self.default_path + self.directionData[5].compass_graphic_special_url)
-							self.directionStates[5] = "ItemsPresent"
+				if (self.directionStates[direction] != direction_state):
+
+					# We need to handle the special case that the Center GraphicButton is being used
+					# to indicate the presense of items in the current room
+					if ((direction == 5) and (self.gameInformation.center_button_indicates_items)):
+						if (type(self.roomData[self.playerInformation.current_room].items) != type(None)):
+							# There are items in the room
+							if (self.directionStates[5] == "ItemsNotPresent"):
+								self.compass.set_icon_from_name("Center", self.default_image_path + self.directionData[5].compass_graphic_special_url)
+								self.directionStates[5] = "ItemsPresent"
+
+						else:
+							# There are no items in the room
+							if (self.directionStates[5] == "ItemsPresent"):
+								self.compass.set_icon_from_name("Center", self.default_image_path + self.directionData[5].compass_graphic_available_url)
+								self.directionStates[5] = "ItemsNotPresent"
 
 					else:
-						# There are no items in the room
-						if (self.directionStates[5] == "ItemsPresent"):
-							self.compass.set_icon_from_name("Center", self.default_path + self.directionData[5].compass_graphic_available_url)
-							self.directionStates[5] = "ItemsNotPresent"
+						# We need to change the current graphic
 
-				else:
-					# We need to change the current graphic
+						if (direction_state == "Available"):
+							self.compass.set_icon_from_name(self.directionData[direction].name, self.default_image_path + \
+														self.directionData[direction].compass_graphic_available_url)
+							self.directionStates[direction] = "Available"
 
-					if (direction_state == "Available"):
-						self.compass.set_icon_from_name(self.directionData[direction].name, self.default_path + \
-													self.directionData[direction].compass_graphic_available_url)
-						self.directionStates[direction] = "Available"
+						elif (direction_state == "Unavailable"):
+							self.compass.set_icon_from_name(self.directionData[direction].name, self.default_image_path + \
+														self.directionData[direction].compass_graphic_unavailable_url)
+							self.directionStates[direction] = "Unavailable"
 
-					elif (direction_state == "Unavailable"):
-						self.compass.set_icon_from_name(self.directionData[direction].name, self.default_path + \
-													self.directionData[direction].compass_graphic_unavailable_url)
-						self.directionStates[direction] = "Unavailable"
+						elif (direction_state == "Obstructed"):
+							self.compass.set_icon_from_name(self.directionData[direction].name, self.default_image_path + \
+														self.directionData[direction].compass_graphic_special_url)
+							self.directionStates[direction] = "Obstructed"
 
-					elif (direction_state == "Obstructed"):
-						self.compass.set_icon_from_name(self.directionData[direction].name, self.default_path + \
-													self.directionData[direction].compass_graphic_special_url)
-						self.directionStates[direction] = "Obstructed"
-
-		self.compass.draw_panel_graphics()
+			self.compass.draw_panel_graphics()
 

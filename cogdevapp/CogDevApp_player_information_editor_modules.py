@@ -53,6 +53,7 @@ def insert_data_into_player_editor(self):
 	for each in self.playerInformation.items:
 		inventory_display = "%sItem[%i - %s]\n" % (inventory_display, each, self.itemData[each].name)
 
+	self.playerInformationEditor.inventory_text.set_word_wrap(self.gtk.TRUE)
 	self.playerInformationEditor.inventory_text.delete_text(0, -1)
 	self.playerInformationEditor.inventory_text.insert_defaults(inventory_display)
 

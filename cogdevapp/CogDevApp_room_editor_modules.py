@@ -35,10 +35,15 @@ def insert_data_into_room_editor(self, current_room_number):
 	self.roomEditor.name_textentry.set_text(self.roomData[self.room_displayed].name)
 	self.roomEditor.graphic_url_textentry.set_text(self.roomData[self.room_displayed].graphic_url)
 
+	self.roomEditor.text_description_long_textbox.set_word_wrap(self.gtk.TRUE)
 	self.roomEditor.text_description_long_textbox.delete_text(0, -1)
 	self.roomEditor.text_description_long_textbox.insert_defaults(self.roomData[self.room_displayed].description_long)
+
+	self.roomEditor.text_description_short_textbox.set_word_wrap(self.gtk.TRUE)
 	self.roomEditor.text_description_short_textbox.delete_text(0, -1)
 	self.roomEditor.text_description_short_textbox.insert_defaults(self.roomData[self.room_displayed].description_short)
+
+	self.roomEditor.direction_description_text.set_word_wrap(self.gtk.TRUE)
 	self.roomEditor.direction_description_text.delete_text(0, -1)
 	self.roomEditor.direction_description_text.insert_defaults(self.roomData[self.room_displayed].direction_description)
 
@@ -57,6 +62,7 @@ def insert_data_into_room_editor(self, current_room_number):
 		for each in item_list:
 			item_display = "%sItem[%s - %s]\n" % (item_display, each, self.itemData[string.atoi(each)].name)
 
+	self.roomEditor.item_text.set_word_wrap(self.gtk.TRUE)
 	self.roomEditor.item_text.delete_text(0, -1)
 	self.roomEditor.item_text.insert_defaults(item_display)
 
@@ -79,6 +85,7 @@ def insert_data_into_room_editor(self, current_room_number):
 	setup_directional_object_optionmenu(self, 1)
 
 	# Add this room's notes to the notes_textbox
+	self.roomEditor.notes_textbox.set_word_wrap(self.gtk.TRUE)
 	self.roomEditor.notes_textbox.delete_text(0, -1)
 	if (self.roomData[self.room_displayed].notes == None):
 		self.roomData[self.room_displayed].notes = ""
@@ -196,6 +203,7 @@ def setup_directional_objects(self, obj, new_direction):
 
 			obstruction_display = "%sObstruction[%s - %s]\n" % (obstruction_display, each, self.obstructionData[string.atoi(each)].name)
 
+	self.roomEditor.obstruction_text.set_word_wrap(self.gtk.TRUE)	
 	self.roomEditor.obstruction_text.delete_text(0, -1)
 	self.roomEditor.obstruction_text.insert_defaults(obstruction_display)
 

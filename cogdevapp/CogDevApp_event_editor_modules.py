@@ -37,6 +37,7 @@ def insert_data_into_event_editor(self):
 
 	events_written = 0
 
+	self.eventEditor.event_editor_textbox.set_word_wrap(self.gtk.TRUE)	
 	self.eventEditor.event_editor_textbox.delete_text(0, -1)
 
 	textbox_output = ''

@@ -356,7 +356,7 @@ def setup_event_builder_preposition_combo(self, key):
 def setup_event_builder_effect_menu(self, key):
 	import gtk, string
 
-	effect_list = ['Adds', 'Removes', 'Modifies', 'TextMessage', 'GraphicMessage']
+	effect_list = ['Adds', 'Removes', 'Modifies', 'TextMessage', 'GraphicMessage', 'PlaySoundFile']
 	effect_menu = gtk.GtkMenu()
 
 	for each in effect_list:
@@ -2556,6 +2556,25 @@ def rebuild_effect_toolbars(self):
 				effect_toolbar.append_widget(effect_graphicmessage_y_vbox, "", "")
 
 
+			# PlaySoundFile
+			elif ( self.eventTree['effect_optionmenu:%s:selection' % key_index] == 'PlaySoundFile' ):
+				if ( self.eventTree.has_key('effect_playsoundfile_entry:%s' % key_index) ):
+					text_default = self.eventTree['effect_playsoundfile_entry:%s' % key_index].get_text()
+				else:
+					text_default = ""
+
+				# Setup effect_playsoundfile_vbox
+				effect_playsoundfile_entry = gtk.GtkEntry()
+				effect_playsoundfile_entry.set_text(text_default)
+
+				effect_playsoundfile_vbox = self.create_event_widget_container(\
+								'effect_playsoundfile', key_index, \
+								'<PlaySoundFile>', effect_playsoundfile_entry, 'entry')
+
+
+				effect_toolbar.append_widget(effect_playsoundfile_vbox, "", "")
+
+
 			# Close current effect toolbar
 			self.eventTree['effect_toolbar:%s' % key_index] = effect_toolbar
 			effect_toolbar.show()
@@ -2971,6 +2990,10 @@ def parse_effect_toolbars(self):
 
 			effect = 'GraphicMessage[ %s, %s, %s ]' % (url, x, y)
 
+		elif ( effect_type == 'PlaySoundFile' ):
+			entry = self.eventTree['effect_playsoundfile_entry:%i:selection' % key_index]
+			effect = 'PlaySoundFile[%s]' % entry
+			
 
 		effects = effects + ' and ' + effect
 

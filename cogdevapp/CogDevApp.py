@@ -30,11 +30,8 @@ from CogEngine_GtkSDL_Modules import CogEngine_GtkSDL
 
 class CogDevApp(CogEngine_GtkSDL):
 
-	# Import windows gtk module if os is windows
 	import os
 	import sys
-	if (os.name == "nt") or (os.name == "dos"):
-		sys.path.append('win32')
 
 	import gtk
 	import libglade
@@ -57,12 +54,18 @@ class CogDevApp(CogEngine_GtkSDL):
 	database_filename = ""
 	data_loaded = 0
 	debug_mode = 0
-	version_number = "1.1.4"
+	version_number = "1.1.5"
 
 
 	#####################################################################
 
 	def __init__(self):
+	
+		if (self.os.name == "nt") or (self.os.name == "dos"):
+			self.operating_system = "windows"
+		else:
+			self.operating_system = self.os.name
+
 		# Create the main window and the widget store.
 		self.mainwindow = self.readglade("CogDevApp")
 		self.widget = self.CogEngine_Utilities.WidgetStore(self.mainwindow)
@@ -75,12 +78,12 @@ class CogDevApp(CogEngine_GtkSDL):
 			self.database_filename = self.sys.argv[1]
 		else:
 			self.on_new_file_activate(None)
-		
+
 		self.gtk.mainloop()
 
 
 	#####################################################################
-	
+
 	def readglade(self, name, o=None):
 		# Read in a Glade tree. Signals are attached to methods on the
 		# supplied object o; if o is omitted, this object is used.
@@ -211,19 +214,25 @@ class CogDevApp(CogEngine_GtkSDL):
 		# The following section verifies that a valid file was selected
 		if (self.os.path.isfile(filename)): # Check if entry is a file (will follow symlinks)
 			if (self.os.access(filename, self.os.R_OK)):
-				self.database_filename = filename
-				(self.file_format_version_number, \
-				self.gameInformation, self.playerInformation, \
-				self.directionData, self.roomData, \
-				self.itemData, self.obstructionData, self.verbData) \
-				= self.CogEngine_Utilities.load_data_file(filename)
-				self.data_loaded = 1
-				self.display_dialog_box("Open File", "File opened successfully")
+			
+				try:
+
+					self.database_filename = filename
+					(self.file_format_version_number, \
+					self.gameInformation, self.playerInformation, \
+					self.directionData, self.roomData, \
+					self.itemData, self.obstructionData, self.verbData) \
+					= self.CogEngine_Utilities.load_data_file(filename)
+					self.data_loaded = 1
+					self.openFileselection.open_fileselection.destroy()
+					self.display_dialog_box("Open File", "File opened successfully")
+				except:
+					self.display_dialog_box("Error", "Invalid Cog Engine File")
+
 			else:
 				self.display_dialog_box("Error", "The file is not readable!")
 		else:
 			self.display_dialog_box("Error", "This is not a file!")
-		self.openFileselection.open_fileselection.destroy()
 
 
 	#####################################################################
@@ -466,9 +475,16 @@ class CogDevApp(CogEngine_GtkSDL):
 	def initialize_widgets(self):
 
 		self.output_textbox = self.cogengine.output_textbox
+		self.output_textbox.set_word_wrap(self.gtk.TRUE)
+
 		self.commandline_entry = self.cogengine.commandline_entry
+
 		self.statistics_textbox = self.cogengine.statistics_textbox
+		self.statistics_textbox.set_word_wrap(self.gtk.TRUE)
+
 		self.inventory_textbox = self.cogengine.inventory_textbox
+		self.inventory_textbox.set_word_wrap(self.gtk.TRUE)
+
 
 	#####################################################################
 
@@ -486,27 +502,82 @@ class CogDevApp(CogEngine_GtkSDL):
 	def initialize_new_game(self):
 
 		self.initialize_widgets()
-		self.initialize_sdl_graphic_area()
-		self.initialize_compass_panel()
-		self.initialize_inventory_panel()
-		self.initialize_current_room_objects_panel()
+
+		self.initialize_sound()
+
 		if (self.gameInformation.text_to_speech_enabled):
 			self.initialize_speech()
 		else:
 			self.text_to_speech_enabled = 0
+
+		if (self.gameInformation.show_graphic_area):
+#			self.gameInformation.show_stats = 0
+#			self.gameInformation.show_inventory = 0
+#			self.gameInformation.show_command_line = 0
+#			self.gameInformation.show_text_output_area = 0
+
+			self.initialize_sdl_graphic_area()
+			self.initialize_graphic_display_panel()
+			self.initialize_compass_panel()
+			self.initialize_inventory_panel()
+			self.initialize_current_room_objects_panel()
+			self.initialize_mouse_pointer()
+
+
 		self.initialize_engine()
+
+
+#		if (self.gameInformation.show_graphic_area):
+#			self.execute_pygame_loop = 1
+#			self.pygame_event_loop()
+#			self.pygame.quit()
+#			self.load_game_menu()
 
 
 	#####################################################################
 
 	def exit_cog_engine(self):
 
-		import os
+		if ('mixer' in dir(self)):
+			if (self.gameInformation.debug_mode):
+				print "Uninitializing the mixer"
 
-		if ('speech' in dir(self)) and (os.name == "posix"):
-			del (self.speech)
+			if (self.mixer.get_busy() and self.mixer.music.get_busy()):
+				self.mixer.music.stop()
+
+			self.mixer.quit()
+
+
+		if ('speech' in dir(self)):
+
+			if (self.operating_system == "posix"):
+				del (self.speech)
+
+			if (self.operating_system == "windows"):
+				if (self.gameInformation.debug_mode):
+					print "Waiting for TTS to finish speaking"
+				self.speech.stop()
+				
 
 		self.widget.play_togglebutton.set_active(0)
+            
+
+	#####################################################################
+
+	def exit_to_system(self):
+
+		# We don't actually want to do this when running the Cog Engine from
+		# within the Cog Development Application
+
+		pass
+
+	#####################################################################
+	
+	def load_game_menu(self):
+	
+		# This gets called by CogEngine_GtkSDL_Modules when a graphical screen is quit
+
+		self.exit_cog_engine()
 
 
 #####################################################################

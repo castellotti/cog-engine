@@ -1,11 +1,19 @@
-Changelog - Cog Development Application 1.1.4
+Changelog - Cog Development Application 1.1.5
 
                        The Cog Development Application
 
-                                Version 1.1.4
+                                Version 1.1.5
 
                    Copyright (C) 2001,2002 Steven M. Castellotti
                             <SteveC@innocent.com>
+
+Version (1.1.5):
+Released 2002.07.09
+
+	- Audio Support added to Event Editor
+	- Word-Wrapping enabled for all GtkText Widgets
+	- CogEngine v1.1.5 embedded
+
 
 Version (1.1.4):
 Released 2002.06.16

@@ -756,6 +756,53 @@
 
 	<widget>
 	  <class>GtkHBox</class>
+	  <name>hbox151</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label498</name>
+	    <label>   Audio Directory:   </label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>3</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkEntry</class>
+	    <name>audio_directory_textentry</name>
+	    <width>480</width>
+	    <height>24</height>
+	    <tooltip>This entry tells the engine which directory to find sound files in</tooltip>
+	    <can_focus>True</can_focus>
+	    <editable>True</editable>
+	    <text_visible>True</text_visible>
+	    <text_max_length>0</text_max_length>
+	    <text></text>
+	    <child>
+	      <padding>3</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkHBox</class>
 	  <name>hbox8</name>
 	  <homogeneous>False</homogeneous>
 	  <spacing>0</spacing>
@@ -6921,6 +6968,7 @@ Modifies Item&lt;Ref&gt; &lt;ItemAttributes&gt;
 Modifies Obstruction&lt;Ref&gt; &lt;ObstructionAttributes&gt;
 TextMessage'[' string Message ']'
 GraphicMessage'[' URL, int, int ']' // [Graphic URL, X-coordinate, Y-coordinate]
+PlaySoundFile'[' filename ']'
 
 ItemLocations:
 Inventory
@@ -7311,7 +7359,7 @@ Expressions:
       <widget>
 	<class>GtkLabel</class>
 	<name>Application Title</name>
-	<label>Cog Development Application v1.1.4</label>
+	<label>Cog Development Application v1.1.5</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>

@@ -34,9 +34,11 @@ def insert_data_into_game_editor(self):
 	self.gameInformationEditor.game_url_textentry.set_text(self.gameInformation.game_url)
 	self.gameInformationEditor.database_url_textentry.set_text(self.gameInformation.database_url)
 	self.gameInformationEditor.image_directory_textentry.set_text(self.gameInformation.image_directory)
+	self.gameInformationEditor.audio_directory_textentry.set_text(self.gameInformation.audio_directory)
 	self.gameInformationEditor.image_loading_graphic_textentry.set_text(self.gameInformation.image_loading_graphic_url)
 	self.gameInformationEditor.introduction_graphic_textentry.set_text(self.gameInformation.introduction_graphic_url)
 
+	self.gameInformationEditor.introduction_text_textbox.set_word_wrap(self.gtk.TRUE)
 	self.gameInformationEditor.introduction_text_textbox.delete_text(0, -1)
 	self.gameInformationEditor.introduction_text_textbox.insert_defaults(self.gameInformation.introduction_text)
 
@@ -47,6 +49,7 @@ def insert_data_into_game_editor(self):
 
 	self.gameInformationEditor.text_to_speech_enabled_checkbutton.set_active(self.gameInformation.text_to_speech_enabled)
 
+	self.gameInformationEditor.game_information_notes_textbox.set_word_wrap(self.gtk.TRUE)
 	self.gameInformationEditor.game_information_notes_textbox.delete_text(0, -1)
 	self.gameInformationEditor.game_information_notes_textbox.insert_defaults(self.gameInformation.game_information_notes)
 
@@ -68,6 +71,12 @@ def read_game_editor_data_into_memory(self):
 
 	if (self.gameInformation.image_directory != "") and (self.gameInformation.image_directory[0] == "/"):
 		self.gameInformation.image_directory = self.gameInformation.image_directory[1:]
+
+	self.gameInformation.audio_directory = self.gameInformationEditor.audio_directory_textentry.get_text()
+
+	if (self.gameInformation.audio_directory != "") and (self.gameInformation.audio_directory[0] == "/"):
+		self.gameInformation.audio_directory = self.gameInformation.audio_directory[1:]
+
 
 	self.gameInformation.image_loading_graphic_url = self.gameInformationEditor.image_loading_graphic_textentry.get_text()
 	self.gameInformation.introduction_graphic_url = self.gameInformationEditor.introduction_graphic_textentry.get_text()
