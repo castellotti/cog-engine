@@ -489,7 +489,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>Application Title</name>
-	<label>Cog Engine Application v1.1.5</label>
+	<label>Cog Engine Application v1.1.6</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>

@@ -8,7 +8,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.20
+# Last Update: 2002.07.15
 #
 #####################################################################
 
@@ -429,15 +429,37 @@ class CogEngine_Jython(CogEngine):
 		# This methond gets called by the Cog Engine whenever a room or object
 		# is displayed.
 
+		import string
+
 		if (self.gameInformation.show_graphic_area):
 
 			if (type(graphic_url) != type(None)):
 
-				try:
-					current_url = java.net.URL( "%s%s/%s" % (self.getCodeBase(), self.gameInformation.image_directory, graphic_url))
-				except bad_url_error:
-					print "Graphic URL: \"%s\" is Malformed!\n" % graphic_url
-     
+				if ( string.split(graphic_url, '.')[-1] == 'png'):
+					# JDK 1.1 is not aware of .png graphics. In this case we're going to check for .gif
+					# graphics with the same name, and display them instead
+
+					gif_graphic_url = string.join(string.split(graphic_url, '.')[:-1], '.')
+					gif_graphic_url = gif_graphic_url + "gif"
+
+					if (self.gameInformation.debug_mode):
+						print "Replacing PNG graphic with GIF graphic: %s" % gif_graphic_url
+
+					try:
+						current_url = java.net.URL( "%s%s/%s" % (self.getCodeBase(), self.gameInformation.image_directory, gif_graphic_url))
+					except bad_url_error:
+						try:
+							current_url = java.net.URL( "%s%s/%s" % (self.getCodeBase(), self.gameInformation.image_directory, graphic_url))
+						except bad_url_error:
+							print "Graphic URL: \"%s\" is Malformed!\n" % graphic_url
+
+				else:
+
+					try:
+						current_url = java.net.URL( "%s%s/%s" % (self.getCodeBase(), self.gameInformation.image_directory, graphic_url))
+					except bad_url_error:
+						print "Graphic URL: \"%s\" is Malformed!\n" % graphic_url
+
 
 				# If the image is going to be displayed at the upper-left corner of the screen, we want
 				# to display this image as the root image for the graphic panel.
@@ -579,7 +601,22 @@ class CogEngine_Jython(CogEngine):
 							current_url = java.net.URL("%s%s/%s" % (self.getCodeBase(), self.gameInformation.image_directory, self.directionData[direction].compass_graphic_special_url))
 						except bad_url_error:
 							print "Bad URL - Compass Button Graphic: %s" % self.directionData[direction].compass_graphic_special_url
-						self. directionStates[direction] = "Unavailable"
+						self. directionStates[direction] = "Obstructed"
+
+					elif (direction_state == "Previously Traveled"):
+						try:
+							current_url = java.net.URL("%s%s/%s" % (self.getCodeBase(), self.gameInformation.image_directory, self.directionData[direction].compass_graphic_previously_traveled))
+						except bad_url_error:
+							print "Bad URL - Compass Button Graphic: %s" % self.directionData[direction].compass_graphic_previously_traveled
+						self. directionStates[direction] = "Previously Traveled"
+
+					elif (direction_state == "Last Direction Traveled"):
+						try:
+							current_url = java.net.URL("%s%s/%s" % (self.getCodeBase(), self.gameInformation.image_directory, self.directionData[direction].compass_graphic_last_direction_traveled))
+						except bad_url_error:
+							print "Bad URL - Compass Button Graphic: %s" % self.directionData[direction].compass_graphic_last_direction_traveled
+						self. directionStates[direction] = "Last Direction Traveled"
+
 
 					if (direction == 1):
 						self.northwest_graphicbutton.setImage(self, current_url)

@@ -1,8 +1,8 @@
-README - Cog Engine 1.1.5
+README - Cog Engine 1.1.6
 
                                The Cog Engine
 
-                                Version 1.1.5
+                                Version 1.1.6
 
                    Copyright (C) 1999-2002 Steven M. Castellotti
                             <SteveC@innocent.com>
@@ -27,9 +27,9 @@ SPECIAL NOTE
         This version of the Cog Development Application uses a new
 file format for Cog Engine files. You will need to use the conversion
 script to work on games created before this release. The current upgrade
-script is called convert-1.1.4-to-1.1.5.py and can be executed as such:
+script is called convert-1.1.5-to-1.1.6.py and can be executed as such:
 
-python convert-1.1.4-to-1.1.5.py CyconOdyssey.cog.old CyconOdyssey.cog
+python convert-1.1.5-to-1.1.6.py CyconOdyssey.cog.old CyconOdyssey.cog
 
 
 Quick Installation Instructions

@@ -1,15 +1,26 @@
-Changelog - Cog Engine Application 1.1.5
+Changelog - Cog Engine Application 1.1.6
 
                        The Cog Engine Application
 
-                                Version 1.1.5
+                                Version 1.1.6
 
                    Copyright (C) 1999-2002 Steven M. Castellotti
                             <SteveC@innocent.com>
 
-Version (1.1.5)
+Version (1.1.6)
+Released 2002.07.15
 
-	- GUI Interaction with Pbjects on the Graphic Panel
+	- The compass can display a different graphic to display if a
+	  player has already visited the room a direction leads to
+	- The compass can display a different graphic to indicate the last
+	  direction a player traveled from
+	- Objects can be manipulated directly through their Close Up Images
+
+
+Version (1.1.5)
+Released 2002.06.20
+
+	- GUI Interaction with Objects on the Graphic Panel
 	- Audio support added to Events
 	- Threaded Text-To-Speech under Windows
 	- Improved Text-To-Speech under Linux
@@ -19,6 +30,7 @@ Version (1.1.5)
 
 
 Version (1.1.4)
+Released 2002.06.16
 
 	- Complete GUI-based interaction
 	- Graphical Mouse Pointers
@@ -26,6 +38,7 @@ Version (1.1.4)
 
 
 Version (1.1.3)
+Released 2002.06.09
 
 	- Graphical Inventory
 	- Graphical Object Panel
@@ -35,6 +48,7 @@ Version (1.1.3)
 
 
 Version (1.1.2)
+Released 2002.05.30
 
 	- Text-To-Speech Synthesis added under Linux and Windows
 	- Passive Graphical Compass added to GTK+/SDL Frontend
@@ -42,6 +56,7 @@ Version (1.1.2)
 
 
 Version (1.1.1)
+Released 2002.05.15
 
 	- New GtkSDL version of the Cog Engine (independant release)
 	- New Jython Applet version of the Cog Engine (replaces 1.0 Java version)
@@ -52,12 +67,14 @@ Version (1.1.1)
 
 
 Version (1.0)
+Released 2002.01.26
 
 	- Fixed bug in GraphicPanel that try to paint images which had not
 	  downloaded correctly.
 
 
 Version (0.95)
+Released 2001.09.22
 
 	- "Image Directory" variable added. This makes it easier to use
 	  the same game data with different graphics files. For instance,
