@@ -138,11 +138,19 @@ def read_item_editor_data_into_memory(self):
 			self.itemData[current_item_number].name = self.itemEditor.name_textentry.get_text()
 			self.itemData[current_item_number].aliases = self.itemEditor.aliases_textentry.get_text()
 			self.itemData[current_item_number].environment_graphic_url = self.itemEditor.environmental_graphic_textentry.get_text()
+			if (self.itemData[current_item_number].environment_graphic_url == ""):
+				self.itemData[current_item_number].environment_graphic_url = None
 			self.itemData[current_item_number].environment_graphic_Xpos = string.atoi( self.itemEditor.environmental_graphic_x_textentry.get_text() )
 			self.itemData[current_item_number].environment_graphic_Ypos = string.atoi( self.itemEditor.environmental_graphic_y_textentry.get_text() )
 			self.itemData[current_item_number].closeup_graphic_url = self.itemEditor.closeup_graphic_textentry.get_text()
+			if (self.itemData[current_item_number].closeup_graphic_url == ""):
+				self.itemData[current_item_number].closeup_graphic_url = None
 			self.itemData[current_item_number].icon_graphic_url = self.itemEditor.icon_graphic_textentry.get_text()
+			if (self.itemData[current_item_number].icon_graphic_url == ""):
+				self.itemData[current_item_number].icon_graphic_url = None
 			self.itemData[current_item_number].equipped_graphic_url = self.itemEditor.equipped_graphic_textentry.get_text()
+			if (self.itemData[current_item_number].equipped_graphic_url == ""):
+				self.itemData[current_item_number].equipped_graphic_url = None
 
 			self.itemData[current_item_number].description = gtk.GtkEntry.get_chars(self.itemEditor.description_textbox, 0, -1)
 

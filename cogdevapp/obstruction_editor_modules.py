@@ -118,9 +118,13 @@ def read_obstruction_editor_data_into_memory(self):
 			self.obstructionData[current_obstruction_number].name = self.obstructionEditor.name_textentry.get_text()
 			self.obstructionData[current_obstruction_number].aliases = self.obstructionEditor.aliases_textentry.get_text()
 			self.obstructionData[current_obstruction_number].environment_graphic_url = self.obstructionEditor.environmental_graphic_textentry.get_text()
+			if (self.obstructionData[current_obstruction_number].environment_graphic_url == ""):
+				self.obstructionData[current_obstruction_number].environment_graphic_url = None
 			self.obstructionData[current_obstruction_number].environment_graphic_Xpos = string.atoi( self.obstructionEditor.environmental_graphic_x_textentry.get_text() )
 			self.obstructionData[current_obstruction_number].environment_graphic_Ypos = string.atoi( self.obstructionEditor.environmental_graphic_y_textentry.get_text() )
 			self.obstructionData[current_obstruction_number].closeup_graphic_url = self.obstructionEditor.closeup_graphic_textentry.get_text()
+			if (self.obstructionData[current_obstruction_number].closeup_graphic_url == ""):
+				self.obstructionData[current_obstruction_number].closeup_graphic_url = None
 
 			self.obstructionData[current_obstruction_number].description = gtk.GtkEntry.get_chars(self.obstructionEditor.description_textbox, 0, -1)
 
@@ -139,7 +143,7 @@ def read_obstruction_editor_data_into_memory(self):
 
 def create_new_obstruction(self):
 	new_obstruction_number = len(self.obstructionData) + 1
-	self.obstructionData[new_obstruction_number] = self.obstructionObject()
+	self.obstructionData[new_obstruction_number] = self.ObstructionObject()
 	self.obstructionData[new_obstruction_number].number = len(self.obstructionData)
 
 #####################################################################

@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.02.15
+# Last Update: 2001.06.19
 #
 #####################################################################
 # Notes
@@ -15,7 +15,10 @@
 # [ '('Requires [! | '('Not')'] <Requirement>')' ]
 # { ( and | or ) '('Requires [! | '('Not')'] <Requirement>')' } ->
 # 	<Effect> {and <Effect>};
+#
+#
 #####################################################################
+
 
 #####################################################################
 # Functions
@@ -31,6 +34,8 @@ def on_event_editor_destroy(self, obj):
 def insert_data_into_event_editor(self):
 
 	import string
+
+	events_written = 0
 
 	self.eventEditor.event_editor_textbox.delete_text(0, -1)
 
@@ -49,6 +54,7 @@ def insert_data_into_event_editor(self):
 			if( self.eventEditor.event_editor_display_reference_names_radiobutton.get_active() ):
 				textbox_output = self.convert_reference_numbers_to_names(textbox_output)
 
+			events_written = events_written + 1
 			self.eventEditor.event_editor_textbox.insert_defaults(textbox_output)
 
 
@@ -102,10 +108,10 @@ def convert_reference_numbers_to_names(self, reference_string):
 		current_string = current_string[5:index2]
 		current_number = string.atoi(current_string)
 		# we need to handle for moving to location 0 (room #0)
-		if (current_number == 0):
-			current_string = ''
+		if (current_number <= 0):
+			current_string = "0 - Nowhere"
 		else:
-			current_string = self.roomData[current_number].name
+			current_string = "%i - %s" % (current_number, self.roomData[current_number].name)
 		reference_string = "%sRoom[%s]%s" % (reference_string[:index], current_string, reference_string[index + index2 + 1:])
 		index = string.find(reference_string, 'Room(')
 
@@ -116,7 +122,7 @@ def convert_reference_numbers_to_names(self, reference_string):
 		index2 = string.find(current_string, ')')
 		current_string = current_string[5:index2]
 		current_number = string.atoi(current_string)
-		current_string = self.itemData[current_number].name
+		current_string = "%i - %s" % (current_number, self.itemData[current_number].name)
 		reference_string = "%sItem[%s]%s" % (reference_string[:index], current_string, reference_string[index + index2 + 1:])
 		index = string.find(reference_string, 'Item(')
 
@@ -127,7 +133,7 @@ def convert_reference_numbers_to_names(self, reference_string):
 		index2 = string.find(current_string, ')')
 		current_string = current_string[12:index2]
 		current_number = string.atoi(current_string)
-		current_string = self.obstructionData[current_number].name
+		current_string = "%i - %s" % (current_number, self.obstructionData[current_number].name)
 		reference_string = "%sObstruction[%s]%s" % (reference_string[:index], current_string, reference_string[index + index2 + 1:])
 		index = string.find(reference_string, 'Obstruction(')
 
@@ -139,6 +145,7 @@ def convert_reference_numbers_to_names(self, reference_string):
 		current_string = current_string[10:index2]
 		current_number = string.atoi(current_string)
 		current_string = self.directionData[current_number].name
+#		current_string = "%i - %s" % (current_number, self.directionData[current_number].name)
 		reference_string = "%sDirection[%s]%s" % (reference_string[:index], current_string, reference_string[index + index2 + 1:])
 		index = string.find(reference_string, 'Direction(')
 
@@ -150,8 +157,10 @@ def convert_reference_numbers_to_names(self, reference_string):
 		current_string = current_string[16:index2]
 		current_number = string.atoi(current_string)
 		current_string = self.directionData[current_number].name
+#		current_string = "%i - %s" % (current_number, self.directionData[current_number].name)
 		reference_string = "%sDirectionObject[%s]%s" % (reference_string[:index], current_string, reference_string[index + index2 + 1:])
 		index = string.find(reference_string, 'DirectionObject(')
+
 
 	return(reference_string)
 
@@ -169,13 +178,15 @@ def convert_reference_names_to_numbers(self, reference_string):
 		index2 = string.find(current_string, ']')
 		current_string = current_string[5:index2]
 
-		# we need to handle for moving to location [] (room #0)
-		current_number = 0
+		current_number = string.atoi( string.split( current_string, ' - ')[0] )
 
-		# we search for names until we find a match
-		for each in self.roomData.keys():
-			if ( self.roomData[each].name == current_string ):
-				current_number = each
+# 		# we need to handle for moving to location [] (room #0)
+# 		current_number = 0
+#
+# 		# we search for names until we find a match
+# 		for each in self.roomData.keys():
+# 			if ( self.roomData[each].name == current_string ):
+# 				current_number = each
 
 		reference_string = "%sRoom(%i)%s" % (reference_string[:index], current_number, reference_string[index + index2 + 1:])
 		index = string.find(reference_string, 'Room[')
@@ -187,11 +198,13 @@ def convert_reference_names_to_numbers(self, reference_string):
 		index2 = string.find(current_string, ']')
 		current_string = current_string[5:index2]
 
-		current_number = 0
-		# we search for names until we find a match
-		for each in self.itemData.keys():
-			if ( self.itemData[each].name == current_string ):
-				current_number = each
+		current_number = string.atoi( string.split( current_string, ' - ')[0] )
+
+# 		current_number = 0
+# 		# we search for names until we find a match
+# 		for each in self.itemData.keys():
+# 			if ( self.itemData[each].name == current_string ):
+# 				current_number = each
 
 		reference_string = "%sItem(%i)%s" % (reference_string[:index], current_number, reference_string[index + index2 + 1:])
 		index = string.find(reference_string, 'Item[')
@@ -203,11 +216,13 @@ def convert_reference_names_to_numbers(self, reference_string):
 		index2 = string.find(current_string, ']')
 		current_string = current_string[12:index2]
 
-		current_number = 0
-		# we search for names until we find a match
-		for each in self.obstructionData.keys():
-			if ( self.obstructionData[each].name == current_string ):
-				current_number = each
+		current_number = string.atoi( string.split( current_string, ' - ')[0] )
+
+# 		current_number = 0
+# 		# we search for names until we find a match
+# 		for each in self.obstructionData.keys():
+# 			if ( self.obstructionData[each].name == current_string ):
+# 				current_number = each
 
 		reference_string = "%sObstruction(%s)%s" % (reference_string[:index], current_number, reference_string[index + index2 + 1:])
 		index = string.find(reference_string, 'Obstruction[')
@@ -244,6 +259,7 @@ def convert_reference_names_to_numbers(self, reference_string):
 		reference_string = "%sDirectionObject(%s)%s" % (reference_string[:index], current_number, reference_string[index + index2 + 1:])
 		index = string.find(reference_string, 'DirectionObject[')
 
+
 	return(reference_string)
 
 
@@ -259,23 +275,9 @@ def read_event_editor_data_into_memory(self):
 
 	# Now read in the buffer and split the events into a list
 	event_buffer = gtk.GtkEntry.get_chars(self.eventEditor.event_editor_textbox, 0, -1)
-	event_buffer = self.clean_event_buffer(event_buffer)
+	#event_buffer = self.clean_event_buffer(event_buffer)
  	event_list = string.split(event_buffer, ';')
-#
-#
-# 	# Event List is way too long!
-# 	for each in event_list:
-# 		index = event_list.index(each)
-# 		current_event = event_list[index]
-# 		del event_list[index]
-# 		for inner_each in event_list:
-# 			inner_index = event_list.index(inner_each)
-# 			if ( event_list[inner_index] == current_event ):
-# 				del event_list[inner_index]
-# 		if (index == len(event_list)):
-# 			event_list.append(current_event)
-# 		else:
-# 			event_list[index] = current_event
+
 
 	# Parse Events
 	for each in event_list:
@@ -288,15 +290,12 @@ def read_event_editor_data_into_memory(self):
 		event_list[index] = self.convert_reference_names_to_numbers( event_list[index] )
 
 		if ( string.find( event_list[index], '->' ) != -1 ):
-#			print event_list[index]
 
 			current_action = string.split( event_list[index], ' ' )[0]
-#			print "Action: '%s'" % current_action
 
 			current_object = string.split( event_list[index], ' ' )[1]
 			current_object = string.replace( current_object, '\n', '')
 			current_object = string.strip( current_object )
-#			print "Object: '%s'" % current_object
 
 			remainder_index = string.find( event_list[index], current_object ) + len(current_object)
 
@@ -313,15 +312,13 @@ def read_event_editor_data_into_memory(self):
 				current_requirements = remainder
 				current_requirements = string.replace( current_requirements, '\n', '')
 				current_requirements = string.strip( current_requirements )
-#				print "Requirements:\n%s" % current_requirements
+
 			else:
 				# parse preposition and object2, then check for requirements
 				current_preposition = string.split( remainder, ' ' )[0]
-#				print "Preposition: '%s'" % current_preposition
 
 				current_object2 = string.split( remainder, ' ' )[1]
 				current_object2 = string.replace( current_object2, '\n', '')
-#				print "Object2: '%s'" % current_object2
 
 				if ( len( string.split(remainder, ' ') ) > 1 ):
 					current_requirements = string.split( remainder, ' ')[2:]
@@ -331,7 +328,7 @@ def read_event_editor_data_into_memory(self):
 						current_requirements = None
 					else:
 						current_requirements = string.replace( current_requirements, '\n', '')
-#						print "Requirements:\n%s" % current_requirements
+
 				else:
 					current_requirements = None
 
@@ -504,6 +501,18 @@ def on_event_editor_display_reference_names_radiobutton_toggled(self, obj):
 	if (self.eventEditor.event_editor_display_reference_names_radiobutton.get_active()):
 		self.read_event_editor_data_into_memory()
 		self.insert_data_into_event_editor()
+
+
+#####################################################################
+
+def count_events_in_memory(self):
+
+	total_events = 0
+
+	for verb in self.verbData.keys():
+		total_events = total_events + len(self.verbData[verb].events)
+
+	return(total_events)
 
 
 #####################################################################

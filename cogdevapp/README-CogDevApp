@@ -1,8 +1,8 @@
-README - Cog Development Application 0.81
+README - Cog Development Application 0.82
 
                        The Cog Development Application
 
-                                Version 0.81
+                                Version 0.82
 
                    Copyright (C) 2001 Steven M. Castellotti
                             <SteveC@innocent.com>
@@ -115,10 +115,10 @@ replace these class files with the new ones.
 
 
 Example (Under Linux):
-tar xvzf CogDevApp-0.81-source.tar.gz
+tar xvzf CogDevApp-0.82-source.tar.gz
 tar xvzf CyconOdyssey-0.91-data.tar.gz
-cp CyconOdyssey-0.91/Cycon-COG.dat CogDevApp-0.81
-cd CogDevApp-0.81
+cp CyconOdyssey-0.91/Cycon-COG.dat CogDevApp-0.82
+cd CogDevApp-0.82
 ./import_cog_data.py Cycon-COG.dat Cycon-COG.dev
 ./CogDevApp.py Cycon-COG.dev
 ./export_cog_data.py Cycon-COG.dev Cycon-COG.dat

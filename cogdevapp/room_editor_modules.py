@@ -2,18 +2,14 @@
 #
 # COG Engine Development Application - Room Editor
 #
-# Copyright Steven M. Castellotti (2000)
+# Copyright Steven M. Castellotti (2001)
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.06.12
+# Last Update: 2001.06.19
 #
 #####################################################################
-# Bugs
-#####################################################################
-#  - fix automatic selection of new direction after it is added (see comments)
-#  - direction_description has been ignored!
-#####################################################################
+
 
 #####################################################################
 # Functions
@@ -43,6 +39,8 @@ def insert_data_into_room_editor(self, current_room_number):
 	self.roomEditor.text_description_long_textbox.insert_defaults(self.roomData[self.room_displayed].description_long)
 	self.roomEditor.text_description_short_textbox.delete_text(0, -1)
 	self.roomEditor.text_description_short_textbox.insert_defaults(self.roomData[self.room_displayed].description_short)
+	self.roomEditor.direction_description_text.delete_text(0, -1)
+	self.roomEditor.direction_description_text.insert_defaults(self.roomData[self.room_displayed].direction_description)
 
 
 	if (self.roomData[self.room_displayed].visited):
@@ -78,7 +76,7 @@ def insert_data_into_room_editor(self, current_room_number):
 	# Calling the following function will set up the direction optionmenu
 	# with the room's current settings.
 	self.room_direction_displayed = 0
-	setup_directional_object_optionmenu(self)
+	setup_directional_object_optionmenu(self, 1)
 
 	# Add this room's notes to the notes_textbox
 	self.roomEditor.notes_textbox.delete_text(0, -1)
@@ -89,7 +87,13 @@ def insert_data_into_room_editor(self, current_room_number):
 
 #####################################################################
 
-def setup_directional_object_optionmenu(self):
+def setup_directional_object_optionmenu(self, direction_to_display):
+
+	# This function should take a look at the avaiable directions for the room,
+	# and set up two option menus based on that information, one nested inside the other.
+	# The outer optionmenu should contain a list of the current room's available
+	# directions,  and the inner list should contain list of the remaining directions' names.
+
 	import gtk
 
 	# Set up directional object optionmenu
@@ -101,8 +105,6 @@ def setup_directional_object_optionmenu(self):
 	unused_direction_list = self.directionData.keys()
 	unused_direction_list.sort()
 
-	menu_default_set = 0 # we use this to make sure that the directional object information
-	                     # is set by default to the data related to the first menu item
 
 	if (self.roomData[self.room_displayed].direction != {}):
 		direction_keys = self.roomData[self.room_displayed].direction.keys()
@@ -110,22 +112,17 @@ def setup_directional_object_optionmenu(self):
 		for each in direction_keys:
 			del unused_direction_list[ unused_direction_list.index(each) ]
 			menu_item = gtk.GtkMenuItem(self.directionData[each].name)
-			# The following line could be written better - if memory space was structured better
 			menu_item.connect("activate", self.setup_directional_objects, each)
 			#self.direction_menu.prepend(menu_item)
 			self.direction_menu.append(menu_item)
 			menu_item.show()
-			if (menu_default_set == 0):
-				self.setup_directional_objects(None, each)
-				menu_default_set = 1
-				self.room_direction_displayed = each
 
 	for each in unused_direction_list:
 		menu_item = gtk.GtkMenuItem(self.directionData[each].name)
 		# The following line could be written better - if memory space was structured better
 		menu_item.connect("activate", self.add_new_directional_object, each)
-		#self.direction_submenu.append(menu_item)
-		self.direction_submenu.prepend(menu_item)
+		#self.direction_submenu.prepend(menu_item)
+		self.direction_submenu.append(menu_item)
 		menu_item.show()
 
 	submenu_item = gtk.GtkMenuItem("Add New Direction")
@@ -133,7 +130,26 @@ def setup_directional_object_optionmenu(self):
 	self.direction_menu.append(submenu_item)
 	submenu_item.show()
 
+	# If a new direction has just been added to this room, we want to make it
+	# the current selection
+	if ( self.roomData[self.room_displayed].direction != {} ):
+		if (direction_to_display in direction_keys):
+			self.direction_menu.set_active(direction_keys.index(direction_to_display))
+			self.setup_directional_objects(None, direction_to_display)
+		else:
+			# if directions are available, but the requested one is not, we set the
+			# menu to the first available direction by default
+			self.direction_menu.set_active(0)
+			self.setup_directional_objects(None, direction_keys[0])
+
+
 	self.roomEditor.directional_object_optionmenu.set_menu(self.direction_menu)
+
+
+#####################################################################
+
+def change_directional_object(self, obj, new_direction):
+	pass
 
 
 #####################################################################
@@ -146,11 +162,13 @@ def setup_directional_objects(self, obj, new_direction):
 	#self.roomEditor.first_transition_text_textbox.delete_text(0, -1)
 	#self.roomEditor.transition_text_textbox.delete_text(0 , -1)
 
-	# Read all data from currently displayed room direction into memory
-	self.read_direction_object_information_data_into_memory(self.room_displayed)
+	# If a direction is currently being displayed, we need to read it's data into
+	# memory before replacing it with the new direction's data
+	if ( self.room_direction_displayed > 0 ):
+		self.read_direction_object_information_data_into_memory(self.room_displayed)
+
 
 	# Display new room's data
-# 	self.roomEditor.to_which_room_textentry.set_text("%i" % self.roomData[self.room_displayed].direction[new_direction].to_which_room)
 	room_keys = self.roomData.keys()
 	room_keys.sort()
 	room_list = []
@@ -222,24 +240,7 @@ def setup_directional_objects(self, obj, new_direction):
 def add_new_directional_object(self, obj, new_direction):
 
 	self.roomData[self.room_displayed].direction[new_direction] = self.DirectionObject()
-	self.setup_directional_object_optionmenu()
-
-#  The folowing section of code should set the new direction to display by default
-#  after being added, but the update to the optionmenu does not appear to take hold
-#
-# 	# Set widgets to new_direction's data
-# 	self.setup_directional_objects(None, new_direction)
-#
-#  # Set menu to display new direction
-# 	direction_menu = self.roomEditor.directional_object_optionmenu.get_menu()
-# 	unused_direction_list = self.roomData[self.room_displayed].direction.keys()
-# 	unused_direction_list.sort()
-# 	print "unused_direction_list: %s" % unused_direction_list
-# 	print "new_direction: %i" % new_direction
-# 	menu_index = unused_direction_list.index(new_direction)
-# 	print "menu_index: %i" % menu_index
-# 	direction_menu.set_active(menu_index)
-# 	self.roomEditor.directional_object_optionmenu.set_menu(self.direction_menu)
+	self.setup_directional_object_optionmenu(new_direction)
 
 
 #####################################################################
@@ -258,6 +259,7 @@ def read_room_editor_data_into_memory(self):
 
 		self.roomData[current_room_number].description_long = gtk.GtkEntry.get_chars(self.roomEditor.text_description_long_textbox, 0, -1)
 		self.roomData[current_room_number].description_short = gtk.GtkEntry.get_chars(self.roomEditor.text_description_short_textbox, 0, -1)
+		self.roomData[current_room_number].direction_description = gtk.GtkEntry.get_chars(self.roomEditor.direction_description_text, 0, -1)
 
 		self.roomData[current_room_number].visited = self.roomEditor.visited_true_radiobutton.get_active()
 
@@ -299,7 +301,7 @@ def read_direction_object_information_data_into_memory(self, room_number):
 			print "Warning! No to_which_room defined for previous direction... removing direction!"
 			del (self.roomData[self.room_displayed].direction[self.room_direction_displayed])
 			self.room_direction_displayed = 0
-			setup_directional_object_optionmenu(self)
+			setup_directional_object_optionmenu(self, 1)
 
 		else:
 			#print gtk.GtkEntry.get_chars(self.roomEditor.transition_text_textbox, 0, -1)
@@ -340,7 +342,7 @@ def create_new_room(self):
 	new_room_number = len(self.roomData) + 1
 	self.roomData[new_room_number] = self.RoomObject()
 	self.roomData[new_room_number].number = len(self.roomData)
-	self.roomEditor.to_which_room_combo-entry.set_text("")
+	self.roomEditor.to_which_room_combo.entry.set_text("")
 
 
 #####################################################################
@@ -348,7 +350,7 @@ def create_new_room(self):
 def clear_current_room(self):
 	self.roomData[self.room_displayed] = self.RoomObject()
 	self.roomData[self.room_displayed].number = self.room_displayed
-	self.roomEditor.to_which_room_combo-entry.set_text("")
+	self.roomEditor.to_which_room_combo.entry.set_text("")
 	self.room_direction_displayed = 0
 
 
@@ -454,8 +456,6 @@ def on_room_editor_add_item_button_clicked(self, obj):
 
 def on_room_editor_add_obstruction_button_clicked(self, obj):
 
-# start here
-
 	selected_obstruction = self.roomEditor.obstruction_list_combo.entry.get_text()
 	if (selected_obstruction != "No Obstructions Available"):
 
@@ -492,6 +492,7 @@ def on_room_editor_add_obstruction_button_clicked(self, obj):
 # graphic_url_textentry
 # text_description_long_textbox
 # text_description_short_textbox
+# direction_description_text
 # directions_textentry
 # items_textentry
 # directional_object_optionmenu

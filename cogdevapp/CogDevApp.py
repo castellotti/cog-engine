@@ -65,6 +65,7 @@ class CogDevAppReader:
 			self.directionData, self.roomData, \
 			self.itemData, self.obstructionData, self.verbData) \
 			= utils.load_data_file(sys.argv[1])
+			self.database_filename = sys.argv[1]
 		else:
 			self.on_new_file_activate(None)
 		gtk.mainloop()
@@ -308,7 +309,7 @@ class CogDevAppReader:
 			self.setup_default_data_in_event_builder()
 			self.insert_data_into_event_editor()
 		else:
-			# self.read_event_editor_data_into_memory()
+			self.read_event_editor_data_into_memory()
 			self.eventEditor.event_editor.hide()
 
 
