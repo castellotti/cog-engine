@@ -1,8 +1,8 @@
-README - Cog Engine 0.91
+README - Cog Engine 0.95
 
                                The Cog Engine
 
-                                Version 0.91
+                                Version 0.95
 
                    Copyright (C) 1999-2001 Steven M. Castellotti
                             <SteveC@innocent.com>
@@ -47,11 +47,11 @@ Java Appletviewer.
 
 Example (Under Linux):
 
-tar xvzf CogEngine-0.91-classes.tar.gz
-tar xvzf CyconOdyssey-0.91-data.tar.gz
-tar xvzf CyconOdyssey-0.91-images.tar.gz
-cp CogEngine-0.91/* CyconOdyssey-0.91
-cd CyconOdyssey-0.91
+tar xvzf CogEngine-0.95-classes.tar.gz
+tar xvzf CyconOdyssey-0.95-data.tar.gz
+tar xvzf CyconOdyssey-0.95-images.tar.gz
+cp CogEngine-0.95/* CyconOdyssey-0.95
+cd CyconOdyssey-0.95
 appletviewer CogEngine.html
 
 

@@ -10,7 +10,7 @@
 		For more information please refer to http://www.gnu.org/copyleft/gpl.html
 		Copyright (1999-2001) Steven M. Castellotti
 
-		Version : 0.92
+		Version : 0.95
 		Last Update : 2001.09.22
 
 

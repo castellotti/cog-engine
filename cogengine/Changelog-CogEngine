@@ -1,4 +1,4 @@
-Version (0.92)
+Version (0.95)
 
 	- "Image Directory" variable added. This makes it easier to use 
 	  the same game data with different graphics files. For instance, 
