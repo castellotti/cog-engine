@@ -1,3 +1,22 @@
+Changelog - Cog Engine Application 1.1.1
+
+                       The Cog Engine Application
+
+                                Version 1.1.1
+
+                   Copyright (C) 1999-2002 Steven M. Castellotti
+                            <SteveC@innocent.com>
+
+Version (1.1.1)
+
+	- New GtkSDL version of the Cog Engine (independant release)
+	- New Jython Applet version of the Cog Engine (replaces 1.0 Java version)
+	- Beginnings of PyUI based version of the Cog Engine
+	- Image Layering fixed in the Cog Engine
+	- Large amounts of code restructuring and modularization
+	- Many minor bugfixes
+
+
 Version (1.0)
 
 	- Fixed bug in GraphicPanel that try to paint images which had not 

@@ -1,11 +1,11 @@
 /******************************
 The COG Engine
 GraphicButton Component
-Last Modified on 2000.03.18
+Last Modified on 2002.05.02
 
 		This code is released under the GPL (GNU Public License)
 		For more information please refer to http://www.gnu.org/copyleft/gpl.html
-		Copyright (2000) Steven M. Castellotti
+		Copyright (2000-2002) Steven M. Castellotti
 
 ******************************/
 
@@ -22,7 +22,7 @@ public class GraphicButton extends Canvas {
 	ActionListener actionListener;
 	String actionCommand;
 
-	GraphicButton(Applet app, URL ImageURL) {
+	public GraphicButton(Applet app, URL ImageURL) {
 		setImage(app, ImageURL);
 		enableEvents( AWTEvent.MOUSE_EVENT_MASK );
 	}

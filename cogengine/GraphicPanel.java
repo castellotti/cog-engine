@@ -1,11 +1,11 @@
 /******************************
 The COG Engine
 GraphicPanel Component
-Last Modified on 2001.09.25
+Last Modified on 2002.05.02
 
 		This code is released under the GPL (GNU Public License)
 		For more information please refer to http://www.gnu.org/copyleft/gpl.html
-		Copyright (2000) Steven M. Castellotti
+		Copyright (2000-2002) Steven M. Castellotti
 
 ******************************/
 
@@ -35,7 +35,7 @@ public class GraphicPanel extends Component implements Runnable {
 	MediaTracker tracker;
 
 		
-	GraphicPanel ( Applet app, URL InitURL, boolean DebugMode ) {
+	public GraphicPanel ( Applet app, URL InitURL, boolean DebugMode ) {
 		this.app = app;
 		this.DebugMode = DebugMode;
 		LoadingImage = DownloadImage(InitURL, CurrentImageID);
