@@ -2,11 +2,11 @@
 #
 # COG Engine Development Application - Verb Editor
 #
-# Copyright Steven M. Castellotti (2000)
+# Copyright Steven M. Castellotti (2001, 2002)
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.09.22
+# Last Update: 2002.06.10
 #
 #####################################################################
 
@@ -38,6 +38,8 @@ def insert_data_into_verb_editor(self, current_verb_number):
 	if (self.verbData[self.verb_displayed].aliases != None):
 		self.verbEditor.aliases_textbox.insert_defaults(self.verbData[self.verb_displayed].aliases)
 
+	self.verbEditor.mouse_pointer_graphic_textentry.set_text(self.verbData[self.verb_displayed].mouse_pointer_graphic)
+
 	self.verbEditor.notes_textbox.delete_text(0, -1)
 	if (self.verbData[self.verb_displayed].notes != None):
 		self.verbEditor.notes_textbox.insert_defaults(self.verbData[self.verb_displayed].notes)
@@ -55,8 +57,8 @@ def read_verb_editor_data_into_memory(self):
 		else:
 			self.verbData[current_verb_number].number = current_verb_number
 			self.verbData[current_verb_number].name = self.verbEditor.name_textentry.get_text()
-
 			self.verbData[current_verb_number].aliases = gtk.GtkEditable.get_chars(self.verbEditor.aliases_textbox, 0, -1)
+			self.verbData[current_verb_number].mouse_pointer_graphic = self.verbEditor.mouse_pointer_graphic_textentry.get_text()
 			self.verbData[current_verb_number].notes = gtk.GtkEditable.get_chars(self.verbEditor.notes_textbox, 0, -1)
 
 	else:

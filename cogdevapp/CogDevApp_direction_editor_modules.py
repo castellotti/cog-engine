@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.07
+# Last Update: 2002.06.14
 #
 #####################################################################
 
@@ -39,6 +39,7 @@ def insert_data_into_direction_editor(self, current_direction_number):
 	self.directionEditor.special_compass_graphic_textentry.set_text(self.directionData[self.direction_displayed].compass_graphic_special_url)
 	self.directionEditor.never_traveled_compass_graphic_textentry.set_text(self.directionData[self.direction_displayed].compass_graphic_never_traveled)
 	self.directionEditor.last_direction_traveled_compass_graphic_textentry.set_text(self.directionData[self.direction_displayed].compass_graphic_last_direction_traveled)
+	self.directionEditor.compass_panel_display_position_textentry.set_text("%i" % self.directionData[self.direction_displayed].compass_panel_display_position)
 
 
 #####################################################################
@@ -60,9 +61,16 @@ def read_direction_editor_data_into_memory(self):
 			self.directionData[current_direction_number].compass_graphic_special_url = self.directionEditor.special_compass_graphic_textentry.get_text()
 			self.directionData[current_direction_number].compass_graphic_never_traveled = self.directionEditor.never_traveled_compass_graphic_textentry.get_text()
 			self.directionData[current_direction_number].compass_graphic_last_direction_traveled = self.directionEditor.last_direction_traveled_compass_graphic_textentry.get_text()
+		try:
+			current_number = string.atoi(self.directionEditor.compass_panel_display_position_textentry.get_text())
+		except ValueError:
+			self.display_dialog_box("Error", "Non-integer entered into current direction's Compass Panel Display Position field")
+		else:
+			self.directionData[current_direction_number].compass_panel_display_position = current_number
+
 	else:
 		self.display_dialog_box("Warning", "No name entered for this direction! Direction will be skipped.")
-                          
+
 
 #####################################################################
 
@@ -70,7 +78,7 @@ def create_new_direction(self):
 	new_direction_number = len(self.directionData) + 1
 	self.directionData[new_direction_number] = self.DirectionInformationObject()
 	self.directionData[new_direction_number].number = len(self.directionData)
-                        
+
 
 #####################################################################
 

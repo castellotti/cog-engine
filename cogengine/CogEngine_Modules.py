@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.07
+# Last Update: 2002.06.16
 #
 #####################################################################
 # To Do List:
@@ -244,6 +244,7 @@ class CogEngine:
 			item_output = "%s." % item_output
 			self.output_text("\n" + item_output, speak_text)
 
+		self.display_inventory_icons()
 		self.display_current_room_object_icons(room)
 
 
@@ -267,8 +268,8 @@ class CogEngine:
 		# Print command to output window
 		command = string.strip(command)
 		self.output_text("\n\n> " + command)
-		if (self.gameInformation.debug_mode):
-			print "\n> " + command + "\n"
+		#if (self.gameInformation.debug_mode):
+		#	print "\n> " + command + "\n"
 
 
 		# Parse out Verb
@@ -294,9 +295,13 @@ class CogEngine:
 		# Check to see if the command is to move in a particular direction
 		direction = self.resolve_direction_name(verb)
 
-		if ((direction != 0) and (direction != 5)):
-			self.move_in_direction(direction)
-			command_executed = 1
+		if (direction != 0):
+			if (self.directionData[direction].name != "Center"):
+				self.move_in_direction(direction)
+				command_executed = 1
+			else:
+				verb = "Look"
+
 
 
 		# Debug Mode Verbs
@@ -315,7 +320,9 @@ class CogEngine:
 		# User Defined Verbs
 		if ((not command_executed) and (len(command) > 0)):
 			verb = self.resolve_verb(verb) # if the command line's verb is an alias
-													# we need to resolve it
+													 # we need to resolve it
+			objects = self.parse_command_line_objects( remainder )
+
 
 		if (verb == "get"):
 			self.get_item(remainder)
@@ -326,26 +333,6 @@ class CogEngine:
 			self.drop_item(remainder)
 			self.display_room(self.playerInformation.current_room)
 			command_executed = 1
-
-		verb_list = []
-		for each in self.verbData.keys():
-			verb_list.append( string.lower(self.verbData[each].name) )
-
-		if (not command_executed):
-			if (verb in verb_list):
-				objects = self.parse_command_line_objects( remainder )
-				if (not objects == []): # current event grammer requires at least one object
-					effect_string = self.resolve_event(verb, objects)
-					if (type(effect_string) != type(None)):
-					#if (effect_string != None):
-						self.execute_effect(effect_string)
-						self.display_room(self.playerInformation.current_room)
-					else:
-						self.output_text("\n\nYou can't do that.")
-					command_executed = 1
-
-
-		# More Hard-Wired Verbs
 
 		if (not command_executed):
 			if ( (remainder == "") and ( (verb == "look") or (verb == "l") ) ):
@@ -358,6 +345,25 @@ class CogEngine:
 			if ( (verb == "examine") or (verb == "ex") or (verb == "read") or (verb == "look") or (verb == "l") ):
 				self.examine_object(remainder)
 				command_executed = 1
+
+
+		verb_list = []
+		for each in self.verbData.keys():
+			verb_list.append( string.lower(self.verbData[each].name) )
+
+		if (not command_executed):
+			if (verb in verb_list):
+				if (not objects == []): # current event grammer requires at least one object
+					effect_string = self.resolve_event(verb, objects)
+					if (type(effect_string) != type(None)):
+						self.execute_effect(effect_string)
+						self.display_room(self.playerInformation.current_room)
+					else:
+						self.output_text("\n\nYou can't do that.")
+					command_executed = 1
+
+
+		# More Hard-Wired Verbs
 
 		if ((verb == "last") or (verb == "repeat")):
 			self.command_line_set_text(self.last_command)
@@ -577,8 +583,9 @@ class CogEngine:
 					del(effect_word_list[0])
 
 				if (word == "Inventory"):
-					if ((self.gameInformation.debug_mode) and (item_number in self.playerInformation.items)):
-						print "Warning! Player already has Item #%i in their inventory!" % item_number
+					if (item_number in self.playerInformation.items):
+						if (self.gameInformation.debug_mode):
+							print "Warning! Player already has Item #%i in their inventory!" % item_number
 					else:
 						self.playerInformation.items.append(item_number)
 				if (word == "CurrentRoom"):
@@ -629,8 +636,9 @@ class CogEngine:
 					del(effect_word_list[0])
 
 				if (word == "Inventory"):
-					if ((self.gameInformation.debug_mode) and (item_number not in self.playerInformation.items)):
-						print "Warning! Player did not have Item #%i in their inventory!" % item_number
+					if (item_number not in self.playerInformation.items):
+						if (self.gameInformation.debug_mode):
+							print "Warning! Player did not have Item #%i in their inventory!" % item_number
 					else:
 						index = self.playerInformation.items.index(item_number)
 						del(self.playerInformation.items[ index ])
@@ -1213,8 +1221,9 @@ class CogEngine:
 					ok_to_pick_up = 0
 
 				if ( ok_to_pick_up):
-					if ( (self.gameInformation.debug_mode) and ( item_number in self.playerInformation.items ) ):
-						print "Warning! Player's Inventory already includes Item #%i (%s)!" % (item_number, self.itemData[item_number].name)
+					if (item_number in self.playerInformation.items):
+						if (self.gameInformation.debug_mode):
+							print "Warning! Player's Inventory already includes Item #%i (%s)!" % (item_number, self.itemData[item_number].name)
 					self.output_text("\n\nYou pick up the %s." % self.itemData[item_number].name)
 
 					self.remove_item_from_room(self.playerInformation.current_room, item_number)
@@ -1387,8 +1396,9 @@ class CogEngine:
 					(self.room_contains_item( self.playerInformation.current_room, each) ) ):
 	#				if (self.gameInformation.debug_mode):
 	#					print "Item \"" + self.itemData[each].name + "\" found."
-					if ( (self.gameInformation.debug_mode) and (item_found) ):
-						print "Item #%i and Item #%i have duplicate names!" % (each, item_number)
+					if (item_found):
+						if (self.gameInformation.debug_mode):
+							print "Item #%i and Item #%i have duplicate names!" % (each, item_number)
 					else:
 						item_found = 1
 						item_number = each
@@ -1398,8 +1408,9 @@ class CogEngine:
 					(each in self.playerInformation.items) ):
 					if (self.gameInformation.debug_mode):
 						print "Item \"" + self.itemData[each].name + "\" found."
-					if ( (self.gameInformation.debug_mode) and (item_found) ):
-						print "Item #%i and Item #%i have duplicate names!" % (each, item_number)
+					if (item_found):
+						if (self.gameInformation.debug_mode):
+							print "Item #%i and Item #%i have duplicate names!" % (each, item_number)
 					else:
 						item_found = 1
 						item_number = each
@@ -1433,8 +1444,9 @@ class CogEngine:
 				if ((location == "CurrentRoom") and (self.room_contains_obstruction(self.playerInformation.current_room, each) ) ):
 					if (self.gameInformation.debug_mode):
 						print "Obstruction \"" + self.obstructionData[each].name + "\" found."
-					if ( (self.gameInformation.debug_mode) and (found_obstruction) ):
-						print "Obstruction #%i and Obstruction #%i have duplicate names!" % (obstruction_number, each)
+					if (found_obstruction):
+						if (self.gameInformation.debug_mode):
+							print "Obstruction #%i and Obstruction #%i have duplicate names!" % (obstruction_number, each)
 					else:
 						found_obstruction = 1
 						obstruction_number = each
@@ -1571,8 +1583,9 @@ class CogEngine:
 		if (type(self.roomData[room_number].items) == type(None)):
 			self.roomData[room_number].items = "%i" % item_number
 		else:
-			if ( (self.gameInformation.debug_mode) and (self.room_contains_item(room_number, item_number)) ):
-				print "Warning! Room #%i already includes Item #%i!" % (room_number, item_number)
+			if (self.room_contains_item(room_number, item_number)):
+				if (self.gameInformation.debug_mode):
+					print "Warning! Room #%i already includes Item #%i!" % (room_number, item_number)
 			else:
 				self.roomData[room_number].items = "%s, %i" % ( self.roomData[room_number].items, item_number )
 
@@ -1589,8 +1602,9 @@ class CogEngine:
 		if (direction_number not in self.roomData[room_number].direction.keys()):
 			self.roomData[room_number].direction[direction_number] = self.DirectionObject()
 
-		if ((self.gameInformation.debug_mode) and (self.room_direction_contains_obstruction(room_number, direction_number, obstruction_number))):
-			print "Warning! Room #%i already contains Obstruction #%i in Direction #%i!" % (room_number, obstruction_number, direction_number)
+		if (self.room_direction_contains_obstruction(room_number, direction_number, obstruction_number)):
+			if (self.gameInformation.debug_mode):
+				print "Warning! Room #%i already contains Obstruction #%i in Direction #%i!" % (room_number, obstruction_number, direction_number)
 		else:
 			if (type(self.roomData[room_number].direction[direction_number].obstructions) == type(None)):
 				# If there's no obstruction in the current room's direction, we will add the new obstruction's number

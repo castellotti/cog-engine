@@ -2964,6 +2964,52 @@
 	      </child>
 	    </widget>
 	  </widget>
+
+	  <widget>
+	    <class>GtkHBox</class>
+	    <name>hbox146</name>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
+	    <child>
+	      <padding>0</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+
+	    <widget>
+	      <class>GtkLabel</class>
+	      <name>label493</name>
+	      <label>   Compass Panel Display Position #:   </label>
+	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
+	      <xalign>0.5</xalign>
+	      <yalign>0.5</yalign>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <child>
+		<padding>3</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>GtkEntry</class>
+	      <name>compass_panel_display_position_textentry</name>
+	      <height>24</height>
+	      <tooltip>This option sets where in the order of displayed compass buttons this direction's button should be displayed</tooltip>
+	      <can_focus>True</can_focus>
+	      <editable>True</editable>
+	      <text_visible>True</text_visible>
+	      <text_max_length>0</text_max_length>
+	      <text></text>
+	      <child>
+		<padding>3</padding>
+		<expand>True</expand>
+		<fill>True</fill>
+	      </child>
+	    </widget>
+	  </widget>
 	</widget>
       </widget>
     </widget>
@@ -6214,7 +6260,6 @@
 	    <widget>
 	      <class>GtkEntry</class>
 	      <name>number_textentry</name>
-	      <width>80</width>
 	      <height>24</height>
 	      <tooltip>Adjust the current verb's number here</tooltip>
 	      <can_focus>True</can_focus>
@@ -6261,8 +6306,6 @@
 	    <widget>
 	      <class>GtkEntry</class>
 	      <name>name_textentry</name>
-	      <width>312</width>
-	      <height>24</height>
 	      <tooltip>Enter the current verb's name here</tooltip>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
@@ -6323,13 +6366,57 @@
 	      <widget>
 		<class>GtkText</class>
 		<name>aliases_textbox</name>
-		<width>496</width>
 		<height>64</height>
 		<tooltip>If you want to allow the player to use different words to imply the same action, enter each of those words here, separated by commas.</tooltip>
 		<can_focus>True</can_focus>
 		<editable>True</editable>
 		<text></text>
 	      </widget>
+	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>GtkHBox</class>
+	    <name>hbox140</name>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
+	    <child>
+	      <padding>0</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+
+	    <widget>
+	      <class>GtkLabel</class>
+	      <name>label481</name>
+	      <label>   Mouse Pointer Graphic:   </label>
+	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
+	      <xalign>0.5</xalign>
+	      <yalign>0.5</yalign>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <child>
+		<padding>3</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>GtkEntry</class>
+	      <name>mouse_pointer_graphic_textentry</name>
+	      <tooltip>Enter the graphic to be used as the mouse pointer when using this verb</tooltip>
+	      <can_focus>True</can_focus>
+	      <editable>True</editable>
+	      <text_visible>True</text_visible>
+	      <text_max_length>0</text_max_length>
+	      <text></text>
+	      <child>
+		<padding>3</padding>
+		<expand>True</expand>
+		<fill>True</fill>
+	      </child>
 	    </widget>
 	  </widget>
 
@@ -6389,7 +6476,6 @@
 	      <widget>
 		<class>GtkText</class>
 		<name>notes_textbox</name>
-		<width>496</width>
 		<height>64</height>
 		<can_focus>True</can_focus>
 		<editable>True</editable>
@@ -7225,7 +7311,7 @@ Expressions:
       <widget>
 	<class>GtkLabel</class>
 	<name>Application Title</name>
-	<label>Cog Development Application v1.1.3</label>
+	<label>Cog Development Application v1.1.4</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
@@ -8046,7 +8132,7 @@ http://cogengine.sourceforge.net</label>
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label443</name>
-	    <label>   Graphical Display Coordinates:   </label>
+	    <label>   Graphic Panel Display Coordinates:   </label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
@@ -8130,6 +8216,149 @@ http://cogengine.sourceforge.net</label>
 	</widget>
 
 	<widget>
+	  <class>GtkHBox</class>
+	  <name>hbox141</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label482</name>
+	    <label>   Dimensions of Graphic Panel:   </label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>3</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label483</name>
+	    <label>   X:   </label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>3</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkEntry</class>
+	    <name>graphic_panel_x_dimension_textentry</name>
+	    <height>24</height>
+	    <tooltip>This option sets how wide the graphical display area for your game should be</tooltip>
+	    <can_focus>True</can_focus>
+	    <editable>True</editable>
+	    <text_visible>True</text_visible>
+	    <text_max_length>0</text_max_length>
+	    <text></text>
+	    <child>
+	      <padding>3</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label484</name>
+	    <label>   Y:   </label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>3</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkEntry</class>
+	    <name>graphic_panel_y_dimension_textentry</name>
+	    <height>24</height>
+	    <tooltip>This option sets how tall the graphical display area for your game should be</tooltip>
+	    <can_focus>True</can_focus>
+	    <editable>True</editable>
+	    <text_visible>True</text_visible>
+	    <text_max_length>0</text_max_length>
+	    <text></text>
+	    <child>
+	      <padding>3</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkHBox</class>
+	  <name>hbox142</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label485</name>
+	    <label>   Default Mouse Cursor Graphic:      </label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>3</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkEntry</class>
+	    <name>default_mouse_pointer_graphic_textentry</name>
+	    <height>24</height>
+	    <tooltip>This option sets the default graphic image which should be used for the mouse pointer (If left blank you operating system's cursor will be used)</tooltip>
+	    <can_focus>True</can_focus>
+	    <editable>True</editable>
+	    <text_visible>True</text_visible>
+	    <text_max_length>0</text_max_length>
+	    <text></text>
+	    <child>
+	      <padding>3</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+	  </widget>
+	</widget>
+
+	<widget>
 	  <class>GtkHSeparator</class>
 	  <name>hseparator32</name>
 	  <child>
@@ -8159,7 +8388,7 @@ http://cogengine.sourceforge.net</label>
 	<widget>
 	  <class>GtkTable</class>
 	  <name>table5</name>
-	  <rows>3</rows>
+	  <rows>4</rows>
 	  <columns>3</columns>
 	  <homogeneous>False</homogeneous>
 	  <row_spacing>0</row_spacing>
@@ -8415,6 +8644,88 @@ http://cogengine.sourceforge.net</label>
 	      <yfill>False</yfill>
 	    </child>
 	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label492</name>
+	    <label></label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>3</top_attach>
+	      <bottom_attach>4</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>True</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label491</name>
+	    <label></label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>2</left_attach>
+	      <right_attach>3</right_attach>
+	      <top_attach>3</top_attach>
+	      <bottom_attach>4</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>True</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>display_help_button_checkbutton</name>
+	    <height>24</height>
+	    <tooltip>This option tells the Cog Engine to draw a help menu icon as the first entry in the compass panel</tooltip>
+	    <can_focus>True</can_focus>
+	    <signal>
+	      <name>toggled</name>
+	      <handler>on_load_all_compass_images_checkbutton_toggled</handler>
+	      <last_modification_time>Mon, 15 Jan 2001 04:30:22 GMT</last_modification_time>
+	    </signal>
+	    <label>Display Help Button</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>3</top_attach>
+	      <bottom_attach>4</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
 	</widget>
 
 	<widget>
@@ -8516,7 +8827,7 @@ http://cogengine.sourceforge.net</label>
 
 	<widget>
 	  <class>GtkHBox</class>
-	  <name>hbox135</name>
+	  <name>hbox143</name>
 	  <homogeneous>False</homogeneous>
 	  <spacing>0</spacing>
 	  <child>
@@ -8527,8 +8838,8 @@ http://cogengine.sourceforge.net</label>
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>label450</name>
-	    <label>   Graphical Compass - Button Image Dimensions:   </label>
+	    <name>label486</name>
+	    <label>   Graphical Compass - Number of Icons:   </label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
@@ -8544,7 +8855,7 @@ http://cogengine.sourceforge.net</label>
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>label451</name>
+	    <name>label487</name>
 	    <label>   X:   </label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
@@ -8561,9 +8872,9 @@ http://cogengine.sourceforge.net</label>
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>graphical_compass_button_image_x_dimension_textentry</name>
+	    <name>graphical_compass_x_icon_number_textentry</name>
 	    <height>24</height>
-	    <tooltip>This option sets the width of the graphics used to draw the graphical compass</tooltip>
+	    <tooltip>This option sets the number of icons which should displayed in each row of the graphical compass panel</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -8578,7 +8889,7 @@ http://cogengine.sourceforge.net</label>
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>label452</name>
+	    <name>label488</name>
 	    <label>   Y:   </label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
@@ -8595,9 +8906,147 @@ http://cogengine.sourceforge.net</label>
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>graphical_compass_button_image_y_dimension_textentry</name>
+	    <name>graphical_compass_y_icon_number_textentry</name>
 	    <height>24</height>
-	    <tooltip>This option sets the height of the graphics used to draw the graphical compass</tooltip>
+	    <tooltip>This option sets the number of rows of icons to be displayed by the graphical compass panel</tooltip>
+	    <can_focus>True</can_focus>
+	    <editable>True</editable>
+	    <text_visible>True</text_visible>
+	    <text_max_length>0</text_max_length>
+	    <text></text>
+	    <child>
+	      <padding>3</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkHBox</class>
+	  <name>hbox148</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label495</name>
+	    <label>   Graphical Compass - Panel Padding:   </label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>3</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkEntry</class>
+	    <name>graphical_compass_panel_padding_textentry</name>
+	    <height>24</height>
+	    <tooltip>This option sets the number of pixels used as padding between compass graphic panels</tooltip>
+	    <can_focus>True</can_focus>
+	    <editable>True</editable>
+	    <text_visible>True</text_visible>
+	    <text_max_length>0</text_max_length>
+	    <text></text>
+	    <child>
+	      <padding>3</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkHBox</class>
+	  <name>hbox144</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label489</name>
+	    <label>   Graphical Compass - Icon Background:   </label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>3</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkEntry</class>
+	    <name>graphical_compass_blank_icon_textentry</name>
+	    <height>24</height>
+	    <tooltip>This option sets the icon graphic whould should be displayed in the background of the graphical compass</tooltip>
+	    <can_focus>True</can_focus>
+	    <editable>True</editable>
+	    <text_visible>True</text_visible>
+	    <text_max_length>0</text_max_length>
+	    <text></text>
+	    <child>
+	      <padding>3</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkHBox</class>
+	  <name>hbox145</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label490</name>
+	    <label>   Graphical Compass - Graphic Not Available Icon:      </label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>3</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkEntry</class>
+	    <name>graphical_compass_graphic_not_available_icon_textentry</name>
+	    <height>24</height>
+	    <tooltip>This option sets the icon graphic which should be displayed in the graphical compass when a graphic has not been set for the object being displayed</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -8644,6 +9093,52 @@ http://cogengine.sourceforge.net</label>
 	    <name>graphic_compass_help_menu_button_icon_textentry</name>
 	    <height>24</height>
 	    <tooltip>This option sets the icon graphic which should be used to represent the help menu. (The help menu is drawn as part of the compass)</tooltip>
+	    <can_focus>True</can_focus>
+	    <editable>True</editable>
+	    <text_visible>True</text_visible>
+	    <text_max_length>0</text_max_length>
+	    <text></text>
+	    <child>
+	      <padding>3</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkHBox</class>
+	  <name>hbox147</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label494</name>
+	    <label>   Graphical Compass - Help Menu Display Position #:      </label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>3</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkEntry</class>
+	    <name>menu_button_display_position_textentry</name>
+	    <height>24</height>
+	    <tooltip>This option sets where in the order of displayed Compass buttons the help menu button should be displayed</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -8962,103 +9457,6 @@ http://cogengine.sourceforge.net</label>
 
 	<widget>
 	  <class>GtkHBox</class>
-	  <name>hbox129</name>
-	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
-	  <child>
-	    <padding>0</padding>
-	    <expand>True</expand>
-	    <fill>True</fill>
-	  </child>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label432</name>
-	    <label>   Graphical Inventory Panel - Icon Dimensions:   </label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <child>
-	      <padding>3</padding>
-	      <expand>False</expand>
-	      <fill>False</fill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label433</name>
-	    <label>   X:   </label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <child>
-	      <padding>3</padding>
-	      <expand>False</expand>
-	      <fill>False</fill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkEntry</class>
-	    <name>graphical_inventory_panel_x_icon_dimensions_textentry</name>
-	    <height>24</height>
-	    <tooltip>Sets the width of the icons to be drawn in the graphical inventory panel</tooltip>
-	    <can_focus>True</can_focus>
-	    <editable>True</editable>
-	    <text_visible>True</text_visible>
-	    <text_max_length>0</text_max_length>
-	    <text></text>
-	    <child>
-	      <padding>3</padding>
-	      <expand>True</expand>
-	      <fill>True</fill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label434</name>
-	    <label>   Y:   </label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <child>
-	      <padding>3</padding>
-	      <expand>False</expand>
-	      <fill>False</fill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkEntry</class>
-	    <name>graphical_inventory_panel_y_icon_dimensions_textentry</name>
-	    <height>24</height>
-	    <tooltip>Sets the height of the icons to be drawn in the graphical inventory panel</tooltip>
-	    <can_focus>True</can_focus>
-	    <editable>True</editable>
-	    <text_visible>True</text_visible>
-	    <text_max_length>0</text_max_length>
-	    <text></text>
-	    <child>
-	      <padding>3</padding>
-	      <expand>True</expand>
-	      <fill>True</fill>
-	    </child>
-	  </widget>
-	</widget>
-
-	<widget>
-	  <class>GtkHBox</class>
 	  <name>hbox130</name>
 	  <homogeneous>False</homogeneous>
 	  <spacing>0</spacing>
@@ -9156,6 +9554,52 @@ http://cogengine.sourceforge.net</label>
 
 	<widget>
 	  <class>GtkHBox</class>
+	  <name>hbox149</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label496</name>
+	    <label>   Graphical Inventory Panel - Panel Padding:   </label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>3</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkEntry</class>
+	    <name>graphical_inventory_panel_padding_textentry</name>
+	    <height>24</height>
+	    <tooltip>This option sets the number of pixels used as padding between graphical inventory panels</tooltip>
+	    <can_focus>True</can_focus>
+	    <editable>True</editable>
+	    <text_visible>True</text_visible>
+	    <text_max_length>0</text_max_length>
+	    <text></text>
+	    <child>
+	      <padding>3</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkHBox</class>
 	  <name>hbox126</name>
 	  <homogeneous>False</homogeneous>
 	  <spacing>0</spacing>
@@ -9168,7 +9612,7 @@ http://cogengine.sourceforge.net</label>
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label427</name>
-	    <label>   Graphical Inventory Panel - Blank Icon:   </label>
+	    <label>   Graphical Inventory Panel - Icon Background:   </label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
@@ -9186,7 +9630,7 @@ http://cogengine.sourceforge.net</label>
 	    <class>GtkEntry</class>
 	    <name>graphical_inventory_panel_blank_icon_textentry</name>
 	    <height>24</height>
-	    <tooltip>This option sets the icon graphic whould should be displayed in emtpty spaces in the inventory</tooltip>
+	    <tooltip>This option sets the icon graphic whould should be displayed in the background of the inventory</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -9232,7 +9676,7 @@ http://cogengine.sourceforge.net</label>
 	    <class>GtkEntry</class>
 	    <name>graphical_inventory_panel_graphic_not_available_icon_textentry</name>
 	    <height>24</height>
-	    <tooltip>This option sets the icon graphic which should be displayed in the graphical inventory when a graphical has not been set for the object being displayed</tooltip>
+	    <tooltip>This option sets the icon graphic which should be displayed in the graphical inventory when a graphic has not been set for the object being displayed</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -9735,103 +10179,6 @@ http://cogengine.sourceforge.net</label>
 
 	<widget>
 	  <class>GtkHBox</class>
-	  <name>hbox114</name>
-	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
-	  <child>
-	    <padding>0</padding>
-	    <expand>True</expand>
-	    <fill>True</fill>
-	  </child>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label403</name>
-	    <label>   Graphical Object Panel - Icon Dimensions:   </label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <child>
-	      <padding>3</padding>
-	      <expand>False</expand>
-	      <fill>False</fill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label404</name>
-	    <label>   X:   </label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <child>
-	      <padding>3</padding>
-	      <expand>False</expand>
-	      <fill>False</fill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkEntry</class>
-	    <name>graphical_object_panel_x_icon_dimension_textentry</name>
-	    <height>24</height>
-	    <tooltip>Sets the width of the icons to be drawn in the graphical object panel</tooltip>
-	    <can_focus>True</can_focus>
-	    <editable>True</editable>
-	    <text_visible>True</text_visible>
-	    <text_max_length>0</text_max_length>
-	    <text></text>
-	    <child>
-	      <padding>3</padding>
-	      <expand>True</expand>
-	      <fill>True</fill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label405</name>
-	    <label>   Y:   </label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <child>
-	      <padding>3</padding>
-	      <expand>False</expand>
-	      <fill>False</fill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkEntry</class>
-	    <name>graphical_object_panel_y_icon_dimension_textentry</name>
-	    <height>24</height>
-	    <tooltip>Sets the height of the icons to be drawn in the graphical object panel</tooltip>
-	    <can_focus>True</can_focus>
-	    <editable>True</editable>
-	    <text_visible>True</text_visible>
-	    <text_max_length>0</text_max_length>
-	    <text></text>
-	    <child>
-	      <padding>3</padding>
-	      <expand>True</expand>
-	      <fill>True</fill>
-	    </child>
-	  </widget>
-	</widget>
-
-	<widget>
-	  <class>GtkHBox</class>
 	  <name>hbox115</name>
 	  <homogeneous>False</homogeneous>
 	  <spacing>0</spacing>
@@ -9929,6 +10276,52 @@ http://cogengine.sourceforge.net</label>
 
 	<widget>
 	  <class>GtkHBox</class>
+	  <name>hbox150</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label497</name>
+	    <label>   Graphical Object Panel - Panel Padding:   </label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>3</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkEntry</class>
+	    <name>object_panel_padding_textentry</name>
+	    <height>24</height>
+	    <tooltip>This option sets the number of pixels used as padding between graphical object panel panels</tooltip>
+	    <can_focus>True</can_focus>
+	    <editable>True</editable>
+	    <text_visible>True</text_visible>
+	    <text_max_length>0</text_max_length>
+	    <text></text>
+	    <child>
+	      <padding>3</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkHBox</class>
 	  <name>hbox116</name>
 	  <homogeneous>False</homogeneous>
 	  <spacing>0</spacing>
@@ -9941,7 +10334,7 @@ http://cogengine.sourceforge.net</label>
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label409</name>
-	    <label>   Graphical Object Panel - Blank Icon:   </label>
+	    <label>   Graphical Object Panel - Icon Background:   </label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
@@ -9959,7 +10352,7 @@ http://cogengine.sourceforge.net</label>
 	    <class>GtkEntry</class>
 	    <name>graphical_object_panel_blank_icon_textentry</name>
 	    <height>24</height>
-	    <tooltip>This option sets the icon graphic whould should be displayed in emtpty spaces in the object panel</tooltip>
+	    <tooltip>This option sets the icon graphic whould should be displayed in the background of the object panel</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -10005,7 +10398,7 @@ http://cogengine.sourceforge.net</label>
 	    <class>GtkEntry</class>
 	    <name>graphical_object_panel_graphic_not_available_icon_textentry</name>
 	    <height>24</height>
-	    <tooltip>This option sets the icon graphic which should be displayed in the graphical object panel when a graphical has not been set for the object being displayed</tooltip>
+	    <tooltip>This option sets the icon graphic which should be displayed in the graphical object panel when a graphic has not been set for the object being displayed</tooltip>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>

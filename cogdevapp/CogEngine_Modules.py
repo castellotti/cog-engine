@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.07
+# Last Update: 2002.06.15
 #
 #####################################################################
 # To Do List:
@@ -244,6 +244,7 @@ class CogEngine:
 			item_output = "%s." % item_output
 			self.output_text("\n" + item_output, speak_text)
 
+		self.display_inventory_icons()
 		self.display_current_room_object_icons(room)
 
 
@@ -267,8 +268,8 @@ class CogEngine:
 		# Print command to output window
 		command = string.strip(command)
 		self.output_text("\n\n> " + command)
-		if (self.gameInformation.debug_mode):
-			print "\n> " + command + "\n"
+		#if (self.gameInformation.debug_mode):
+		#	print "\n> " + command + "\n"
 
 
 		# Parse out Verb
@@ -284,7 +285,7 @@ class CogEngine:
 
 		# Hard-wired Verbs
 		if ((verb == "help") or (verb == "verblist") or (verb == "listverbs")):
-			display_verbs(self)
+			self.display_verbs()
 			command_executed = 1
 
 		if ((verb == "quit") or (verb == "exit")):
@@ -294,9 +295,13 @@ class CogEngine:
 		# Check to see if the command is to move in a particular direction
 		direction = self.resolve_direction_name(verb)
 
-		if ((direction != 0) and (direction != 5)):
-			self.move_in_direction(direction)
-			command_executed = 1
+		if (direction != 0):
+			if (self.directionData[direction].name != "Center"):
+				self.move_in_direction(direction)
+				command_executed = 1
+			else:
+				verb = "Look"
+
 
 
 		# Debug Mode Verbs
@@ -315,7 +320,9 @@ class CogEngine:
 		# User Defined Verbs
 		if ((not command_executed) and (len(command) > 0)):
 			verb = self.resolve_verb(verb) # if the command line's verb is an alias
-													# we need to resolve it
+													 # we need to resolve it
+			objects = self.parse_command_line_objects( remainder )
+
 
 		if (verb == "get"):
 			self.get_item(remainder)
@@ -326,26 +333,6 @@ class CogEngine:
 			self.drop_item(remainder)
 			self.display_room(self.playerInformation.current_room)
 			command_executed = 1
-
-		verb_list = []
-		for each in self.verbData.keys():
-			verb_list.append( string.lower(self.verbData[each].name) )
-
-		if (not command_executed):
-			if (verb in verb_list):
-				objects = self.parse_command_line_objects( remainder )
-				if (not objects == []): # current event grammer requires at least one object
-					effect_string = self.resolve_event(verb, objects)
-					if (type(effect_string) != type(None)):
-					#if (effect_string != None):
-						self.execute_effect(effect_string)
-						self.display_room(self.playerInformation.current_room)
-					else:
-						self.output_text("\n\nYou can't do that.")
-					command_executed = 1
-
-
-		# More Hard-Wired Verbs
 
 		if (not command_executed):
 			if ( (remainder == "") and ( (verb == "look") or (verb == "l") ) ):
@@ -359,17 +346,36 @@ class CogEngine:
 				self.examine_object(remainder)
 				command_executed = 1
 
+
+		verb_list = []
+		for each in self.verbData.keys():
+			verb_list.append( string.lower(self.verbData[each].name) )
+
+		if (not command_executed):
+			if (verb in verb_list):
+				if (not objects == []): # current event grammer requires at least one object
+					effect_string = self.resolve_event(verb, objects)
+					if (type(effect_string) != type(None)):
+						self.execute_effect(effect_string)
+						self.display_room(self.playerInformation.current_room)
+					else:
+						self.output_text("\n\nYou can't do that.")
+					command_executed = 1
+
+
+		# More Hard-Wired Verbs
+
 		if ((verb == "last") or (verb == "repeat")):
 			self.command_line_set_text(self.last_command)
 			command = self.last_command
 			command_executed = 1
 
 		if (verb == "load"):
-			load_game(self)
+			self.load_game()
 			command_executed = 1
 
 		if (verb == "save"):
-			save_game(self)
+			self.save_game()
 			command_executed = 1
 
 
@@ -2041,8 +2047,8 @@ class CogEngine:
 
 		resolved_object = self.parse_object(object_name, "End")
 
-		print "Resolved: ",
-		print resolved_object
+		if (self.gameInformation.debug_mode):
+			print "Resolved: ", resolved_object
 
 		if (type(resolved_object) != type(None)):
 

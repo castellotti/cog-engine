@@ -8,7 +8,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.10
+# Last Update: 2002.06.15
 #
 #####################################################################
 
@@ -51,6 +51,7 @@ class CogEngine_Applet_Jython(Applet, ActionListener, CogEngine_Jython):
 
 			p = ObjectInputStream( database_url.openStream() )
 
+			self.file_format_version_number = p.readObject()
 			self.gameInformation = p.readObject()
 			self.playerInformation = p.readObject()
 			self.directionData = p.readObject()

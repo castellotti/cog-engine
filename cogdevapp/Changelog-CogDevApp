@@ -1,11 +1,20 @@
-Changelog - Cog Development Application 1.1.3
+Changelog - Cog Development Application 1.1.4
 
                        The Cog Development Application
 
-                                Version 1.1.3
+                                Version 1.1.4
 
                    Copyright (C) 2001,2002 Steven M. Castellotti
                             <SteveC@innocent.com>
+
+Version (1.1.4):
+Released 2002.06.16
+
+	- Support for Graphical Mouse Pointers added
+	- Support for Dynamic Compass Button Layout
+	- Automatic Image Dimensioning
+	- Support for custom Panel Padding
+
 
 Version (1.1.3):
 Released 2002.06.07

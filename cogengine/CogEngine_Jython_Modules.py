@@ -8,7 +8,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.05.31
+# Last Update: 2002.06.10
 #
 #####################################################################
 
@@ -435,7 +435,7 @@ class CogEngine_Jython(CogEngine):
 					current_url = java.net.URL( "%s%s/%s" % (self.getCodeBase(), self.gameInformation.image_directory, graphic_url))
 				except bad_url_error:
 					print "Graphic URL: \"%s\" is Malformed!\n" % graphic_url
-
+     
 
 				# If the image is going to be displayed at the upper-left corner of the screen, we want
 				# to display this image as the root image for the graphic panel.
@@ -451,21 +451,30 @@ class CogEngine_Jython(CogEngine):
 
 	#####################################################################
 
+	def display_inventory_icons(self):
+	
+		pass
+		
+
+	#####################################################################
+
 	def display_current_room_object_icons(self, room):
 
 		pass
-		
+
 
 	#####################################################################
 
 	def output_text(self, text, speak_text=0):
 
 		# This method is used to append text to the text output area
-
 		if (self.gameInformation.show_text_output_area):
-
 			self.output_textarea.append(text)
 
+
+		if (self.gameInformation.debug_mode):
+			print "\nText Output:", text, "\n"
+			
 
 	#####################################################################
 

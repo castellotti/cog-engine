@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.06
+# Last Update: 2002.06.15
 #
 #####################################################################
 
@@ -35,39 +35,44 @@ class GameInformationObject:
 		self.command_history = []
 
 		# Advanced Game Settings
-		self.show_graphic_area = 1									# boolean
 		self.show_stats = 1											# boolean
 		self.show_inventory = 1             				   # boolean
 		self.show_command_line = 1 				            # boolean
 		self.show_text_output_area = 1							# boolean
-		self.show_compass = 1										# boolean
-		self.center_button_indicates_items = 1 				# boolean
-		self.load_all_compass_images = 1 				      # boolean
-		self.show_graphical_inventory_panel = 1				# boolean
-		self.show_graphical_inventory_panel_scrollbars = 1	# boolean
-		self.show_graphical_object_panel = 1					# boolean
-		self.show_graphical_object_panel_scrollbars = 1		# boolean
 
 		# Display Settings
+		self.show_graphic_area = 1									# boolean
 		self.graphical_display_window_x_dimension = 640
 		self.graphical_display_window_y_dimension = 595
 		self.graphical_display_x_coordinate = 0
 		self.graphical_display_y_coordinate = 0
+		self.graphic_panel_x_dimension = 640
+		self.graphic_panel_y_dimension = 480
+		self.default_mouse_pointer_graphic = ""
 
 		# Graphical Compass Settings
+		self.show_compass = 1										# boolean
+		self.center_button_indicates_items = 1 				# boolean
+		self.load_all_compass_images = 1 				      # boolean
+		self.display_help_button = 1 				            # boolean
 		self.graphical_compass_display_x_coordinate = 246
 		self.graphical_compass_display_y_coordinate = 482
-		self.graphical_compass_button_image_x_dimension = 37
-		self.graphical_compass_button_image_y_dimension = 37
+		self.graphical_compass_x_icons = 4
+		self.graphical_compass_y_icons = 3
+		self.graphical_compass_panel_padding = 0
+		self.graphical_compass_background_image = ""
+		self.graphical_compass_graphic_not_available_icon = ""
 		self.menu_button_graphic_url = ""
+		self.menu_button_display_position = 0
 
 		# Graphical Inventory Panel Settings
+		self.show_graphical_inventory_panel = 1				# boolean
+		self.show_graphical_inventory_panel_scrollbars = 1	# boolean
 		self.graphical_inventory_panel_Xoffset = 415
 		self.graphical_inventory_panel_Yoffset = 488
-		self.graphical_inventory_x_icon_dimension = 50
-		self.graphical_inventory_y_icon_dimension = 50
 		self.graphical_inventory_x_icons = 4
 		self.graphical_inventory_y_icons = 2
+		self.graphical_inventory_panel_padding = 1
 		self.graphical_inventory_blank_icon = ""
 		self.graphical_inventory_graphic_not_available_icon = ""
 		self.inventory_panel_scroll_up_available_icon = ""
@@ -76,12 +81,13 @@ class GameInformationObject:
 		self.inventory_panel_scroll_down_unavailable_icon = ""
 
 		# Graphical Object Panel Settings
-		self.object_panel_panel_Xoffset = 5
-		self.object_panel_panel_Yoffset = 538
-		self.object_panel_x_icon_dimension = 50
-		self.object_panel_y_icon_dimension = 50
+		self.show_graphical_object_panel = 1					# boolean
+		self.show_graphical_object_panel_scrollbars = 1		# boolean
+		self.object_panel_Xoffset = 5
+		self.object_panel_Yoffset = 538
 		self.object_panel_x_icons = 4
 		self.object_panel_y_icons = 1
+		self.object_panel_padding = 1
 		self.object_panel_blank_icon = ""
 		self.object_panel_graphic_not_available_icon = ""
 		self.object_panel_scroll_up_available_icon = ""
@@ -133,6 +139,7 @@ class DirectionInformationObject:
 		self.compass_graphic_special_url = ""
 		self.compass_graphic_never_traveled = ""
 		self.compass_graphic_last_direction_traveled = ""
+		self.compass_panel_display_position = 0
 
 
 #####################################################################
@@ -213,6 +220,7 @@ class VerbObject:
 		self.number = -1
 		self.name = ""
 		self.aliases = ""
+		self.mouse_pointer_graphic = ""
 		self.events = {} # why not a list?
 		self.notes = ""
 

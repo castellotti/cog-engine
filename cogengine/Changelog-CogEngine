@@ -1,11 +1,18 @@
-Changelog - Cog Engine Application 1.1.3
+Changelog - Cog Engine Application 1.1.4
 
                        The Cog Engine Application
 
-                                Version 1.1.3
+                                Version 1.1.4
 
                    Copyright (C) 1999-2002 Steven M. Castellotti
                             <SteveC@innocent.com>
+
+Version (1.1.4)
+
+	- Complete GUI-based interaction
+	- Graphical Mouse Pointers
+	- Scrollable Inventory and Object Panels
+
 
 Version (1.1.3)
 

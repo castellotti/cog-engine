@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #!/usr/bin/env python2.2
 #
-# Cog Engine Application (GtkSDL)
+# Cog Engine Application (SDL)
 #
 # Copyright Steven M. Castellotti (2002)
 # This code is released under the GNU Pulic License (GPL) version 2
@@ -21,43 +21,40 @@
 #
 #####################################################################
 
-from CogEngine_GtkSDL_Modules import CogEngine_GtkSDL
+from CogEngine_Application_GtkSDL import CogEngine_Application_GtkSDL
 
 #####################################################################
 # Classes
 #####################################################################
 
-class CogEngine_Application_GtkSDL(CogEngine_GtkSDL):
+class CogEngine_Application_SDL(CogEngine_Application_GtkSDL):
 
 	import os
 	import sys
-
-	import gtk
-	import libglade
 
 	import CogEngine_Utilities
 
 	from CogObjects import *
 
-	glade_filename = "CogEngine_Application_GtkSDL.glade"
 	database_filename = ""
 	data_loaded = 0
 	debug_mode = 0
-	
+
 
 	#####################################################################
 
 	def __init__(self):
-
+	
 		if (self.os.name == "nt") or (self.os.name == "dos"):
 			self.operating_system = "windows"
 		else:
 			self.operating_system = self.os.name
-
+			
+		self.engine_initialized = 0
+		self.Mouse_Xpos = 0
+		self.Mouse_Ypos = 0
 
 		# Create the main window and the widget store.
-		self.mainwindow = self.readglade("CogEngine")
-		self.widget = self.CogEngine_Utilities.WidgetStore(self.mainwindow)
 		if ( (len(self.sys.argv) == 2) and (self.os.path.isfile( self.sys.argv[1] )) ):
 			(self.file_format_version_number, \
 			self.gameInformation, self.playerInformation, \
@@ -68,9 +65,13 @@ class CogEngine_Application_GtkSDL(CogEngine_GtkSDL):
 			self.backup_default_game_settings()
 			self.initialize_new_game()
 		else:
+			import gtk
+			import libglade
+			glade_filename = "CogEngine_Application_GtkSDL.glade"
+			self.gtk = gtk
 			self.on_open_activate(None)
-
-		self.gtk.mainloop()
+			self.gtk.mainloop()
+			self.initialize_new_game()
 
 
 	#####################################################################
@@ -87,52 +88,11 @@ class CogEngine_Application_GtkSDL(CogEngine_GtkSDL):
 
 	#####################################################################
 
-	# Begin Menubar Handler Fuctions
-
-	def on_new_file_activate(self, obj):
-		self.restore_default_game_settings()
-
-
-	#####################################################################
-
 	def on_open_activate(self, obj):
 		# Opens a GTK File Selection Dialog
 		dialog = self.readglade("open_fileselection")
 		self.openFileselection = self.CogEngine_Utilities.WidgetStore(dialog)
-
-
-	#####################################################################
-
-	def on_save_activate(self, obj):
-		if (self.database_filename == ""):
-			self.on_save_as_activate(self)
-		else:
-			self.CogEngine_Utilities.save_data_file(self.database_filename, \
-			                     self.file_format_version_number, \
-										self.gameInformation, self.playerInformation, \
-										self.directionData, self.roomData, \
-										self.itemData, self.obstructionData, self.verbData)
-
-
-   #####################################################################
-
-	def on_save_as_activate(self, obj):
-		# Opens a GTK File Selection Dialog
-		dialog = self.readglade("save_as_fileselection")
-		self.saveAsFileselection = self.CogEngine_Utilities.WidgetStore(dialog)
-
-
-	#####################################################################
-
-	def on_quit(self, obj):
-		self.exit_cog_engine()
-
-
-	#####################################################################
-
-	def on_about_activate(self, obj):
-		# This handler opens the about dialog
-		about = self.readglade("about")
+		self.openFileselection.open_fileselection.show()
 
 
 	#####################################################################
@@ -177,109 +137,67 @@ class CogEngine_Application_GtkSDL(CogEngine_GtkSDL):
 
 
 	#####################################################################
-	
+
 	def on_open_fileselection_ok_button_clicked(self, obj):
 		filename = self.openFileselection.open_fileselection.get_filename()
 		# The following section verifies that a valid file was selected
 		if (self.os.path.isfile(filename)): # Check if entry is a file (will follow symlinks)
 			if (self.os.access(filename, self.os.R_OK)):
-				self.database_filename = filename
-				(self.file_format_version_number, \
-				self.gameInformation, self.playerInformation, \
-				self.directionData, self.roomData, \
-				self.itemData, self.obstructionData, self.verbData) \
-				= self.CogEngine_Utilities.load_data_file(filename)
-				self.data_loaded = 1
-				self.display_dialog_box("Open File", "File opened successfully")
-				self.backup_default_game_settings()
-				self.initialize_new_game()
+
+				try:
+					self.database_filename = filename
+					(self.file_format_version_number, \
+					self.gameInformation, self.playerInformation, \
+					self.directionData, self.roomData, \
+					self.itemData, self.obstructionData, self.verbData) \
+					= self.CogEngine_Utilities.load_data_file(filename)
+					self.data_loaded = 1
+					self.backup_default_game_settings()
+					self.openFileselection.open_fileselection.destroy()
+					self.gtk.mainquit()
+				except:
+					self.display_dialog_box("Error", "Invalid Cog Engine File")
+
 			else:
 				self.display_dialog_box("Error", "The file is not readable!")
+
 		else:
 			self.display_dialog_box("Error", "This is not a file!")
-		self.openFileselection.open_fileselection.destroy()
+
 
 
 	#####################################################################
-	
+
 	def on_open_fileselection_cancel_button_clicked(self, obj):
 		self.openFileselection.open_fileselection.destroy()
-
-
-	#####################################################################
-	
-	def on_save_as_fileselection_ok_button_clicked(self, obj):
-		filename = self.saveAsFileselection.save_as_fileselection.get_filename()
-		# The following section verifies that a valid file was entered
-		if (self.os.access(filename, self.os.W_OK)):
-			self.database_filename = filename
-			self.CogEngine_Utilities.save_data_file(self.database_filename, \
-										self.file_format_version_number, \
-										self.gameInformation, self.playerInformation, \
-										self.directionData, self.roomData, \
-										self.itemData, self.obstructionData, self.verbData)
-			self.display_dialog_box("File Saved", "File saved successfully")
-
-		else:
-			if (self.os.access(filename, self.os.F_OK)):
-				self.display_dialog_box("Error", "The file is not writable!")
-			else:
-				# Check if directory is writable
-				if (self.os.access(self.os.path.dirname(filename), self.os.W_OK)):
-					self.database_filename = filename
-					self.CogEngine_Utilities.save_data_file(self.database_filename, \
-												self.file_format_version_number, \
-												self.gameInformation, self.playerInformation, \
-												self.directionData, self.roomData, \
-												self.itemData, self.obstructionData, self.verbData)
-					self.display_dialog_box("File Saved", "File saved successfully")
-				else:
-					self.display_dialog_box("Error", "Write permission not granted!")
-		self.saveAsFileselection.save_as_fileselection.destroy()
-
-
-	#####################################################################
-
-	def on_save_as_fileselection_cancel_button_clicked(self, obj):
-		self.saveAsFileselection.save_as_fileselection.destroy()
+		self.exit_cog_engine()
 
 
 	#####################################################################
 
 	def initialize_new_game(self):
 
-		self.initialize_widgets()
-		self.initialize_sdl_graphic_area()
-		self.initialize_compass_panel()
-		self.initialize_inventory_panel()
-		self.initialize_current_room_objects_panel()
+		self.gameInformation.show_stats = 0
+		self.gameInformation.show_inventory = 0
+		self.gameInformation.show_command_line = 0
+		self.gameInformation.show_text_output_area = 0
+
+		if (self.gameInformation.show_graphic_area):
+			self.initialize_sdl_graphic_area()
+			self.initialize_compass_panel()
+			self.initialize_inventory_panel()
+			self.initialize_current_room_objects_panel()
+			self.initialize_mouse_pointer()
+
 		if (self.gameInformation.text_to_speech_enabled):
 			self.initialize_speech()
 		else:
 			self.text_to_speech_enabled = 0
-		
+
 		self.initialize_engine()
 
-
-	#####################################################################
-
-	def initialize_widgets(self):
-
-		self.output_textbox = self.widget.output_textbox
-		self.commandline_entry = self.widget.commandline_entry
-		self.statistics_textbox = self.widget.statistics_textbox
-		self.inventory_textbox = self.widget.inventory_textbox
-
-
-	#####################################################################
-
-	def on_commandline_entry_activate(self, obj):
-
-		# This method is called whenever a user hits enter after typing a command onto the command line
-
-		command = self.commandline_entry.get_text()
-		self.commandline_entry.set_text("")
-		self.parse_command_line(command)
+		if (self.gameInformation.show_graphic_area):
+			self.pygame_event_loop()
 
 
 	#####################################################################
@@ -306,4 +224,4 @@ if __name__ == '__main__':
 		pass
 
 
-	CogEngine_Application = CogEngine_Application_GtkSDL()
+	CogEngine_Application = CogEngine_Application_SDL()

@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.07
+# Last Update: 2002.06.15
 #
 #####################################################################
 # To Do List:
@@ -57,7 +57,7 @@ class CogDevApp(CogEngine_GtkSDL):
 	database_filename = ""
 	data_loaded = 0
 	debug_mode = 0
-	version_number = "1.1.3"
+	version_number = "1.1.4"
 
 
 	#####################################################################
@@ -75,7 +75,7 @@ class CogDevApp(CogEngine_GtkSDL):
 			self.database_filename = self.sys.argv[1]
 		else:
 			self.on_new_file_activate(None)
-
+		
 		self.gtk.mainloop()
 
 
@@ -487,11 +487,13 @@ class CogDevApp(CogEngine_GtkSDL):
 
 		self.initialize_widgets()
 		self.initialize_sdl_graphic_area()
-		self.initialize_sdl_compass_area()
+		self.initialize_compass_panel()
 		self.initialize_inventory_panel()
 		self.initialize_current_room_objects_panel()
 		if (self.gameInformation.text_to_speech_enabled):
 			self.initialize_speech()
+		else:
+			self.text_to_speech_enabled = 0
 		self.initialize_engine()
 
 
