@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.05.31
+# Last Update: 2002.06.07
 #
 #####################################################################
 # To Do List:
@@ -244,6 +244,8 @@ class CogEngine:
 			item_output = "%s." % item_output
 			self.output_text("\n" + item_output, speak_text)
 
+		self.display_current_room_object_icons(room)
+
 
 	#####################################################################
 
@@ -270,7 +272,7 @@ class CogEngine:
 
 
 		# Parse out Verb
-		if ((command[-1] == ".") or (command[-1] == "!") or (command[-1] == "?")):
+		if ( (len(command) > 0) and ((command[-1] == ".") or (command[-1] == "!") or (command[-1] == "?"))):
 			command = command[:-1]
 
 		verb = string.split(command, ' ')[0]
@@ -282,7 +284,7 @@ class CogEngine:
 
 		# Hard-wired Verbs
 		if ((verb == "help") or (verb == "verblist") or (verb == "listverbs")):
-			display_verbs(self)
+			self.display_verbs()
 			command_executed = 1
 
 		if ((verb == "quit") or (verb == "exit")):
@@ -311,7 +313,7 @@ class CogEngine:
 
 
 		# User Defined Verbs
-		if (not command_executed):
+		if ((not command_executed) and (len(command) > 0)):
 			verb = self.resolve_verb(verb) # if the command line's verb is an alias
 													# we need to resolve it
 
@@ -363,11 +365,11 @@ class CogEngine:
 			command_executed = 1
 
 		if (verb == "load"):
-			load_game(self)
+			self.load_game()
 			command_executed = 1
 
 		if (verb == "save"):
-			save_game(self)
+			self.save_game()
 			command_executed = 1
 
 
@@ -2039,8 +2041,8 @@ class CogEngine:
 
 		resolved_object = self.parse_object(object_name, "End")
 
-		print "Resolved: ",
-		print resolved_object
+		if (self.gameInformation.debug_mode):
+			print "Resolved: ", resolved_object
 
 		if (type(resolved_object) != type(None)):
 

@@ -2,11 +2,11 @@
 #
 # COG Engine Development Application - Cog Objects
 #
-# Copyright Steven M. Castellotti (2000)
+# Copyright Steven M. Castellotti (2000-2002)
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.09.22
+# Last Update: 2002.06.08
 #
 #####################################################################
 
@@ -24,35 +24,73 @@ class GameInformationObject:
 		self.debug_mode = 1                    # boolean
 		self.game_url = ""
 		self.database_url = ""
-		self.total_rooms = 1
-		self.total_directions = 0
-		self.total_items = 0
-		self.total_obstructions = 0
-		self.total_verbs = 0
 		self.show_all_verbs = 0                # boolean
 		self.introduction_text = ""
 		self.image_loading_graphic_url = ""
 		self.introduction_graphic_url = ""
 		self.image_directory = ""
-		self.preferred_graphic_size_X = -1
-		self.preferred_graphic_size_Y = -1
-		self.show_graphic_area = 1					# boolean
-		self.show_stats = 1                    # boolean
-		self.show_inventory = 1                # boolean
-		self.show_command_line = 1             # boolean
-		self.show_text_output_area = 1			# boolean
-		self.show_compass = 1                  # boolean
-		self.center_button_indicates_items = 1 # boolean
-		self.load_all_compass_images = 1       # boolean
-		self.menu_button_graphic_url = ""
 		self.game_information_notes = ""
-		# self.direction_header_notes = ""
-		# self.room_header_notes = ""
-		# self.item_header_notes = ""
-		# self.obstruction_header_notes = ""
-		# self.verb_header_notes = ""
-		# self.event_header_notes = ""
 
+		self.text_to_speech_enabled = 1
+		self.command_history = []
+
+		# Advanced Game Settings
+		self.show_graphic_area = 1									# boolean
+		self.show_stats = 1											# boolean
+		self.show_inventory = 1             				   # boolean
+		self.show_command_line = 1 				            # boolean
+		self.show_text_output_area = 1							# boolean
+
+		# Display Settings
+		self.graphical_display_window_x_dimension = 640
+		self.graphical_display_window_y_dimension = 595
+		self.graphical_display_x_coordinate = 0
+		self.graphical_display_y_coordinate = 0
+
+		# Graphical Compass Settings
+		self.show_compass = 1										# boolean
+		self.center_button_indicates_items = 1 				# boolean
+		self.load_all_compass_images = 1 				      # boolean
+		self.graphical_compass_display_x_coordinate = 246
+		self.graphical_compass_display_y_coordinate = 482
+		self.graphical_compass_button_image_x_dimension = 37
+		self.graphical_compass_button_image_y_dimension = 37
+		self.menu_button_graphic_url = ""
+
+		# Graphical Inventory Panel Settings
+		self.show_graphical_inventory_panel = 1				# boolean
+		self.show_graphical_inventory_panel_scrollbars = 1	# boolean
+		self.graphical_inventory_panel_Xoffset = 415
+		self.graphical_inventory_panel_Yoffset = 488
+		self.graphical_inventory_x_icon_dimension = 50
+		self.graphical_inventory_y_icon_dimension = 50
+		self.graphical_inventory_x_icons = 4
+		self.graphical_inventory_y_icons = 2
+		self.graphical_inventory_blank_icon = ""
+		self.graphical_inventory_graphic_not_available_icon = ""
+		self.inventory_panel_scroll_up_available_icon = ""
+		self.inventory_panel_scroll_up_unavailable_icon = ""
+		self.inventory_panel_scroll_down_available_icon = ""
+		self.inventory_panel_scroll_down_unavailable_icon = ""
+
+		# Graphical Object Panel Settings
+		self.show_graphical_object_panel = 1					# boolean
+		self.show_graphical_object_panel_scrollbars = 1		# boolean
+		self.object_panel_panel_Xoffset = 5
+		self.object_panel_panel_Yoffset = 538
+		self.object_panel_x_icon_dimension = 50
+		self.object_panel_y_icon_dimension = 50
+		self.object_panel_x_icons = 4
+		self.object_panel_y_icons = 1
+		self.object_panel_blank_icon = ""
+		self.object_panel_graphic_not_available_icon = ""
+		self.object_panel_scroll_up_available_icon = ""
+		self.object_panel_scroll_up_unavailable_icon = ""
+		self.object_panel_scroll_down_available_icon = ""
+		self.object_panel_scroll_down_unavailable_icon = ""
+
+
+#####################################################################
 
 class PlayerInformationObject:
 	def __init__(self):
@@ -74,9 +112,10 @@ class PlayerInformationObject:
 		self.current_weight = -1
 		self.current_bulk = -1
 		self.current_room = 1
-		self.facing = 1
 		self.items = [] # list
 
+
+#####################################################################
 
 class DirectionInformationObject:
 	# Note - DirectionInfoOBJ objects are used to
@@ -92,7 +131,11 @@ class DirectionInformationObject:
 		self.compass_graphic_available_url = ""
 		self.compass_graphic_unavailable_url = ""
 		self.compass_graphic_special_url = ""
+		self.compass_graphic_never_traveled = ""
+		self.compass_graphic_last_direction_traveled = ""
 
+
+#####################################################################
 
 class RoomObject:
 	def __init__(self):
@@ -108,6 +151,8 @@ class RoomObject:
 		self.notes = ""
 
 
+#####################################################################
+
 class DirectionObject:
 	# Note - DirectionOBJ objects are used to keep track of
 	# information relating to a particular direction within
@@ -122,8 +167,9 @@ class DirectionObject:
 		self.transition_text = ""
 		self.first_transition_graphic = ""
 		self.transition_graphic = ""
-		# self.state = "" # I forget what this is used for
 
+
+#####################################################################
 
 class ItemObject:
 	def __init__(self):
@@ -137,12 +183,13 @@ class ItemObject:
 		self.icon_graphic_url = ""
 		self.equipped_graphic_url = ""
 		self.description = ""
-		self.location = "" # usage is depricated
 		self.equipped = 0 # boolean
 		self.weight = 0 # negative weight implies that object cannot be picked up
 		self.bulk = 0 # negative bulk indicates how much a "container" can hold (if item is a container)
 		self.notes = ""
 
+
+#####################################################################
 
 class ObstructionObject:
 	def __init__(self):
@@ -153,22 +200,25 @@ class ObstructionObject:
 		self.environment_graphic_Xpos = 0
 		self.environment_graphic_Ypos = 0
 		self.closeup_graphic_url = ""
+		self.icon_graphic_url = ""
 		self.description = ""
-		self.type = "" # set to "Antagonist" or "Obstacle"
-		self.locations = "" # usage is depricated
 		self.visible = 1 # boolean
 		self.notes = ""
 
+
+#####################################################################
 
 class VerbObject:
 	def __init__(self):
 		self.number = -1
 		self.name = ""
 		self.aliases = ""
-		self.events = {} # Why not a list?
-		self.total_events = 0
+		self.mouse_pointer_graphic = ""
+		self.events = {} # why not a list?
 		self.notes = ""
 
+
+#####################################################################
 
 class EventObject:
 	def __init__(self):
@@ -179,3 +229,4 @@ class EventObject:
 		self.requirements = "" # don't forget to error-check this while parsing!
 		self.effects = "" # don't forget to error-check this while parsing!
 		self.has_been_executed = 0 # boolean # Not currently implemented. Aids in point calculations
+      

@@ -8,7 +8,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.05.31
+# Last Update: 2002.06.10
 #
 #####################################################################
 
@@ -30,8 +30,9 @@ class CogEngine_Applet_Jython(Applet, ActionListener, CogEngine_Jython):
 		self.load_game_database()
 		#self.scrub_objects()
 		self.initialize_gui()
+		self.text_to_speech_enabled = 0 # TTS not available for Jython CogEngine
 		self.initialize_engine()
-		self.text_to_speech_enabled = 0 # TTS not yet available for Jython CogEngine
+
 
 
 #####################################################################
@@ -61,6 +62,13 @@ class CogEngine_Applet_Jython(Applet, ActionListener, CogEngine_Jython):
 		except database_access_error:
 			print "Error Downloading Game Database"
 			print "%s\n" % database_access_error
+
+
+#####################################################################
+
+	def exit_cog_engine(self):
+	
+		pass
 
 
 #####################################################################

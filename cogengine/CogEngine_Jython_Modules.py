@@ -451,6 +451,13 @@ class CogEngine_Jython(CogEngine):
 
 	#####################################################################
 
+	def display_current_room_object_icons(self, room):
+
+		pass
+		
+
+	#####################################################################
+
 	def output_text(self, text, speak_text=0):
 
 		# This method is used to append text to the text output area

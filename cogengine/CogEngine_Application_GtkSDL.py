@@ -7,7 +7,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.05.31
+# Last Update: 2002.06.10
 #
 #####################################################################
 # To Do List:
@@ -23,7 +23,6 @@
 
 from CogEngine_GtkSDL_Modules import CogEngine_GtkSDL
 
-
 #####################################################################
 # Classes
 #####################################################################
@@ -33,8 +32,6 @@ class CogEngine_Application_GtkSDL(CogEngine_GtkSDL):
 	# Import windows gtk module if os is windows
 	import os
 	import sys
-	if (os.name == "nt") or (os.name == "dos"):
-		sys.path.append('win32')
 
 	import gtk
 	import libglade
@@ -52,11 +49,19 @@ class CogEngine_Application_GtkSDL(CogEngine_GtkSDL):
 	#####################################################################
 
 	def __init__(self):
+	
+		if (self.os.name == "nt") or (self.os.name == "dos"):
+			self.operating_system = "windows"
+		else:
+			self.operating_system = self.os.name
+
+
 		# Create the main window and the widget store.
 		self.mainwindow = self.readglade("CogEngine")
 		self.widget = self.CogEngine_Utilities.WidgetStore(self.mainwindow)
 		if ( (len(self.sys.argv) == 2) and (self.os.path.isfile( self.sys.argv[1] )) ):
-			(self.gameInformation, self.playerInformation, \
+			(self.file_format_version_number, \
+			self.gameInformation, self.playerInformation, \
 			self.directionData, self.roomData, \
 			self.itemData, self.obstructionData, self.verbData) \
 			= self.CogEngine_Utilities.load_data_file(self.sys.argv[1])
@@ -87,14 +92,15 @@ class CogEngine_Application_GtkSDL(CogEngine_GtkSDL):
 
 	def on_new_file_activate(self, obj):
 		self.restore_default_game_settings()
-		
-	
+
+
 	#####################################################################
 
 	def on_open_activate(self, obj):
 		# Opens a GTK File Selection Dialog
 		dialog = self.readglade("open_fileselection")
 		self.openFileselection = self.CogEngine_Utilities.WidgetStore(dialog)
+
 
 	#####################################################################
 
@@ -103,10 +109,11 @@ class CogEngine_Application_GtkSDL(CogEngine_GtkSDL):
 			self.on_save_as_activate(self)
 		else:
 			self.CogEngine_Utilities.save_data_file(self.database_filename, \
+			                     self.file_format_version_number, \
 										self.gameInformation, self.playerInformation, \
 										self.directionData, self.roomData, \
 										self.itemData, self.obstructionData, self.verbData)
-                                                                        
+
 
    #####################################################################
 
@@ -121,7 +128,7 @@ class CogEngine_Application_GtkSDL(CogEngine_GtkSDL):
 	def on_quit(self, obj):
 		self.exit_cog_engine()
 
-	
+
 	#####################################################################
 
 	def on_about_activate(self, obj):
@@ -178,7 +185,8 @@ class CogEngine_Application_GtkSDL(CogEngine_GtkSDL):
 		if (self.os.path.isfile(filename)): # Check if entry is a file (will follow symlinks)
 			if (self.os.access(filename, self.os.R_OK)):
 				self.database_filename = filename
-				(self.gameInformation, self.playerInformation, \
+				(self.file_format_version_number, \
+				self.gameInformation, self.playerInformation, \
 				self.directionData, self.roomData, \
 				self.itemData, self.obstructionData, self.verbData) \
 				= self.CogEngine_Utilities.load_data_file(filename)
@@ -205,12 +213,13 @@ class CogEngine_Application_GtkSDL(CogEngine_GtkSDL):
 		filename = self.saveAsFileselection.save_as_fileselection.get_filename()
 		# The following section verifies that a valid file was entered
 		if (self.os.access(filename, self.os.W_OK)):
-				self.database_filename = filename
-				self.CogEngine_Utilities.save_data_file(self.database_filename, \
-											self.gameInformation, self.playerInformation, \
-											self.directionData, self.roomData, \
-											self.itemData, self.obstructionData, self.verbData)
-				self.display_dialog_box("File Saved", "File saved successfully")
+			self.database_filename = filename
+			self.CogEngine_Utilities.save_data_file(self.database_filename, \
+										self.file_format_version_number, \
+										self.gameInformation, self.playerInformation, \
+										self.directionData, self.roomData, \
+										self.itemData, self.obstructionData, self.verbData)
+			self.display_dialog_box("File Saved", "File saved successfully")
 
 		else:
 			if (self.os.access(filename, self.os.F_OK)):
@@ -220,6 +229,7 @@ class CogEngine_Application_GtkSDL(CogEngine_GtkSDL):
 				if (self.os.access(self.os.path.dirname(filename), self.os.W_OK)):
 					self.database_filename = filename
 					self.CogEngine_Utilities.save_data_file(self.database_filename, \
+												self.file_format_version_number, \
 												self.gameInformation, self.playerInformation, \
 												self.directionData, self.roomData, \
 												self.itemData, self.obstructionData, self.verbData)
@@ -242,7 +252,13 @@ class CogEngine_Application_GtkSDL(CogEngine_GtkSDL):
 		self.initialize_widgets()
 		self.initialize_sdl_graphic_area()
 		self.initialize_sdl_compass_area()
-		self.initialize_speech()
+		self.initialize_inventory_panel()
+		self.initialize_current_room_objects_panel()
+		if (self.gameInformation.text_to_speech_enabled):
+			self.initialize_speech()
+		else:
+			self.text_to_speech_enabled = 0
+		
 		self.initialize_engine()
 
 

@@ -384,7 +384,7 @@
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
   <default_width>428</default_width>
-  <default_height>354</default_height>
+  <default_height>400</default_height>
   <allow_shrink>True</allow_shrink>
   <allow_grow>True</allow_grow>
   <auto_shrink>False</auto_shrink>
@@ -471,7 +471,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>Application Title</name>
-	<label>Cog Engine Application v1.1.1</label>
+	<label>Cog Engine Application v1.1.3</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>

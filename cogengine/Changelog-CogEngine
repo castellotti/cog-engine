@@ -1,11 +1,20 @@
-Changelog - Cog Engine Application 1.1.2
+Changelog - Cog Engine Application 1.1.3
 
                        The Cog Engine Application
 
-                                Version 1.1.2
+                                Version 1.1.3
 
                    Copyright (C) 1999-2002 Steven M. Castellotti
                             <SteveC@innocent.com>
+
+Version (1.1.3)
+
+	- Graphical Inventory
+	- Graphical Object Panel
+	- Updated PyGTK support under Win32
+	- Uses new ".cog" file format
+	- Miscellaneous Bugfixes
+
 
 Version (1.1.2)
 
