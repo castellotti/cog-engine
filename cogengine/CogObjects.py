@@ -29,10 +29,12 @@ class GameInformationObject:
 		self.image_loading_graphic_url = ""
 		self.introduction_graphic_url = ""
 		self.image_directory = ""
+		self.audio_directory = ""
 		self.game_information_notes = ""
 
 		self.text_to_speech_enabled = 1
 		self.command_history = []
+		self.output_history = ""
 
 		# Advanced Game Settings
 		self.show_stats = 1											# boolean

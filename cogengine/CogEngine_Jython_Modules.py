@@ -8,7 +8,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.10
+# Last Update: 2002.06.20
 #
 #####################################################################
 
@@ -105,6 +105,8 @@ class CogEngine_Jython(CogEngine):
 			constraints.gridx = 1
 			constraints.gridy = 0
 
+			# We draw the Introduction Graphic now (instead of in a separate method)
+			# in order to ensure the GraphicPanel is of the current dimensions
 			if (self.gameInformation.introduction_graphic_url != ""):
 				current_url = java.net.URL("%s%s/%s" % (self.getCodeBase(), self.gameInformation.image_directory, self.gameInformation.introduction_graphic_url))
 			else:
@@ -422,7 +424,7 @@ class CogEngine_Jython(CogEngine):
 
 	#####################################################################
 
-	def display_image(self, graphic_url, Xpos=0, Ypos=0):
+	def display_image(self, graphic_url, name="", Xpos=0, Ypos=0, object_type=""):
 
 		# This methond gets called by the Cog Engine whenever a room or object
 		# is displayed.
@@ -462,6 +464,11 @@ class CogEngine_Jython(CogEngine):
 
 		pass
 
+	#####################################################################
+
+	def play_sound_file(self):
+	
+		pass
 
 	#####################################################################
 

@@ -202,7 +202,25 @@
 
 	    <widget>
 	      <class>GtkMenuItem</class>
-	      <name>separator3</name>
+	      <name>separator6</name>
+	      <right_justify>False</right_justify>
+	    </widget>
+
+	    <widget>
+	      <class>GtkMenuItem</class>
+	      <name>continue_game</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_continue_game_activate</handler>
+		<last_modification_time>Fri, 21 Jun 2002 00:55:36 GMT</last_modification_time>
+	      </signal>
+	      <label>Continue Game</label>
+	      <right_justify>False</right_justify>
+	    </widget>
+
+	    <widget>
+	      <class>GtkMenuItem</class>
+	      <name>separator5</name>
 	      <right_justify>False</right_justify>
 	    </widget>
 
@@ -471,7 +489,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>Application Title</name>
-	<label>Cog Engine Application v1.1.4</label>
+	<label>Cog Engine Application v1.1.5</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>

@@ -8,7 +8,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.06.15
+# Last Update: 2002.06.20
 #
 #####################################################################
 
@@ -68,10 +68,17 @@ class CogEngine_Applet_Jython(Applet, ActionListener, CogEngine_Jython):
 #####################################################################
 
 	def exit_cog_engine(self):
-	
+
 		pass
 
 
+#####################################################################
+
+	def exit_to_system(self):
+
+		pass
+                     
+		
 #####################################################################
 
 		# When a game database file is converted from the CogDevApp format (pickled)

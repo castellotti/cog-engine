@@ -6,68 +6,109 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.05.31
+# Last Update: 2002.06.20
 #
-# Note: Portions of this code were taken from Matthew Campbell's
-#        Driver for the Festival speech synthesizer,
-#        also released under the GPL
 #
 #####################################################################
+
 import os, signal, socket
 
-class Festival:
-	pid = None
-	con = None
+#####################################################################
 
-	def __init__(self):
+class Festival_TTS:
 
-		if not(os.path.exists('/tmp/.esd/socket')):
-			print "Waiting for ESD to initialize"
-			import time
-			time.sleep(5)
+	server_process_id = None
+	test_server_connection = None
 
-		result = os.fork()
+	def __init__(self, debug_mode):
 
-		if result == 0:
+		self.debug_mode = debug_mode
+		self.text_output_filepath = '/tmp/cogengine_outputtext.txt'
+		self.wav_output_filepath = '/tmp/cogengine_outputtext.wav'
+
+		pid = os.fork()
+
+		if pid == 0:
 			os.execlp("festival_server", "festival_server", "-c", "festival_server.config")
 		else:
-			self.pid = result
+			self.server_process_id = pid
 
 
-	def Speak(self, text):
-	   
-		import string
+	#####################################################################
 
-		if not self.con:
-			self.con = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	def Speak(self, text, mixer):
+
+		if not self.test_server_connection:
+			self.test_server_connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			try:
-				self.con.connect("localhost", 1314)
+				self.test_server_connection.connect("localhost", 1314)
 			except:
 				try:
 					print "Waiting for Festival server to initialize"
 					import time
 					time.sleep(3)
-					self.con.connect("localhost", 1314)
+					self.test_server_connection.connect("localhost", 1314)
 				except:
 					try:
 						print "Waiting (longer) for Festival server to initialize"
 						time.sleep(7)
-						self.con.connect("localhost", 1314)
+						self.test_server_connection.connect("localhost", 1314)
 					except:
 						print "Festival intialization timed out. Error connecting to port 1314."
-      
-		text = string.replace(text, '"', '\\"')
 
-		self.con.send("(SayText \"" + text + "\")")
+		
+		if (os.access(self.text_output_filepath, os.W_OK)):
+			if (os.access(self.wav_output_filepath, os.W_OK)):
+
+
+				output_file = open(self.text_output_filepath, 'w')
+				output_file.write(text)
+				output_file.close()
+
+
+				result = os.fork()
+
+				if result == 0:
+
+					os.execlp("festival_client", "festival_client", \
+								"--server", "localhost", \
+								"--ttw", \
+								"--output", self.wav_output_filepath, \
+								"--otype", "riff", \
+								self.text_output_filepath)
+
+				else:
+					childpid, exit_code = os.wait(result)
+					if (not exit_code):
+						try:
+							mixer.music.load(self.wav_output_filepath)
+							mixer.music.play()
+						except:
+							if(self.debug_mode):
+								print "Error playing audio file:", self.wav_output_filepath
+
+			else:
+				if (self.debug_mode):
+					print "File Access Error - File is not writable:", self.wav_output_filepath
+		else:
+			if (self.debug_mode):
+				print "File Access Error - File is not writable:", self.text_output_filepath
+
+
+   #####################################################################
 
 	def stop(self):
 		pass
 
+
+	#####################################################################
+
 	def __del__(self):
 		print "Killing Festival server"
-		if self.con:
-			self.con.close()
-			self.con = None
+		if self.test_server_connection:
+			self.test_server_connection.close()
+			self.test_server_connection = None
 
 		#os.kill(self.pid, signal.SIGTERM)
-		os.system("killall -9 festival festival_server 2> /dev/null")
+		os.system("killall -9 festival festival_server festival_client 2> /dev/null")
+

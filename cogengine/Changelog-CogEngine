@@ -1,11 +1,22 @@
-Changelog - Cog Engine Application 1.1.4
+Changelog - Cog Engine Application 1.1.5
 
                        The Cog Engine Application
 
-                                Version 1.1.4
+                                Version 1.1.5
 
                    Copyright (C) 1999-2002 Steven M. Castellotti
                             <SteveC@innocent.com>
+
+Version (1.1.5)
+
+	- GUI Interaction with Pbjects on the Graphic Panel
+	- Audio support added to Events
+	- Threaded Text-To-Speech under Windows
+	- Improved Text-To-Speech under Linux
+	- Save functionality restored under GTK+/SDL
+	- Word-Wrapping Enabled for all GtkText Widgets
+	- Better Text-Only Interface support
+
 
 Version (1.1.4)
 
