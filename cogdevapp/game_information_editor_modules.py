@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.09.22
+# Last Update: 2001.12.25
 #
 #####################################################################
 
@@ -44,9 +44,11 @@ def insert_data_into_game_editor(self):
  	else:
  		self.gameInformationEditor.debug_mode_false_radiobutton.set_active(1)
 
+	self.gameInformationEditor.show_graphic_display_area_checkbutton.set_active(self.gameInformation.show_graphic_area)
 	self.gameInformationEditor.show_statistical_display_checkbutton.set_active(self.gameInformation.show_stats)
 	self.gameInformationEditor.show_inventory_checkbutton.set_active(self.gameInformation.show_inventory)
 	self.gameInformationEditor.show_command_line_checkbutton.set_active(self.gameInformation.show_command_line)
+	self.gameInformationEditor.show_text_output_display_area_checkbutton.set_active(self.gameInformation.show_text_output_area)
 	self.gameInformationEditor.show_compass_checkbutton.set_active(self.gameInformation.show_compass)
 	self.gameInformationEditor.center_button_indicates_items_checkbutton.set_active(self.gameInformation.center_button_indicates_items)
 	self.gameInformationEditor.load_all_compass_images_checkbutton.set_active(self.gameInformation.load_all_compass_images)
@@ -78,9 +80,11 @@ def read_game_editor_data_into_memory(self):
 
 	self.gameInformation.debug_mode =  self.gameInformationEditor.debug_mode_true_radiobutton.get_active()
 
+	self.gameInformation.show_graphic_area = self.gameInformationEditor.show_graphic_display_area_checkbutton.get_active()
 	self.gameInformation.show_stats = self.gameInformationEditor.show_statistical_display_checkbutton.get_active()
 	self.gameInformation.show_inventory = self.gameInformationEditor.show_inventory_checkbutton.get_active()
 	self.gameInformation.show_command_line = self.gameInformationEditor.show_command_line_checkbutton.get_active()
+	self.gameInformation.show_text_output_area = self.gameInformationEditor.show_text_output_display_area_checkbutton.get_active()
 	self.gameInformation.show_compass = self.gameInformationEditor.show_compass_checkbutton.get_active()
 	self.gameInformation.center_button_indicates_items = self.gameInformationEditor.center_button_indicates_items_checkbutton.get_active()
 	self.gameInformation.load_all_compass_images = self.gameInformationEditor.load_all_compass_images_checkbutton.get_active()

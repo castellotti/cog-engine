@@ -1,7 +1,7 @@
 /******************************
 The COG Engine
 Game Information Object Class Files
-Last Modified on 2001.01.10
+Last Modified on 2001.12.25
 
 This code is released under the GPL (GNU Public License)
 For more information please refer to http://www.gnu.org/copyleft/gpl.html
@@ -32,9 +32,11 @@ public class GameInfoOBJ implements Serializable {
 	public String Introduction_GraphicURL;
 	public int PreferredGraphicSizeX;
 	public int PreferredGraphicSizeY;
+	public boolean ShowGraphicArea;
 	public boolean ShowStats;
 	public boolean ShowInventory;
 	public boolean ShowCommandLine;
+	public boolean ShowOutputArea;
 	public boolean ShowCompass;
 	public boolean CenterButtonIndicatesItems;
 	public boolean LoadAllCompassImages;

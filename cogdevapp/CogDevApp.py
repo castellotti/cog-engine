@@ -6,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.09.23
+# Last Update: 2001.12.25
 #
 #####################################################################
 # To Do List:

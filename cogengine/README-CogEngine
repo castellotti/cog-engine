@@ -1,10 +1,10 @@
-README - Cog Engine 0.95
+README - Cog Engine 1.0
 
                                The Cog Engine
 
-                                Version 0.95
+                                Version 1.0
 
-                   Copyright (C) 1999-2001 Steven M. Castellotti
+                   Copyright (C) 1999-2002 Steven M. Castellotti
                             <SteveC@innocent.com>
 
 
@@ -30,7 +30,7 @@ series of java class files, you will need some sort of game data file in
 order to actually try out the engine. "The Cycon Odyssey" is provided for
 this purpose. The Cycon Odyssey is currently an incomplete game, but there
 is enough in place for a new user to get a feel for how the engine works.
-
+e
 1) Download the class files for the Cog Engine (You may optionally
 download the source files, and compile them yourself, though this is not
 stricly necessary)

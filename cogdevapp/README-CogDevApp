@@ -1,10 +1,10 @@
-README - Cog Development Application 0.90
+README - Cog Development Application 1.0
 
                        The Cog Development Application
 
-                                Version 0.90
+                                Version 1.0
 
-                   Copyright (C) 2001 Steven M. Castellotti
+                   Copyright (C) 2001,2002 Steven M. Castellotti
                             <SteveC@innocent.com>
 
 
@@ -39,9 +39,9 @@ that Jython will no longer be necessary for converting between programs.
 	The Java-based "Text2Cog" program is now depricated, and will not
 be maintained in the future.
 
-	Since complete documentation is not currently available for the
-CogDevApp, it may be useful to refer to the Cycon Odyssey, the demo game
-for the CogEngine. The Cycon Odyssey is also in an unfinished state, but
+	Besides referring to the Developer's Guide on the Cog Engine website,
+t may be useful to refer to the Cycon Odyssey, the demo game
+for the CogEngine. The Cycon Odyssey is in an unfinished state, but
 there is more than enough there to reach an understanding of how to use
 the Cog Developement Application. The Cycon Odyssey is available at the
 CogEngine homepage, link listed below.

@@ -1,11 +1,17 @@
-Changelog - Cog Development Application 0.90
+Changelog - Cog Development Application 1.0
 
                        The Cog Development Application
 
-                                Version 0.90
+                                Version 1.0
 
-                   Copyright (C) 2001 Steven M. Castellotti
+                   Copyright (C) 2001,2002 Steven M. Castellotti
                             <SteveC@innocent.com>
+
+Version (1.0):
+Released 2002.01.27
+
+	- Small interface tweaks and cleanups
+
 
 Version (0.90):
 Released 2001.09.26
@@ -25,7 +31,7 @@ Released 2001.09.26
 	  also means that different fonts can be used without labels being
 	  obscured (this was an issue under Windows).
 
-	- Debug Mode added. Debugging messages are never printed to stdout 
+	- Debug Mode added. Debugging messages are only printed to stdout 
 	  when Debug Mode is enabled.
 
 	- "Image Directory" entry added. This makes it easier to use 

@@ -968,7 +968,7 @@
 	<widget>
 	  <class>GtkTable</class>
 	  <name>table1</name>
-	  <rows>3</rows>
+	  <rows>4</rows>
 	  <columns>2</columns>
 	  <homogeneous>True</homogeneous>
 	  <row_spacing>0</row_spacing>
@@ -978,126 +978,6 @@
 	    <expand>True</expand>
 	    <fill>True</fill>
 	  </child>
-
-	  <widget>
-	    <class>GtkCheckButton</class>
-	    <name>show_statistical_display_checkbutton</name>
-	    <width>192</width>
-	    <height>24</height>
-	    <can_focus>True</can_focus>
-	    <signal>
-	      <name>toggled</name>
-	      <handler>on_statistical_display_checkbutton_toggled</handler>
-	      <last_modification_time>Mon, 15 Jan 2001 04:30:41 GMT</last_modification_time>
-	    </signal>
-	    <label>Show Statistical Display</label>
-	    <active>False</active>
-	    <draw_indicator>True</draw_indicator>
-	    <child>
-	      <left_attach>0</left_attach>
-	      <right_attach>1</right_attach>
-	      <top_attach>0</top_attach>
-	      <bottom_attach>1</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkCheckButton</class>
-	    <name>show_compass_checkbutton</name>
-	    <width>136</width>
-	    <height>24</height>
-	    <can_focus>True</can_focus>
-	    <signal>
-	      <name>toggled</name>
-	      <handler>on_compass_checkbutton_toggled</handler>
-	      <last_modification_time>Mon, 15 Jan 2001 04:30:32 GMT</last_modification_time>
-	    </signal>
-	    <label>Show Compass</label>
-	    <active>False</active>
-	    <draw_indicator>True</draw_indicator>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>0</top_attach>
-	      <bottom_attach>1</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkCheckButton</class>
-	    <name>show_inventory_checkbutton</name>
-	    <width>192</width>
-	    <height>24</height>
-	    <can_focus>True</can_focus>
-	    <signal>
-	      <name>toggled</name>
-	      <handler>on_inventory_display_checkbutton_toggled</handler>
-	      <last_modification_time>Mon, 15 Jan 2001 04:30:46 GMT</last_modification_time>
-	    </signal>
-	    <label>Show Inventory Display</label>
-	    <active>False</active>
-	    <draw_indicator>True</draw_indicator>
-	    <child>
-	      <left_attach>0</left_attach>
-	      <right_attach>1</right_attach>
-	      <top_attach>1</top_attach>
-	      <bottom_attach>2</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkCheckButton</class>
-	    <name>center_button_indicates_items_checkbutton</name>
-	    <width>240</width>
-	    <height>24</height>
-	    <can_focus>True</can_focus>
-	    <signal>
-	      <name>toggled</name>
-	      <handler>on_center_button_indicates_items_checkbutton_toggled</handler>
-	      <last_modification_time>Mon, 15 Jan 2001 04:30:27 GMT</last_modification_time>
-	    </signal>
-	    <label>Center Button Indicates Items</label>
-	    <active>False</active>
-	    <draw_indicator>True</draw_indicator>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>1</top_attach>
-	      <bottom_attach>2</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
 
 	  <widget>
 	    <class>GtkCheckButton</class>
@@ -1116,8 +996,8 @@
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
-	      <top_attach>2</top_attach>
-	      <bottom_attach>3</bottom_attach>
+	      <top_attach>3</top_attach>
+	      <bottom_attach>4</bottom_attach>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
 	      <xexpand>False</xexpand>
@@ -1146,8 +1026,188 @@
 	    <child>
 	      <left_attach>1</left_attach>
 	      <right_attach>2</right_attach>
+	      <top_attach>3</top_attach>
+	      <bottom_attach>4</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>show_inventory_checkbutton</name>
+	    <width>192</width>
+	    <height>24</height>
+	    <can_focus>True</can_focus>
+	    <signal>
+	      <name>toggled</name>
+	      <handler>on_inventory_display_checkbutton_toggled</handler>
+	      <last_modification_time>Mon, 15 Jan 2001 04:30:46 GMT</last_modification_time>
+	    </signal>
+	    <label>Show Inventory Display</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
 	      <top_attach>2</top_attach>
 	      <bottom_attach>3</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>center_button_indicates_items_checkbutton</name>
+	    <width>240</width>
+	    <height>24</height>
+	    <can_focus>True</can_focus>
+	    <signal>
+	      <name>toggled</name>
+	      <handler>on_center_button_indicates_items_checkbutton_toggled</handler>
+	      <last_modification_time>Mon, 15 Jan 2001 04:30:27 GMT</last_modification_time>
+	    </signal>
+	    <label>Center Button Indicates Items</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>2</top_attach>
+	      <bottom_attach>3</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>show_statistical_display_checkbutton</name>
+	    <width>192</width>
+	    <height>24</height>
+	    <can_focus>True</can_focus>
+	    <signal>
+	      <name>toggled</name>
+	      <handler>on_statistical_display_checkbutton_toggled</handler>
+	      <last_modification_time>Mon, 15 Jan 2001 04:30:41 GMT</last_modification_time>
+	    </signal>
+	    <label>Show Statistical Display</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>1</top_attach>
+	      <bottom_attach>2</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>show_compass_checkbutton</name>
+	    <width>136</width>
+	    <height>24</height>
+	    <can_focus>True</can_focus>
+	    <signal>
+	      <name>toggled</name>
+	      <handler>on_compass_checkbutton_toggled</handler>
+	      <last_modification_time>Mon, 15 Jan 2001 04:30:32 GMT</last_modification_time>
+	    </signal>
+	    <label>Show Compass</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>1</top_attach>
+	      <bottom_attach>2</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>show_graphic_display_area_checkbutton</name>
+	    <width>192</width>
+	    <height>24</height>
+	    <can_focus>True</can_focus>
+	    <signal>
+	      <name>toggled</name>
+	      <handler>on_graphical_diplay_area_checkbutton_toggled</handler>
+	      <last_modification_time>Tue, 25 Dec 2001 07:48:43 GMT</last_modification_time>
+	    </signal>
+	    <label>Show Graphic Display Area</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>show_text_output_display_area_checkbutton</name>
+	    <width>136</width>
+	    <height>24</height>
+	    <can_focus>True</can_focus>
+	    <signal>
+	      <name>toggled</name>
+	      <handler>on_compass_checkbutton_toggled</handler>
+	      <last_modification_time>Mon, 15 Jan 2001 04:30:32 GMT</last_modification_time>
+	    </signal>
+	    <label>Show Text Output Display Area</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
 	      <xexpand>False</xexpand>
@@ -6883,7 +6943,7 @@ Expressions:
       <widget>
 	<class>GtkLabel</class>
 	<name>Application Title</name>
-	<label>Cog Development Application v0.90</label>
+	<label>Cog Development Application v1.0</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
@@ -6910,7 +6970,7 @@ Expressions:
       <widget>
 	<class>GtkLabel</class>
 	<name>Application Information</name>
-	<label>Copyright (2001)
+	<label>Copyright (2001, 2002)
 Author: Steven M. Castellotti
 
 The Cog Development Application creates and modifies

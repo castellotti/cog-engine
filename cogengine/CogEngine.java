@@ -8,10 +8,10 @@
 
 		This program is released under the GPL (GNU Public License) Version 2
 		For more information please refer to http://www.gnu.org/copyleft/gpl.html
-		Copyright (1999-2001) Steven M. Castellotti
+		Copyright (1999-2002) Steven M. Castellotti
 
-		Version : 0.95
-		Last Update : 2001.09.22
+		Version : 1.0
+		Last Update : 2001.12.25
 
 
 	Bug List
@@ -248,7 +248,7 @@ public class CogEngine extends Applet implements ActionListener {
 			System.err.println( GraphicURLString );
 			System.err.println("\" is Malformed!\n");
 		}
-		if ( (Xpos == 0) && (Ypos== 0) )
+		if ( (GameInfo.ShowGraphicArea) && (Xpos == 0) && (Ypos== 0) )
 			GraphicArea.setImage(this, CurrentURL );
 		if (GameInfo.ShowCommandLine)
 			CommandLine.setText( PreviousCommandLine ); // see above; use this to maintain original command line
@@ -267,9 +267,13 @@ public class CogEngine extends Applet implements ActionListener {
 			System.err.println("Bad URL for Introduction Graphic:");
 			System.err.println(GameInfo.Introduction_GraphicURL);
 		}
-		GraphicArea.setImage(this, CurrentURL);
-		OutputArea.append(GameInfo.Game_Title + "\n\n");
-		OutputArea.append("  " + GameInfo.Introduction_Text); // Displays Games Intro Text
+		if (GameInfo.ShowGraphicArea) {
+			GraphicArea.setImage(this, CurrentURL);
+		}
+		if (GameInfo.ShowOutputArea) {
+			OutputArea.append(GameInfo.Game_Title + "\n\n");
+			OutputArea.append("  " + GameInfo.Introduction_Text); // Displays Games Intro Text
+		}
 
 	} // DisplayIntroduction
 
@@ -328,14 +332,18 @@ public class CogEngine extends Applet implements ActionListener {
 
 		// Sequence to display Current Room
 		if (!Player.CurrentRoom.Visited) {
-			OutputArea.append("\n\n");
-			OutputArea.append("  " + Room.Description_Long + "\n");
-			OutputArea.append("  " + Room.Direction_Description);
+			if (GameInfo.ShowOutputArea) {
+				OutputArea.append("\n\n");
+				OutputArea.append("  " + Room.Description_Long + "\n");
+				OutputArea.append("  " + Room.Direction_Description);
+			}
 			Player.CurrentRoom.Visited = true;
 		}
 		else {
-			OutputArea.append("\n\n");
-			OutputArea.append(Room.Description_Short);
+			if (GameInfo.ShowOutputArea) {
+				OutputArea.append("\n\n");
+				OutputArea.append(Room.Description_Short);
+			}
 		}
 
 		// Sequence to Update CompassButton Graphics
@@ -404,39 +412,47 @@ public class CogEngine extends Applet implements ActionListener {
 				TempInt = Integer.parseInt(TempStr);
 				if ( ObstructionArray[TempInt].Visible ) {
 					DisplayedSomething = true;
-					OutputArea.append("\nA");
-					if (StartsWithVowel( ObstructionArray[TempInt].Name ) )
-						OutputArea.append("n");
+					if (GameInfo.ShowOutputArea) {
+						OutputArea.append("\nA");
+						if (StartsWithVowel( ObstructionArray[TempInt].Name ) )
+							OutputArea.append("n");
+					}
 					// We first want to output any Environmental Item Graphics
-    			if (ObstructionArray[TempInt].Environment_GraphicURL != null) {
+					if (ObstructionArray[TempInt].Environment_GraphicURL != null) {
 						try {
 							CurrentURL = new URL ( getCodeBase() + GameInfo.Image_Directory + ObstructionArray[TempInt].Environment_GraphicURL );
-							GraphicArea.addImageLayer(this, CurrentURL,
-							ObstructionArray[TempInt].Environment_Graphic_Xpos,
-							ObstructionArray[TempInt].Environment_Graphic_Ypos);
+							if (GameInfo.ShowGraphicArea) {
+								GraphicArea.addImageLayer(this, CurrentURL,
+									ObstructionArray[TempInt].Environment_Graphic_Xpos,
+									ObstructionArray[TempInt].Environment_Graphic_Ypos);
+							}
 						} catch (Exception e) { System.err.println("Obstruction Display broke"); }
 					}
-				OutputArea.append( " " + ObstructionArray[TempInt].Name.toLowerCase() );
+					if (GameInfo.ShowOutputArea) {
+						OutputArea.append( " " + ObstructionArray[TempInt].Name.toLowerCase() );
+					}
 				} // (2)
 				while ( RoomToken.hasMoreTokens() ) {
 					TempStr = RoomToken.nextToken().trim();
 					TempInt = Integer.parseInt(TempStr);
-					if ( ObstructionArray[TempInt].Visible ) {
-						if (DisplayedSomething) {
-							OutputArea.append(", and a");
-							if (StartsWithVowel( ObstructionArray[TempInt].Name ) )
-								OutputArea.append("n");
-						}
-						else {
-							DisplayedSomething = true;
-							OutputArea.append("\nA ");
-							if (StartsWithVowel( ObstructionArray[TempInt].Name ) )
-								OutputArea.append("n");
-		} // for-loop
-						OutputArea.append( " " + ObstructionArray[TempInt].Name.toLowerCase() );
-					}  // then (3)
+					if (GameInfo.ShowOutputArea) {
+						if ( ObstructionArray[TempInt].Visible ) {
+							if (DisplayedSomething) {
+								OutputArea.append(", and a");
+								if (StartsWithVowel( ObstructionArray[TempInt].Name ) )
+									OutputArea.append("n");
+							}
+							else {
+								DisplayedSomething = true;
+								OutputArea.append("\nA ");
+								if (StartsWithVowel( ObstructionArray[TempInt].Name ) )
+									OutputArea.append("n");
+							} // else
+							OutputArea.append( " " + ObstructionArray[TempInt].Name.toLowerCase() );
+						}  // then (4)
+					} // then (3)
 				} // while
-				if (DisplayedSomething) {
+				if ( (GameInfo.ShowOutputArea) && (DisplayedSomething) ) {
 					OutputArea.append(" prevents you from moving ");
 					OutputArea.append( DirectionInfoArray[TempCount].Name.toLowerCase() );
 					OutputArea.append(".");
@@ -457,30 +473,40 @@ public class CogEngine extends Applet implements ActionListener {
 				} catch (Exception e) {
 					System.err.println("Error setting new image for Center Compass Button!");
 				}
-			OutputArea.append("\nLooking around, you see a");
+			if (GameInfo.ShowOutputArea) {
+				OutputArea.append("\nLooking around, you see a");
+			}
 			RoomToken = new StringTokenizer(Player.CurrentRoom.Items, ","); // shouldn't we look for ", " - possible bug here
 			while ( RoomToken.hasMoreTokens() ) {
 				TempStr = RoomToken.nextToken().trim();
 				TempInt = Integer.parseInt(TempStr);
 				if (StartsWithVowel( ItemArray[TempInt].Name ) )
-					OutputArea.append("n");
+					if (GameInfo.ShowOutputArea) {
+						OutputArea.append("n");
+					}
 					// We first want to output any Environmental Item Graphics
     			if (ItemArray[TempInt].Environment_GraphicURL != null) {
 					try {
 						CurrentURL = new URL ( getCodeBase() + GameInfo.Image_Directory + ItemArray[TempInt].Environment_GraphicURL );
-						GraphicArea.addImageLayer(this, CurrentURL,
-							ItemArray[TempInt].Environment_Graphic_Xpos,
-							ItemArray[TempInt].Environment_Graphic_Ypos);
+						if (GameInfo.ShowGraphicArea) {
+							GraphicArea.addImageLayer(this, CurrentURL,
+								ItemArray[TempInt].Environment_Graphic_Xpos,
+								ItemArray[TempInt].Environment_Graphic_Ypos);
+							}
 					} catch (Exception e) { System.err.println("Item Environment Display broke"); }
 				}
-				OutputArea.append( " " + ItemArray[TempInt].Name.toLowerCase() );
-				if ( RoomToken.hasMoreTokens() ) {
-					OutputArea.append(", and a");
-					if (StartsWithVowel( ItemArray[TempInt].Name ) )
-						OutputArea.append("n");
+				if (GameInfo.ShowOutputArea) {
+					OutputArea.append( " " + ItemArray[TempInt].Name.toLowerCase() );
+					if ( RoomToken.hasMoreTokens() ) {
+						OutputArea.append(", and a");
+						if (StartsWithVowel( ItemArray[TempInt].Name ) )
+							OutputArea.append("n");
+					}
 				}
 			}
-			OutputArea.append(".");
+			if (GameInfo.ShowOutputArea) {
+				OutputArea.append(".");
+			}
 		}
 		else
 			if ( (GameInfo.CenterButtonIndicatesItems)
@@ -535,19 +561,6 @@ public class CogEngine extends Applet implements ActionListener {
 		// ----------------
 		// Hard-Wired Verbs
 		// ----------------
-
-		if ( (Verb.equals("look")) || (Verb.equals("l")) ) {
-			TempBoolean = Player.CurrentRoom.Visited;
-			Player.CurrentRoom.Visited = false;
-			DisplayRoom(Player.CurrentRoom);
-			Player.CurrentRoom.Visited = TempBoolean;
-			CommandExecuted = true;
-		} // look
-
-		if ( (Verb.equals("examine")) || (Verb.equals("ex")) || (Verb.equals("read")) ) {
-			ExamineObject( Remainder );
-			CommandExecuted = true;
-		} // examine
 
 		if ( (Verb.equals("help")) || (Verb.equals("verblist")) || (Verb.equals("listverbs")) ) {
 			DisplayVerbs();
@@ -621,14 +634,35 @@ public class CogEngine extends Applet implements ActionListener {
 							DisplayRoom(Player.CurrentRoom);
 						}
 						else {
+							if (GameInfo.ShowOutputArea) {
 								OutputArea.append("\n\nYou can't do that.");
-								CommandExecuted = true;
+							}
+							CommandExecuted = true;
 						}
 					}
 				}
 
 		if (GameInfo.ShowCommandLine)
 			CommandLine.setText(""); // This clears the command line after a permissable command has been entered
+
+		// ----------------
+		// More Hard-Wired Verbs
+		// ----------------
+
+		if ( !(CommandExecuted) )
+			if ( (Remainder.equals("")) &&  ( (Verb.equals("look")) || (Verb.equals("l")) )  ){
+				TempBoolean = Player.CurrentRoom.Visited;
+				Player.CurrentRoom.Visited = false;
+				DisplayRoom(Player.CurrentRoom);
+				Player.CurrentRoom.Visited = TempBoolean;
+				CommandExecuted = true;
+			} // look
+
+		if ( !(CommandExecuted) )
+			if ( (Verb.equals("examine")) || (Verb.equals("ex")) || (Verb.equals("read")) || (Verb.equals("look")) ){
+				ExamineObject( Remainder );
+				CommandExecuted = true;
+			} // examine
 
 		if ( (Verb.equals("last")) || (Verb.equals("repeat")) ) {
 			if (GameInfo.ShowCommandLine)
@@ -637,7 +671,7 @@ public class CogEngine extends Applet implements ActionListener {
 			CommandExecuted = true;
 		}
 
-		if ( !(CommandExecuted) )
+		if ( !(CommandExecuted) && (GameInfo.ShowOutputArea) )
 			OutputArea.append("\n\nI don't understand your command.");
 
 		LastCommand = Command;
@@ -653,9 +687,11 @@ public class CogEngine extends Applet implements ActionListener {
 		boolean ShowDrop = true;
 
 		// We begin by displaying the hard-wired verbs used by the COG Engine
-		OutputArea.append("\n\n");
-		OutputArea.append("Verbs built into the COG Engine: ");
-		OutputArea.append(" Look, Examine, Help, Quit");
+		if (GameInfo.ShowOutputArea) {
+			OutputArea.append("\n\n");
+			OutputArea.append("Verbs built into the COG Engine: ");
+			OutputArea.append(" Look, Examine, Help, Quit");
+		}
 
 		// We don't want to diplay Get and Drop here unless the game author
 		//  has not already included them as special verbs
@@ -665,30 +701,34 @@ public class CogEngine extends Applet implements ActionListener {
 			if ( VerbMatches( "Drop", VerbIndex ) );
 				ShowDrop = false;
 		} // for
-		if ( !(ShowGet) && !(ShowDrop) )
-			OutputArea.append(", and Last");
-		if ( (ShowGet) && !(ShowDrop) )
-			OutputArea.append(", Last, and Get");
-		if ( (ShowDrop) && !(ShowGet) )
-			OutputArea.append(", Last, and Drop");
-		if ( (ShowGet) && (ShowDrop) )
-			OutputArea.append(", Last, Get, and Drop");
-		OutputArea.append(".");
+		if (GameInfo.ShowOutputArea) {
+			if ( !(ShowGet) && !(ShowDrop) )
+				OutputArea.append(", and Last");
+			if ( (ShowGet) && !(ShowDrop) )
+				OutputArea.append(", Last, and Get");
+			if ( (ShowDrop) && !(ShowGet) )
+				OutputArea.append(", Last, and Drop");
+			if ( (ShowGet) && (ShowDrop) )
+				OutputArea.append(", Last, Get, and Drop");
+			OutputArea.append(".");
+		}
 
-		// If Debug Mode is enabled, we want to show all of the available debugging verbs
-		if (GameInfo.DebugMode)
-			OutputArea.append("\nAvailable Debugging Verbs: Warp, and Execute.");
+		if (GameInfo.ShowOutputArea) {
+			// If Debug Mode is enabled, we want to show all of the available debugging verbs
+			if (GameInfo.DebugMode)
+				OutputArea.append("\nAvailable Debugging Verbs: Warp, and Execute.");
 
-		// Finally we display the verbs the game author has decided to add into the Engine
-		// (as long as either DebugMode is enabled, or the author has set ShowAllVerbs to true)
+			// Finally we display the verbs the game author has decided to add into the Engine
+			// (as long as either DebugMode is enabled, or the author has set ShowAllVerbs to true)
 
-		if ( (GameInfo.DebugMode) || (GameInfo.ShowAllVerbs) ){
-			OutputArea.append("\nOther verbs available in this game include: ");
-			for (int TempCount = 1; TempCount <= VerbArray.length-2; TempCount++)
-				OutputArea.append(VerbArray[TempCount].Name + ", ");
-			if ( ( VerbArray.length - 2 ) > 1 )
-				OutputArea.append("and ");
-			OutputArea.append(VerbArray[ VerbArray.length - 1 ].Name + ".");
+			if ( (GameInfo.DebugMode) || (GameInfo.ShowAllVerbs) ){
+				OutputArea.append("\nOther verbs available in this game include: ");
+				for (int TempCount = 1; TempCount <= VerbArray.length-2; TempCount++)
+					OutputArea.append(VerbArray[TempCount].Name + ", ");
+				if ( ( VerbArray.length - 2 ) > 1 )
+					OutputArea.append("and ");
+				OutputArea.append(VerbArray[ VerbArray.length - 1 ].Name + ".");
+			}
 		}
 
 	} // DisplayVerbs
@@ -715,47 +755,61 @@ public class CogEngine extends Applet implements ActionListener {
 			if ( Player.CurrentRoom.DirectionArray[Direction].Obstructions != null ) {
 
 				DisplayedSomething = false; // keeps track of whether or not any "Visible" obstructions are present
-				OutputArea.append("\n\nYou can't move ");
-				OutputArea.append( DirectionInfoArray[Direction].Name.toLowerCase() );
+				if (GameInfo.ShowOutputArea) {
+					OutputArea.append("\n\nYou can't move ");
+					OutputArea.append( DirectionInfoArray[Direction].Name.toLowerCase() );
+				}
 
 				RoomToken = new StringTokenizer(Player.CurrentRoom.DirectionArray[Direction].Obstructions, ",");
 				TempStr = RoomToken.nextToken().trim();
 				TempInt = Integer.parseInt(TempStr);
 				if ( ObstructionArray[TempInt].Visible ) {
 					DisplayedSomething = true;
-					OutputArea.append(" because your path is blocked by a ");
-					OutputArea.append( ObstructionArray[TempInt].Name.toLowerCase() );
+					if (GameInfo.ShowOutputArea) {
+						OutputArea.append(" because your path is blocked by a ");
+						OutputArea.append( ObstructionArray[TempInt].Name.toLowerCase() );
+					}
 				} // then (2)
 
 				while ( RoomToken.hasMoreTokens() ) {
 					TempStr = RoomToken.nextToken().trim();
 					TempInt = Integer.parseInt(TempStr);
 					if ( ObstructionArray[TempInt].Visible ) {
-						if (DisplayedSomething)
-							OutputArea.append(", and a ");
-						else {
-							DisplayedSomething = true;
-							OutputArea.append("\n\nYour path ");
-							OutputArea.append( DirectionInfoArray[Direction].Name.toLowerCase() );
-							OutputArea.append(" because your path is blocked by a ");
+						if (GameInfo.ShowOutputArea) {
+							if (DisplayedSomething)
+								OutputArea.append(", and a ");
+							else {
+								DisplayedSomething = true;
+								OutputArea.append("\n\nYour path ");
+								OutputArea.append( DirectionInfoArray[Direction].Name.toLowerCase() );
+								OutputArea.append(" because your path is blocked by a ");
+							}
+							OutputArea.append( ObstructionArray[TempInt].Name.toLowerCase() );
 						}
-						OutputArea.append( ObstructionArray[TempInt].Name.toLowerCase() );
 					}  // then (3)
 				} // while
 
-				OutputArea.append(".");
+				if (GameInfo.ShowOutputArea) {
+					OutputArea.append(".");
+				}
 
 			} // then (2)
 			else {
-				OutputArea.append("\n\n");
-				OutputArea.append("You move ");
-				OutputArea.append( DirectionInfoArray[Direction].Name );
-				OutputArea.append(".");
+				if (GameInfo.ShowOutputArea) {
+					OutputArea.append("\n\n");
+					OutputArea.append("You move ");
+					OutputArea.append( DirectionInfoArray[Direction].Name );
+					OutputArea.append(".");
+				}
 				if ( ( Player.CurrentRoom.DirectionArray[Direction].FirstTransitionText != null )
 				&& ( !(Player.CurrentRoom.DirectionArray[Direction].HasMovedThisWay) ) )
+					if (GameInfo.ShowOutputArea) {
 						OutputArea.append(" " + Player.CurrentRoom.DirectionArray[Direction].FirstTransitionText);
+					}
 				if ( Player.CurrentRoom.DirectionArray[Direction].TransitionText != null )
-					OutputArea.append(" " + Player.CurrentRoom.DirectionArray[Direction].TransitionText);
+					if (GameInfo.ShowOutputArea) {
+						OutputArea.append(" " + Player.CurrentRoom.DirectionArray[Direction].TransitionText);
+					}
 				Player.CurrentRoom.DirectionArray[Direction].HasMovedThisWay = true;
 
 				// Set Player.CurrentRoom to the new Room
@@ -764,10 +818,12 @@ public class CogEngine extends Applet implements ActionListener {
 			} // else (2)
 		} // then (1)
 		else {
-			OutputArea.append("\n\n");
-			OutputArea.append("You can't move ");
-			OutputArea.append( DirectionInfoArray[Direction].Name.toLowerCase() );
-			OutputArea.append(".");
+			if (GameInfo.ShowOutputArea) {
+				OutputArea.append("\n\n");
+				OutputArea.append("You can't move ");
+				OutputArea.append( DirectionInfoArray[Direction].Name.toLowerCase() );
+				OutputArea.append(".");
+			}
 		} // else (1)
 
 		DisplayRoom(Player.CurrentRoom);
@@ -787,7 +843,9 @@ public class CogEngine extends Applet implements ActionListener {
 
 				int ItemNumber = Integer.parseInt( ResolvedObject.substring( 5, ResolvedObject.indexOf( ")" ) ) ); // ...talk about nesting!
 				if ( ItemArray[ItemNumber].Description != null )
-					OutputArea.append( "\n\n" + ItemArray[ItemNumber].Description );
+					if (GameInfo.ShowOutputArea) {
+						OutputArea.append( "\n\n" + ItemArray[ItemNumber].Description );
+					}
 				if ( ItemArray[ItemNumber].CloseUp_GraphicURL != null )
 					DisplayImage( ItemArray[ItemNumber].CloseUp_GraphicURL, 0, 0 );
 
@@ -798,7 +856,9 @@ public class CogEngine extends Applet implements ActionListener {
 				int ObstructionNumber = Integer.parseInt( ResolvedObject.substring( 12, ResolvedObject.indexOf( ")" ) ) ); // ...talk about nesting!
 				if ( ( ObstructionArray[ObstructionNumber].Description != null )
 				&& (ObstructionArray[ObstructionNumber].Visible) )
-					OutputArea.append( "\n\n" + ObstructionArray[ObstructionNumber].Description );
+					if (GameInfo.ShowOutputArea) {
+						OutputArea.append( "\n\n" + ObstructionArray[ObstructionNumber].Description );
+					}
 				if ( ( ObstructionArray[ObstructionNumber].CloseUp_GraphicURL != null )
 				&& (ObstructionArray[ObstructionNumber].Visible) )
 					DisplayImage( ObstructionArray[ObstructionNumber].CloseUp_GraphicURL, 0, 0 );
@@ -807,7 +867,9 @@ public class CogEngine extends Applet implements ActionListener {
 
 		}
 		else {
-			OutputArea.append("\n\nYou don't see anything like that here.");
+			if (GameInfo.ShowOutputArea) {
+				OutputArea.append("\n\nYou don't see anything like that here.");
+			}
 		}
 
 	} // ExamineObject
@@ -856,13 +918,19 @@ public class CogEngine extends Applet implements ActionListener {
 		switch( ItemNumber ) {
 			case 0 :
 				if ( !(GetAll) )
-					OutputArea.append("\n\nYou don't see anything like that here."); // we don't want to display this if we are getting all
+					if (GameInfo.ShowOutputArea) {
+						OutputArea.append("\n\nYou don't see anything like that here."); // we don't want to display this if we are getting all
+	  				}
 				break;
-			case -1 :
-				OutputArea.append("\n\nI'm not sure precisely what you are referring to. Please be more specific.");
+   		case -1 :
+				if (GameInfo.ShowOutputArea) {
+					OutputArea.append("\n\nI'm not sure precisely what you are referring to. Please be more specific.");
+				}
 				break;
 			case -2 :
-				OutputArea.append("\n\nThere's nothing to get in this room.");
+				if (GameInfo.ShowOutputArea) {
+					OutputArea.append("\n\nThere's nothing to get in this room.");
+				}
 				break;
 			default :
 				EffectString = ResolveEvent( "Get", "Item(" + ItemNumber + ")", null );
@@ -872,21 +940,29 @@ public class CogEngine extends Applet implements ActionListener {
 				else {
 					// No Event exists for this Item, so we execute the default Actions
 					if ( ItemArray[ItemNumber].Weight == -1 ) {
-						OutputArea.append("\n\nYou can't pick up the " + ItemArray[ItemNumber].Name + ".");
+						if (GameInfo.ShowOutputArea) {
+							OutputArea.append("\n\nYou can't pick up the " + ItemArray[ItemNumber].Name + ".");
+						}
 						OkToPickUp = false;
 					}
 					if ( ( Player.Max_Weight != -1 ) && ( ItemArray[ItemNumber].Weight + Player.Current_Weight > Player.Max_Weight ) ) {
-						OutputArea.append("\n\nThe " + ItemArray[ItemNumber].Name + " is too heavy for you to pick up.");
+						if (GameInfo.ShowOutputArea) {
+							OutputArea.append("\n\nThe " + ItemArray[ItemNumber].Name + " is too heavy for you to pick up.");
+						}
 						OkToPickUp = false;
 					}
 					if ( ( Player.Max_Bulk != -1 ) && ( ItemArray[ItemNumber].Bulk + Player.Current_Bulk > Player.Max_Bulk ) ) {
-						OutputArea.append("\n\nThe " + ItemArray[ItemNumber].Name + " is to bulky for you to carry.");
+						if (GameInfo.ShowOutputArea) {
+							OutputArea.append("\n\nThe " + ItemArray[ItemNumber].Name + " is to bulky for you to carry.");
+						}
 						OkToPickUp = false;
 					}
 					if ( OkToPickUp ) {
 						if ( (GameInfo.DebugMode) && ( Player.Items[ItemNumber] ) )
 							System.err.println("Warning! Player's Inventory already includes " + ItemNumber + "!");
-						OutputArea.append("\n\nYou pick up the " + ItemArray[ItemNumber].Name + ".");
+						if (GameInfo.ShowOutputArea) {
+							OutputArea.append("\n\nYou pick up the " + ItemArray[ItemNumber].Name + ".");
+						}
 						RemoveItemFromRoom( Player.CurrentRoom.Number, ItemNumber );
 						Player.Items[ItemNumber] = true;
 					}
@@ -944,13 +1020,19 @@ public class CogEngine extends Applet implements ActionListener {
 		switch( ItemNumber ) {
 			case 0 :
 				if ( !(DropAll) )
-					OutputArea.append("\n\nYou don't anything like that here in your inventory."); // we don't want to display this if we are getting all
+					if (GameInfo.ShowOutputArea) {
+						OutputArea.append("\n\nYou don't anything like that here in your inventory."); // we don't want to display this if we are getting all
+					}
 				break;
 			case -1 :
-				OutputArea.append("\n\nI'm not sure precisely what you are referring to. Please be more specific.");
+				if (GameInfo.ShowOutputArea) {
+					OutputArea.append("\n\nI'm not sure precisely what you are referring to. Please be more specific.");
+				}
 				break;
 			case -2 :
-				OutputArea.append("\n\nYou don't have anything in your inventory to drop!");
+				if (GameInfo.ShowOutputArea) {
+					OutputArea.append("\n\nYou don't have anything in your inventory to drop!");
+				}
 				break;
 			default :
 				EffectString = ResolveEvent( "Drop", "Item(" + ItemNumber + ")", null );
@@ -961,11 +1043,15 @@ public class CogEngine extends Applet implements ActionListener {
 					// No Event exists for this Item, so we execute the default Actions
 					if (ItemArray[ItemNumber].Equipped) {
 						ItemArray[ItemNumber].Equipped = false;
-						OutputArea.append("\n\nYou de-equip the " + ItemArray[ItemNumber].Name + ".");
+						if (GameInfo.ShowOutputArea) {
+							OutputArea.append("\n\nYou de-equip the " + ItemArray[ItemNumber].Name + ".");
+						}
 					}
 					if ( (GameInfo.DebugMode) && ( RoomContainsItem( Player.CurrentRoom.Number, ItemNumber ) ) )
 						System.err.println("Warning! CurrentRoom already includes " + ItemNumber + "!");
-					OutputArea.append("\n\nYou drop the " + ItemArray[ItemNumber].Name + ".");
+					if (GameInfo.ShowOutputArea) {
+						OutputArea.append("\n\nYou drop the " + ItemArray[ItemNumber].Name + ".");
+					}
 					AddItemToRoom( Player.CurrentRoom.Number, ItemNumber );
 					Player.Items[ItemNumber] = false;
 				} // else
@@ -986,7 +1072,9 @@ public class CogEngine extends Applet implements ActionListener {
 			Player.CurrentRoom = RoomArray[ Integer.parseInt(Word) ];
 			DisplayRoom(Player.CurrentRoom);
 		} catch (Exception BadRoomNumber) {
-			OutputArea.append ( "That is not a valid room number!\n" );
+			if (GameInfo.ShowOutputArea) {
+				OutputArea.append ( "That is not a valid room number!\n" );
+			}
 		}
 	} // RoomWarp
 
@@ -1125,7 +1213,7 @@ public class CogEngine extends Applet implements ActionListener {
 				Word = EffectToken.nextToken().trim();
 
 				if ( Word.startsWith( "TextDescription(Long)" ) ) {
-					TempToken = new StringTokenizer( Word, "[]" );
+					TempToken = new StringTokenizer( Word, "[" );
 					TempToken.nextToken(); // now points to everything before open bracket
 					TempWord = TempToken.nextToken();
 					while ( ( EffectToken.hasMoreTokens() ) && !( TempWord.endsWith("]") ) )
@@ -1138,7 +1226,7 @@ public class CogEngine extends Applet implements ActionListener {
 				}
 
 				if ( Word.startsWith( "TextDescription(Short)" ) ) {
-					TempToken = new StringTokenizer( Word, "[]" );
+					TempToken = new StringTokenizer( Word, "[" );
 					TempToken.nextToken(); // now points to everything before open bracket
 					TempWord = TempToken.nextToken();
 					while ( ( EffectToken.hasMoreTokens() ) && !( TempWord.endsWith("]") ) )
@@ -1151,7 +1239,7 @@ public class CogEngine extends Applet implements ActionListener {
 				}
 
 				if ( Word.startsWith( "DirectionDescription" ) ) {
-					TempToken = new StringTokenizer( Word, "[]" );
+					TempToken = new StringTokenizer( Word, "[" );
 					TempToken.nextToken(); // now points to everything before open bracket
 					TempWord = TempToken.nextToken();
 					while ( ( EffectToken.hasMoreTokens() ) && !( TempWord.endsWith("]") ) )
@@ -1164,7 +1252,7 @@ public class CogEngine extends Applet implements ActionListener {
 				}
 
 				if ( Word.startsWith( "GraphicURL" ) ) {
-					TempToken = new StringTokenizer( Word, "[]" );
+					TempToken = new StringTokenizer( Word, "[" );
 					TempToken.nextToken(); // now points to everything before open bracket
 					TempWord = TempToken.nextToken();
 					while ( ( EffectToken.hasMoreTokens() ) && !( TempWord.endsWith("]") ) )
@@ -1193,7 +1281,7 @@ public class CogEngine extends Applet implements ActionListener {
 					}
 
 					if ( TempString.startsWith( "FirstTransitionText" ) ) {
-						TempToken = new StringTokenizer( Word, "[]" );
+						TempToken = new StringTokenizer( Word, "[" );
 						TempToken.nextToken(); // now points to everything before open bracket
 						TempWord = TempToken.nextToken();
 						while ( ( EffectToken.hasMoreTokens() ) && !( TempWord.endsWith("]") ) )
@@ -1206,7 +1294,7 @@ public class CogEngine extends Applet implements ActionListener {
 					}
 
 					if ( TempString.startsWith( "TransitionText" ) ) {
-						TempToken = new StringTokenizer( Word, "[]" );
+						TempToken = new StringTokenizer( Word, "[" );
 						TempToken.nextToken(); // now points to everything before open bracket
 						TempWord = TempToken.nextToken();
 						while ( ( EffectToken.hasMoreTokens() ) && !( TempWord.endsWith("]") ) )
@@ -1219,7 +1307,7 @@ public class CogEngine extends Applet implements ActionListener {
 					}
 
 					if ( TempString.startsWith( "FirstTransitionGraphic" ) ) {
-						TempToken = new StringTokenizer( Word, "[]" );
+						TempToken = new StringTokenizer( Word, "[" );
 						TempToken.nextToken(); // now points to everything before open bracket
 						TempWord = TempToken.nextToken();
 						while ( ( EffectToken.hasMoreTokens() ) && !( TempWord.endsWith("]") ) )
@@ -1232,7 +1320,7 @@ public class CogEngine extends Applet implements ActionListener {
 					}
 
 					if ( TempString.startsWith( "FirstTransitionGraphic" ) ) {
-						TempToken = new StringTokenizer( Word, "[]" );
+						TempToken = new StringTokenizer( Word, "[" );
 						TempToken.nextToken(); // now points to everything before open bracket
 						TempWord = TempToken.nextToken();
 						while ( ( EffectToken.hasMoreTokens() ) && !( TempWord.endsWith("]") ) )
@@ -1276,7 +1364,7 @@ public class CogEngine extends Applet implements ActionListener {
 				}
 
 				if ( Word.startsWith( "TextDescription" ) ) {
-					TempToken = new StringTokenizer( Word, "[]" );
+					TempToken = new StringTokenizer( Word, "[" );
 					TempToken.nextToken(); // now points to everything before open bracket
 					TempWord = TempToken.nextToken();
 					while ( ( EffectToken.hasMoreTokens() ) && !( TempWord.endsWith("]") ) )
@@ -1289,7 +1377,7 @@ public class CogEngine extends Applet implements ActionListener {
 				}
 
 				if ( Word.startsWith( "Environment_GraphicURL" ) ) {
-					TempToken = new StringTokenizer( Word, "[]" );
+					TempToken = new StringTokenizer( Word, "[" );
 					TempToken.nextToken(); // now points to everything before open bracket
 					TempWord = TempToken.nextToken();
 					while ( ( EffectToken.hasMoreTokens() ) && !( TempWord.endsWith("]") ) )
@@ -1312,7 +1400,7 @@ public class CogEngine extends Applet implements ActionListener {
 				}
 
 				if ( Word.startsWith( "CloseUp_GraphicURL" ) ) {
-					TempToken = new StringTokenizer( Word, "[]" );
+					TempToken = new StringTokenizer( Word, "[" );
 					TempToken.nextToken(); // now points to everything before open bracket
 					TempWord = TempToken.nextToken();
 					while ( ( EffectToken.hasMoreTokens() ) && !( TempWord.endsWith("]") ) )
@@ -1325,7 +1413,7 @@ public class CogEngine extends Applet implements ActionListener {
 				}
 
 				if ( Word.startsWith( "Icon_GraphicURL" ) ) {
-					TempToken = new StringTokenizer( Word, "[]" );
+					TempToken = new StringTokenizer( Word, "[" );
 					TempToken.nextToken(); // now points to everything before open bracket
 					TempWord = TempToken.nextToken();
 					while ( ( EffectToken.hasMoreTokens() ) && !( TempWord.endsWith("]") ) )
@@ -1338,7 +1426,7 @@ public class CogEngine extends Applet implements ActionListener {
 				}
 
 				if ( Word.startsWith( "Equipped_GraphicURL" ) ) {
-					TempToken = new StringTokenizer( Word, "[]" );
+					TempToken = new StringTokenizer( Word, "[" );
 					TempToken.nextToken(); // now points to everything before open bracket
 					TempWord = TempToken.nextToken();
 					while ( ( EffectToken.hasMoreTokens() ) && !( TempWord.endsWith("]") ) )
@@ -1361,7 +1449,7 @@ public class CogEngine extends Applet implements ActionListener {
 					ObstructionArray[ObstructionNumber].Visible = ( ( Word.endsWith( "(true)" ) ) || ( Word.endsWith( "(1)" ) ) );
 
 				if ( Word.startsWith( "TextDescription" ) ) {
-					TempToken = new StringTokenizer( Word, "[]" );
+					TempToken = new StringTokenizer( Word, "[" );
 					TempToken.nextToken(); // now points to everything before open bracket
 					TempWord = TempToken.nextToken();
 					while ( ( EffectToken.hasMoreTokens() ) && !( TempWord.endsWith("]") ) )
@@ -1374,7 +1462,7 @@ public class CogEngine extends Applet implements ActionListener {
 				}
 
 				if ( Word.startsWith( "Environment_GraphicURL" ) ) {
-					TempToken = new StringTokenizer( Word, "[]" );
+					TempToken = new StringTokenizer( Word, "[" );
 					TempToken.nextToken(); // now points to everything before open bracket
 					TempWord = TempToken.nextToken();
 					while ( ( EffectToken.hasMoreTokens() ) && !( TempWord.endsWith("]") ) )
@@ -1397,7 +1485,7 @@ public class CogEngine extends Applet implements ActionListener {
 				}
 
 				if ( Word.startsWith( "CloseUp_GraphicURL" ) ) {
-					TempToken = new StringTokenizer( Word, "[]" );
+					TempToken = new StringTokenizer( Word, "[" );
 					TempToken.nextToken(); // now points to everything before open bracket
 					TempWord = TempToken.nextToken();
 					while ( ( EffectToken.hasMoreTokens() ) && !( TempWord.endsWith("]") ) )
@@ -1414,21 +1502,31 @@ public class CogEngine extends Applet implements ActionListener {
 		} // Modifies
 
 		if ( Word.startsWith("TextMessage[") ) {
-			OutputArea.append("\n\n");
+			if (GameInfo.ShowOutputArea) {
+				OutputArea.append("\n\n");
+			}
 			if ( Word.endsWith("]") ) {
 				Word = Word.substring( 12, Word.length() - 1 ); // Here's our easy-out
-				OutputArea.append( Word );
+				if (GameInfo.ShowOutputArea) {
+					OutputArea.append( Word );
+				}
 			}
 			else {
 				Word = Word.substring(12, Word.length() );
-				OutputArea.append( Word );
+				if (GameInfo.ShowOutputArea) {
+					OutputArea.append( Word );
+				}
 				Word = EffectToken.nextToken().trim();
 				while ( !( Word.endsWith("]") ) ) {
-					OutputArea.append(" " + Word);
+					if (GameInfo.ShowOutputArea) {
+						OutputArea.append(" " + Word);
+					}
 					Word = EffectToken.nextToken().trim();
 				}
 				Word = Word.substring( 0, Word.length() - 1 );
-				OutputArea.append( " " + Word );
+				if (GameInfo.ShowOutputArea) {
+					OutputArea.append( " " + Word );
+				}
 			} // else
 		} // "TextMessage" Effect
 
@@ -1443,7 +1541,9 @@ public class CogEngine extends Applet implements ActionListener {
 			int x = Integer.parseInt( Word.substring( 0, Word.length() - 1 ) );
 			Word = EffectToken.nextToken().trim();
 			int y = Integer.parseInt( Word.substring( 0, Word.length() - 1 ) );
-			GraphicArea.addImageLayer(this, CurrentURL, x, y);
+			if (GameInfo.ShowGraphicArea) {
+				GraphicArea.addImageLayer(this, CurrentURL, x, y);
+			}
 
 		} // "GraphicMessage" Effect
 
@@ -2001,7 +2101,9 @@ public class CogEngine extends Applet implements ActionListener {
 
 				if ( ObjectNumber == -1 ) {
 					// If we've found more than one valid alias, we want to print out an error and stop parsing the phrase
-					OutputArea.append("\n\nI'm not sure precisely what you are referring to. Please be more specific.");
+					if (GameInfo.ShowOutputArea) {
+						OutputArea.append("\n\nI'm not sure precisely what you are referring to. Please be more specific.");
+					}
 					ObjectString = null;
 					Scratch = null;
 				}
@@ -2395,21 +2497,21 @@ public class CogEngine extends Applet implements ActionListener {
 		// ------------------
 
 		// Setup for the GraphicArea (Canvas)
-		constraints.anchor = GridBagConstraints.CENTER;
-		constraints.fill = GridBagConstraints.NONE;
-		constraints.weightx = 0.0;
-		constraints.weighty = 0.0;
+		if (GameInfo.ShowGraphicArea) {
+			constraints.anchor = GridBagConstraints.CENTER;
+			constraints.fill = GridBagConstraints.NONE;
+			constraints.weightx = 0.0;
+			constraints.weighty = 0.0;
 
-		try {
-			CurrentURL = new URL(getCodeBase() + GameInfo.Image_Directory + GameInfo.ImageLoading_GraphicURL);
-		} catch (Exception BadURL) {
-			System.err.println("Graphic URL \"");
-			System.err.println( GameInfo.ImageLoading_GraphicURL );
-			System.err.println("\" is Malformed!\n");
+			try {
+				CurrentURL = new URL(getCodeBase() + GameInfo.Image_Directory + GameInfo.ImageLoading_GraphicURL);
+			} catch (Exception BadURL) {
+				System.err.println("Graphic URL \"");
+				System.err.println( GameInfo.ImageLoading_GraphicURL );
+				System.err.println("\" is Malformed!\n");
+			}
+			addGB( Top, GraphicArea = new GraphicPanel(this, CurrentURL, GameInfo.DebugMode), 1, 0);
 		}
-		addGB( Top, GraphicArea = new GraphicPanel(this, CurrentURL, GameInfo.DebugMode), 1, 0);
-		//GraphicArea.setSize(GameInfo.PreferredGraphicSizeX, GameInfo.PreferredGraphicSizeY);
-		//GraphicArea.validate();
 
 
 		// The follow section was removed due to an error experienced under Internet Explorer
@@ -2442,13 +2544,15 @@ public class CogEngine extends Applet implements ActionListener {
 		}
 
 		// Setup for the Text Display Area
-		constraints.anchor = GridBagConstraints.CENTER;
-		constraints.fill = GridBagConstraints.BOTH;
-		constraints.weightx = 1.0;
-		constraints.weighty = 1.0;
-		addGB( Bottom, OutputArea = new TextArea("OutputArea",1,1,TextArea.SCROLLBARS_VERTICAL_ONLY), 1, 0 );
-		OutputArea.setEditable(false);
-		OutputArea.setText("");
+		if (GameInfo.ShowOutputArea) {
+			constraints.anchor = GridBagConstraints.CENTER;
+			constraints.fill = GridBagConstraints.BOTH;
+			constraints.weightx = 1.0;
+			constraints.weighty = 1.0;
+			addGB( Bottom, OutputArea = new TextArea("OutputArea",1,1,TextArea.SCROLLBARS_VERTICAL_ONLY), 1, 0 );
+			OutputArea.setEditable(false);
+			OutputArea.setText("");
+		}
 
 		// Setup for the Command Line
 		if (GameInfo.ShowCommandLine) {

@@ -1,7 +1,7 @@
 /******************************
 The COG Engine
 GraphicPanel Component
-Last Modified on 2000.03.18
+Last Modified on 2001.09.25
 
 		This code is released under the GPL (GNU Public License)
 		For more information please refer to http://www.gnu.org/copyleft/gpl.html
@@ -59,10 +59,12 @@ public class GraphicPanel extends Component implements Runnable {
 		}
 		catch (Exception e) {
 			System.err.println("Error downloading graphic in GraphicPanel!");
-			System.err.println("Exception was:\n" + e);		
+			System.err.println("Exception was:\n" + e);
 		}
-		if (tracker.isErrorID( ID ))
+		if (tracker.isErrorID( ID )) {
 			System.err.println("Error in Image ID #" + ID);
+			TempImage = null;
+		}
 		return TempImage;
 	}
 	
@@ -91,14 +93,16 @@ public class GraphicPanel extends Component implements Runnable {
 				System.err.println("GlobalImage is still downloading.");
 			GlobalImage = LoadingImage;
 		}
-		size = new Dimension ( GlobalImage.getWidth(null), GlobalImage.getHeight(null) );
-		setSize( size );
-		g.drawImage( GlobalImage, 0, 0, this );
-		if ( ImageLayers != null && !(DownloadInProgress) ) {
-			Enumeration e = ImageLayers.elements();
-			while ( e.hasMoreElements() ) {
-				TempImageEntry = (ImageVectorEntry)e.nextElement();
-				g.drawImage( TempImageEntry.image, TempImageEntry.x, TempImageEntry.y, this );
+		if ( GlobalImage != null) {
+			size = new Dimension ( GlobalImage.getWidth(null), GlobalImage.getHeight(null) );
+			setSize( size );
+			g.drawImage( GlobalImage, 0, 0, this );
+			if ( ImageLayers != null && !(DownloadInProgress) ) {
+				Enumeration e = ImageLayers.elements();
+				while ( e.hasMoreElements() ) {
+					TempImageEntry = (ImageVectorEntry)e.nextElement();
+					g.drawImage( TempImageEntry.image, TempImageEntry.x, TempImageEntry.y, this );
+				}
 			}
 		}
 	} // paint()

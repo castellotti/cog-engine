@@ -8,7 +8,7 @@
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
 # Version x.x
-# Last Update: 2001.09.22
+# Last Update: 2001.12.25
 #
 # Calling Convention:
 # ./export_cog_data.py <CogDevApp file> <CogEngine file>
@@ -83,9 +83,11 @@ def convert_game_information(java, python):
 	python.image_directory = java.Image_Directory
 	python.preferred_graphic_size_X = java.PreferredGraphicSizeX
 	python.preferred_graphic_size_Y = java.PreferredGraphicSizeY
+	python.show_graphic_area = java.ShowGraphicArea
 	python.show_stats = java.ShowStats
 	python.show_inventory = java.ShowInventory
 	python.show_command_line = java.ShowCommandLine
+	python.show_text_output_area = java.ShowOutputArea
 	python.show_compass = java.ShowCompass
 	python.center_button_indicates_items = java.CenterButtonIndicatesItems
 	python.load_all_compass_images = java.LoadAllCompassImages

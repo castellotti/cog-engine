@@ -1,3 +1,9 @@
+Version (1.0)
+
+	- Fixed bug in GraphicPanel that try to paint images which had not 
+	  downloaded correctly.
+
+
 Version (0.95)
 
 	- "Image Directory" variable added. This makes it easier to use 

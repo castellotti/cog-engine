@@ -36,9 +36,11 @@ class GameInformationObject:
 		self.image_directory = ""
 		self.preferred_graphic_size_X = -1
 		self.preferred_graphic_size_Y = -1
+		self.show_graphic_area = 1					# boolean
 		self.show_stats = 1                    # boolean
 		self.show_inventory = 1                # boolean
 		self.show_command_line = 1             # boolean
+		self.show_text_output_area = 1			# boolean
 		self.show_compass = 1                  # boolean
 		self.center_button_indicates_items = 1 # boolean
 		self.load_all_compass_images = 1       # boolean
