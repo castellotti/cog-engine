@@ -1,5 +1,3 @@
-#!/usr/bin/env python2.1
-#!/usr/bin/env python2.2
 #!/usr/bin/env python
 #
 # Cog Engine Development Application
@@ -8,7 +6,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.05.12
+# Last Update: 2002.06.07
 #
 #####################################################################
 # To Do List:
@@ -24,12 +22,13 @@
 #
 #####################################################################
 
+from CogEngine_GtkSDL_Modules import CogEngine_GtkSDL
 
 #####################################################################
 # Classes
 #####################################################################
 
-class CogDevApp:
+class CogDevApp(CogEngine_GtkSDL):
 
 	# Import windows gtk module if os is windows
 	import os
@@ -43,31 +42,33 @@ class CogDevApp:
 	# Import handler functionality from modules
 	import CogEngine_Utilities
 	from CogObjects import *
-	from game_information_editor_modules import *
-	from player_information_editor_modules import *
-	from direction_editor_modules import *
-	from room_editor_modules import *
-	from item_editor_modules import *
-	from obstruction_editor_modules import *
-	from verb_editor_modules import *
-	from event_editor_modules import *
-	from event_builder_modules import *
-
-	from CogEngine_Modules import *
-	from CogEngine_GtkSDL_Modules import *
+	from CogDevApp_game_information_editor_modules import *
+	from CogDevApp_game_information_editor_advanced_modules import *
+	from CogDevApp_player_information_editor_modules import *
+	from CogDevApp_direction_editor_modules import *
+	from CogDevApp_room_editor_modules import *
+	from CogDevApp_item_editor_modules import *
+	from CogDevApp_obstruction_editor_modules import *
+	from CogDevApp_verb_editor_modules import *
+	from CogDevApp_event_editor_modules import *
+	from CogDevApp_event_builder_modules import *
 
 	glade_filename = "CogDevApp.glade"
 	database_filename = ""
 	data_loaded = 0
 	debug_mode = 0
+	version_number = "1.1.3"
 
+
+	#####################################################################
 
 	def __init__(self):
 		# Create the main window and the widget store.
 		self.mainwindow = self.readglade("CogDevApp")
 		self.widget = self.CogEngine_Utilities.WidgetStore(self.mainwindow)
 		if ( (len(self.sys.argv) == 2) and (self.os.path.isfile( self.sys.argv[1] )) ):
-			(self.gameInformation, self.playerInformation, \
+			(self.file_format_version_number, \
+			self.gameInformation, self.playerInformation, \
 			self.directionData, self.roomData, \
 			self.itemData, self.obstructionData, self.verbData) \
 			= self.CogEngine_Utilities.load_data_file(self.sys.argv[1])
@@ -78,6 +79,8 @@ class CogDevApp:
 		self.gtk.mainloop()
 
 
+	#####################################################################
+	
 	def readglade(self, name, o=None):
 		# Read in a Glade tree. Signals are attached to methods on the
 		# supplied object o; if o is omitted, this object is used.
@@ -88,11 +91,12 @@ class CogDevApp:
 		return obj
 
 
-#####################################################################
+	#####################################################################
 
 	# Begin Menubar Handler Fuctions
 
 	def on_new_file_activate(self, obj):
+		self.file_format_version_number = self.version_number
 		self.gameInformation = self.GameInformationObject()
 		self.playerInformation = self.PlayerInformationObject()
 		self.directionData = {}
@@ -103,36 +107,39 @@ class CogDevApp:
 		self.itemData = {}
 		self.obstructionData = {}
 		self.verbData = {}
-		# self.verbData[1] = self.VerbObject()
-		# self.verbData[1].number = 1
-		# self.verbData[1].name = "Get"
-		# self.verbData[2] = self.VerbObject()
-		# self.verbData[2].number = 2
-		# self.verbData[2].name = "Drop"
 		self.data_loaded = 1
 
 
+	#####################################################################
+	
 	def on_open_activate(self, obj):
 		# Opens a GTK File Selection Dialog
 		dialog = self.readglade("open_fileselection")
 		self.openFileselection = self.CogEngine_Utilities.WidgetStore(dialog)
 
 
+	#####################################################################
+	
 	def on_save_activate(self, obj):
 		if (self.database_filename == ""):
 			self.on_save_as_activate(self)
 		else:
 			self.CogEngine_Utilities.save_data_file(self.database_filename, \
+										self.file_format_version_number, \
 										self.gameInformation, self.playerInformation, \
 										self.directionData, self.roomData, \
 										self.itemData, self.obstructionData, self.verbData)
 
 
+	#####################################################################
+	
 	def on_save_as_activate(self, obj):
 		# Opens a GTK File Selection Dialog
 		dialog = self.readglade("save_as_fileselection")
 		self.saveAsFileselection = self.CogEngine_Utilities.WidgetStore(dialog)
 
+
+	#####################################################################
 
 	def on_quit(self, obj):
 		# Now I can do "self.widget.glade_widget_name" and it will automatically look up
@@ -140,18 +147,30 @@ class CogDevApp:
 		# What's more, I can tell Glade to connect a button to the signal
 		# "on_quit" and when I press it, the "on_quit()" method is
 		# automatically invoked:
+		
+		import os
+
+		if ('speech' in dir(self)) and (os.name == "posix"):
+			del (self.speech)
+
 		self.sys.exit(0)
 
 
+	#####################################################################
+	
 	def on_about_activate(self, obj):
 		# This handler opens the about dialog
 		self.about = self.readglade("about")
 
 
+	#####################################################################
+	
 	def destroy_about_box(self, obj):
 		obj.destroy()
 
 
+	#####################################################################
+	
 	def display_dialog_box(self, title, message):
 
 		# This method creates a dialog box with the title and message passed to it
@@ -179,17 +198,22 @@ class CogDevApp:
 		dialog_box.show_all()
 
 
+	#####################################################################
+	
 	def destroy_dialog_box(self, obj, box):
 		box.destroy()
 
 
+	#####################################################################
+	
 	def on_open_fileselection_ok_button_clicked(self, obj):
 		filename = self.openFileselection.open_fileselection.get_filename()
 		# The following section verifies that a valid file was selected
 		if (self.os.path.isfile(filename)): # Check if entry is a file (will follow symlinks)
 			if (self.os.access(filename, self.os.R_OK)):
 				self.database_filename = filename
-				(self.gameInformation, self.playerInformation, \
+				(self.file_format_version_number, \
+				self.gameInformation, self.playerInformation, \
 				self.directionData, self.roomData, \
 				self.itemData, self.obstructionData, self.verbData) \
 				= self.CogEngine_Utilities.load_data_file(filename)
@@ -202,16 +226,21 @@ class CogDevApp:
 		self.openFileselection.open_fileselection.destroy()
 
 
+	#####################################################################
+	
 	def on_open_fileselection_cancel_button_clicked(self, obj):
 		self.openFileselection.open_fileselection.destroy()
 
 
+	#####################################################################
+	
 	def on_save_as_fileselection_ok_button_clicked(self, obj):
 		filename = self.saveAsFileselection.save_as_fileselection.get_filename()
 		# The following section verifies that a valid file was entered
 		if (self.os.access(filename, self.os.W_OK)):
 				self.database_filename = filename
 				self.CogEngine_Utilities.save_data_file(self.database_filename, \
+											self.file_format_version_number, \
 											self.gameInformation, self.playerInformation, \
 											self.directionData, self.roomData, \
 											self.itemData, self.obstructionData, self.verbData)
@@ -225,6 +254,7 @@ class CogDevApp:
 				if (self.os.access(self.os.path.dirname(filename), self.os.W_OK)):
 					self.database_filename = filename
 					self.CogEngine_Utilities.save_data_file(self.database_filename, \
+					                     self.file_format_version_number, \
 												self.gameInformation, self.playerInformation, \
 												self.directionData, self.roomData, \
 												self.itemData, self.obstructionData, self.verbData)
@@ -234,11 +264,13 @@ class CogDevApp:
 		self.saveAsFileselection.save_as_fileselection.destroy()
 
 
+	#####################################################################
+	
 	def on_save_as_fileselection_cancel_button_clicked(self, obj):
 		self.saveAsFileselection.save_as_fileselection.destroy()
 
 
-#####################################################################
+	#####################################################################
 
 	# Begin togglebutton handler fuctions
 
@@ -254,9 +286,22 @@ class CogDevApp:
 				self.gameInformationEditor = self.CogEngine_Utilities.WidgetStore(editor)
 				self.insert_data_into_game_editor()
 		else:
-			self.read_game_editor_data_into_memory()
-			self.gameInformationEditor.game_information_editor.hide()
+			if (self.gameInformationEditor.advanced_settings_togglebutton.get_active()):
+				# If the advanced settings window is open force
+				# it to read its settings into memory
+				self.read_advanced_game_editor_data_into_memory()
+				self.gameInformationEditorAdvancedSettings.game_information_editor_advanced_settings.hide()
 
+			self.read_game_editor_data_into_memory()
+			try:
+				self.gameInformationEditor.game_information_editor.hide()
+			except:
+				# The window has already been destroyed
+				pass
+
+
+	#####################################################################
+	
 	def on_player_information_togglebutton_toggled(self, obj):
 		# this handler opens or closes the player information editor window,
 		# depending on the status of the togglebutton
@@ -267,8 +312,14 @@ class CogDevApp:
 			self.insert_data_into_player_editor()
 		else:
 			self.read_player_editor_data_into_memory()
-			self.playerInformationEditor.player_information_editor.hide()
+			try:
+				self.playerInformationEditor.player_information_editor.hide()
+			except:
+				# The window has already been destroyed
+				pass
 
+
+	#####################################################################
 
 	def on_direction_togglebutton_toggled(self, obj):
 		# this handler opens or closes the direction editor window,
@@ -280,8 +331,14 @@ class CogDevApp:
 			self.insert_data_into_direction_editor(1)
 		else:
 			self.read_direction_editor_data_into_memory()
-			self.directionEditor.direction_editor.hide()
+			try:
+				self.directionEditor.direction_editor.hide()
+			except:
+				# The window has already been destroyed
+				pass
 
+
+	#####################################################################
 
 	def on_room_togglebutton_toggled(self, obj):
 		# this handler opens or closes the room editor window,
@@ -293,8 +350,14 @@ class CogDevApp:
 			self.insert_data_into_room_editor(1)
 		else:
 			self.read_room_editor_data_into_memory()
-			self.roomEditor.room_editor.hide()
+			try:
+				self.roomEditor.room_editor.hide()
+			except:
+				# The window has already been destroyed
+				pass
 
+
+	#####################################################################
 
 	def on_item_togglebutton_toggled(self, obj):
 		# this handler opens or closes the item editor window,
@@ -306,8 +369,14 @@ class CogDevApp:
 			self.insert_data_into_item_editor(1)
 		else:
 			self.read_item_editor_data_into_memory()
-			self.itemEditor.item_editor.hide()
+			try:
+				self.itemEditor.item_editor.hide()
+			except:
+				# The window has already been destroyed
+				pass
 
+
+	#####################################################################
 
 	def on_obstruction_togglebutton_toggled(self, obj):
 		# this handler opens or closes the obstruction editor window,
@@ -319,8 +388,14 @@ class CogDevApp:
 			self.insert_data_into_obstruction_editor(1)
 		else:
 			self.read_obstruction_editor_data_into_memory()
-			self.obstructionEditor.obstruction_editor.hide()
+			try:
+				self.obstructionEditor.obstruction_editor.hide()
+			except:
+				# The window has already been destroyed
+				pass
 
+
+	#####################################################################
 
 	def on_verb_togglebutton_toggled(self, obj):
 		# this handler opens or closes the verb editor window,
@@ -332,8 +407,14 @@ class CogDevApp:
 			self.insert_data_into_verb_editor(1)
 		else:
 			self.read_verb_editor_data_into_memory()
-			self.verbEditor.verb_editor.hide()
+			try:
+				self.verbEditor.verb_editor.hide()
+			except:
+				# The window has already been destroyed
+				pass
 
+
+	#####################################################################
 
 	def on_event_togglebutton_toggled(self, obj):
 		# this handler opens or closes the event editor window,
@@ -346,9 +427,14 @@ class CogDevApp:
 			self.insert_data_into_event_editor()
 		else:
 			self.read_event_editor_data_into_memory()
-			self.eventEditor.event_editor.hide()
+			try:
+				self.eventEditor.event_editor.hide()
+			except:
+				# The window has already been destroyed
+				pass
 
-#####################################################################
+
+	#####################################################################
 
 	# CogEngine Game Routines
 
@@ -363,9 +449,19 @@ class CogDevApp:
 			self.backup_default_game_settings()
 			self.initialize_new_game()
 		else:
-			self.cogengine.CogEngine.hide()
-			self.pygame.quit()
+			try:
+				self.cogengine.CogEngine.hide()
+			except:
+				# The window has already been destroyed
+				pass
+			try:
+				self.pygame.quit()
+			except:
+				# The window has already been destroyed
+				pass
 
+
+	#####################################################################
 
 	def initialize_widgets(self):
 
@@ -374,15 +470,40 @@ class CogDevApp:
 		self.statistics_textbox = self.cogengine.statistics_textbox
 		self.inventory_textbox = self.cogengine.inventory_textbox
 
+	#####################################################################
+
+	def on_commandline_entry_activate(self, obj):
+
+		# This method is called whenever a user hits enter after typing a command onto the command line
+
+		command = self.commandline_entry.get_text()
+		self.commandline_entry.set_text("")
+		self.parse_command_line(command)
+
+
+	#####################################################################
 
 	def initialize_new_game(self):
 
 		self.initialize_widgets()
 		self.initialize_sdl_graphic_area()
+		self.initialize_sdl_compass_area()
+		self.initialize_inventory_panel()
+		self.initialize_current_room_objects_panel()
+		if (self.gameInformation.text_to_speech_enabled):
+			self.initialize_speech()
 		self.initialize_engine()
 
 
+	#####################################################################
+
 	def exit_cog_engine(self):
+
+		import os
+
+		if ('speech' in dir(self)) and (os.name == "posix"):
+			del (self.speech)
+
 		self.widget.play_togglebutton.set_active(0)
 
 
@@ -397,7 +518,6 @@ if __name__ == '__main__':
 		warnings.filterwarnings(action="ignore", message='.*import.*', category=SyntaxWarning)
 	except:
 		pass
-
 
 
 	CogDevApp()

@@ -1,8 +1,8 @@
-README - Cog Development Application 1.1.1
+README - Cog Development Application 1.1.3
 
                        The Cog Development Application
 
-                                Version 1.1.1
+                                Version 1.1.3
 
                    Copyright (C) 2001,2002 Steven M. Castellotti
                             <SteveC@innocent.com>
@@ -22,6 +22,17 @@ most of the time, it will not work all of the time. See the section
 "Reporting Bugs" Below for more information.
 
 
+SPECIAL NOTE
+------------
+
+	This version of the Cog Development Application introduces a new 
+file format for Cog Engine files. You will need to use the conversion 
+script to work on games created before this release. The current upgrade
+script is called convert-1.0-to-1.1.3.py and can be executed as such:
+
+python convert-1.0-to-1.1.3.py Cycon-COG.dev CyconOdyssey.cog
+
+
 INSTALLATION INSTRUCTIONS
 -------------------------
 
@@ -33,7 +44,14 @@ now available. Simply download and execute the CogDevApp setup.exe file
 and select a destination for installation. An shortcut for the Cog 
 Development Application will be added to your desktop and Start Menu.
 
-	You will still need to instal Java and Jython in order to convert
+	If you wish to use Text-To-Speech synthesis support, you will need 
+to download and install the Microsoft Speech SDK from Microsoft's website. 
+
+The current URL for this file is:
+http://search.microsoft.com/gomsuri.asp?n=9&c=rp_BestBets&siteid=us&target=http://msdn.microsoft.com/downloads/default.asp?url=/downloads/sample.asp?url=/msdn-files/027/000/781/msdncompositedoc.xml
+
+
+	You will also need to instal Java and Jython in order to convert
 game files developed with the Development Application into a
 format which can be read by the Jython Applet version of the Cog Engine.
 This new version of the Cog Engine currently features the ability to 
@@ -82,6 +100,8 @@ http://www.daa.com.au/~james/gnome/
 Glade information is available at:
 http://glade.gnome.org/
 
+Festival information is available at:
+http://www.cstr.ed.ac.uk/projects/festival/
 
 If you are using RedHat Linux, the following rpms (and their own
 prerequisits) should be installed:
@@ -97,6 +117,9 @@ SDL_image
 as of version 7.2. If I have missed any packages, please email me.
 
 You will also need to install the Pygame rpm, available at www.pygame.org
+
+You will need to install the festival package if you wish to use 
+Text-To-Speech Synthesis support.
 
 
 Execute-From-Source Installation Tips
@@ -116,18 +139,16 @@ For Linux:
 the resulting directory.
 
 4) You can convert game modules create with the CogDevApp into files
-readable by the Cog Engine via the "export_cog_data.py" script, and you
-convert those file back for editing using the "import_cog_data.py" script.
+readable by the Cog Engine via the "export_cog_data.py" script.
 
 
 Example (Under Linux):
-tar xvzf CogDevApp-1.1.1-source.tar.gz
-tar xvzf CyconOdyssey-0.97-data.tar.gz
-cp CyconOdyssey-0.97/Cycon-COG.dat CogDevApp-1.1.1
-cd CogDevApp-1.1.1
-./import_cog_data.py Cycon-COG.dat Cycon-COG.dev
-./CogDevApp.py Cycon-COG.dev
-./export_cog_data.py Cycon-COG.dev Cycon-COG.dat
+tar xvzf CogDevApp-1.1.3-source.tar.gz
+tar xvzf CyconOdyssey-0.98-data.tar.gz
+cp CyconOdyssey-0.98/CyconOdyssey.cog CogDevApp-1.1.3
+cd CogDevApp-1.1.3
+./CogDevApp.py CyconOdyssey.cog
+./export_cog_data.py CyconOdyssey.cog CyconOdyssey.dat
 
 
 For Windows:
@@ -157,7 +178,7 @@ entering the appropriate command into the run dialog box (cmd for windows
 nt, command for windows 9x/ME).
 
 6) Load the CogDevApp.py according to this example:
-cd CogDevApp-1.1.1
+cd CogDevApp-1.1.3
 C:\python21\python CogDevApp.py
 
 7) Enjoy!

@@ -6,9 +6,9 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.05.12
+# Last Update: 2002.06.07
 #
-# Note: Portions of this code was take from SQmaiL (version 0.1.1-alpha)
+# Note: Portions of this code were taken from SQmaiL (version 0.1.1-alpha)
 #        by David Given (dtrg@users.sourceforge.net), also
 #        released under the GPL
 #
@@ -98,6 +98,7 @@ def load_data_file(filename):
 
 	from CogObjects import *
 	file = open(filename, 'r')
+	file_format_version_number = pickle.load(file)
 	gameInformation = pickle.load(file)
 	playerInformation = pickle.load(file)
 	directionData = pickle.load(file)
@@ -107,12 +108,15 @@ def load_data_file(filename):
 	verbData = pickle.load(file)
 	file.close()
 
-	return(gameInformation, playerInformation, \
+	return(file_format_version_number, \
+	       gameInformation, playerInformation, \
 	       directionData, roomData, \
 	       itemData, obstructionData, verbData)
+                                                                     
 
-			 
-def save_data_file(filename, \
+#####################################################################
+
+def save_data_file(filename, file_format_version_number, \
                    gameInformation, playerInformation, \
                    directionData, roomData, \
                    itemData, obstructionData, verbData):
@@ -125,6 +129,7 @@ def save_data_file(filename, \
 
 	from CogObjects import *
 	file = open(filename, 'w')
+	pickle.dump(file_format_version_number, file)
 	pickle.dump(gameInformation, file)
 	pickle.dump(playerInformation, file)
 	pickle.dump(directionData, file)

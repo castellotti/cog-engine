@@ -1,14 +1,24 @@
-Changelog - Cog Development Application 1.1.1
+Changelog - Cog Development Application 1.1.3
 
                        The Cog Development Application
 
-                                Version 1.1.1
+                                Version 1.1.3
 
                    Copyright (C) 2001,2002 Steven M. Castellotti
                             <SteveC@innocent.com>
 
+Version (1.1.3):
+Released 2002.06.07
+
+	- Advanced Display Settings Editor added
+	- New file format created, to facilitate automatic file format upgrading
+	- CogEngine 1.1.3 included (Graphical Inventory, Text-To-Speech, etc.)
+	- New options for direction and obstruction objects
+	- Save button added to Event Editor
+
+
 Version (1.1.1):
-Release 2002.05.19
+Released 2002.05.19
 
 	- Tooltips added to all Editor widgets
 	- Save button added to each cyclable Editor
