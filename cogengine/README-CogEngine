@@ -1,8 +1,8 @@
-README - Cog Engine 1.1.1
+README - Cog Engine 1.1.2
 
                                The Cog Engine
 
-                                Version 1.1.1
+                                Version 1.1.2
 
                    Copyright (C) 1999-2002 Steven M. Castellotti
                             <SteveC@innocent.com>
@@ -44,7 +44,7 @@ desktop and Start Menu.
 yet available under linux, although work is currently underway to
 produce one. However, if you have installed the necessary prerequisites
 on your system, you shouldn't have much trouble executing the source
-with a command such as "python CogEngine_Application_GtkSDL.py" from the command line.    
+with a command such as "python CogEngine_Application_GtkSDL.py" from the command line.
 
         See the Execute-From-Source Installation Tips below for more
 information.
@@ -66,13 +66,8 @@ http://jython.sourceforge.net/
 Pygame information is available at:
 http://www.pygame.org/
 
-SDL information is available at:   
+SDL information is available at:
 http://www.libsdl.org/
-
-(You also need the Python/Gnome Libraries, and the Glade Libraries)
-
-Python/Gnome information is available at:
-http://www.daa.com.au/~james/gnome/
 
 Glade information is available at:
 http://glade.gnome.org/
@@ -82,14 +77,12 @@ If you are using RedHat Linux, the following rpms (and their own
 prerequisits) should be installed:
 python
 pygtk
-pygnome
 pygtk-libglade
-pygnome-libglade
 SDL
 SDL_image
 
         All of these packages are included on the RedHat install cds,
-as of version 7.2. If I have missed any packages, please email me.
+as of versions 7.2 and 7.3. If I have missed any packages, please email me.
 
 You will also need to install the Pygame rpm, available at www.pygame.org
 

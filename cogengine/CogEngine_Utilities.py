@@ -8,7 +8,7 @@
 #
 # Last Update: 2002.05.12
 #
-# Note: Portions of this code was take from SQmaiL (version 0.1.1-alpha)
+# Note: Portions of this code were taken from SQmaiL (version 0.1.1-alpha)
 #        by David Given (dtrg@users.sourceforge.net), also
 #        released under the GPL
 #

@@ -1,11 +1,18 @@
-Changelog - Cog Engine Application 1.1.1
+Changelog - Cog Engine Application 1.1.2
 
                        The Cog Engine Application
 
-                                Version 1.1.1
+                                Version 1.1.2
 
                    Copyright (C) 1999-2002 Steven M. Castellotti
                             <SteveC@innocent.com>
+
+Version (1.1.2)
+
+	- Text-To-Speech Synthesis added under Linux and Windows
+	- Passive Graphical Compass added to GTK+/SDL Frontend
+	- Better OOP reorganizations
+
 
 Version (1.1.1)
 
@@ -19,19 +26,19 @@ Version (1.1.1)
 
 Version (1.0)
 
-	- Fixed bug in GraphicPanel that try to paint images which had not 
+	- Fixed bug in GraphicPanel that try to paint images which had not
 	  downloaded correctly.
 
 
 Version (0.95)
 
-	- "Image Directory" variable added. This makes it easier to use 
-	  the same game data with different graphics files. For instance, 
-	  if you have a high and a low resolution version of the same 
-	  game, you only have to change this entry to point to another 
+	- "Image Directory" variable added. This makes it easier to use
+	  the same game data with different graphics files. For instance,
+	  if you have a high and a low resolution version of the same
+	  game, you only have to change this entry to point to another
 	  directory, and the rest of the game data remains intact.
 
-	- Inventory display adjusted to now display an "(eqipped)" tag on 
+	- Inventory display adjusted to now display an "(eqipped)" tag on
 	  the end of all listed equipped items
 
 	- If an obstruction was marked visible but didn't have a graphic,

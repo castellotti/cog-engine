@@ -1,6 +1,5 @@
-#!/usr/bin/env python2.1
-#!/usr/bin/env python2.2
 #!/usr/bin/env python
+#!/usr/bin/env python2.2
 #
 # Cog Engine Application (GtkSDL)
 #
@@ -8,7 +7,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.05.12
+# Last Update: 2002.05.31
 #
 #####################################################################
 # To Do List:
@@ -22,12 +21,14 @@
 #
 #####################################################################
 
+from CogEngine_GtkSDL_Modules import CogEngine_GtkSDL
+
 
 #####################################################################
 # Classes
 #####################################################################
 
-class CogEngine_Application_GtkSDL:
+class CogEngine_Application_GtkSDL(CogEngine_GtkSDL):
 
 	# Import windows gtk module if os is windows
 	import os
@@ -41,14 +42,14 @@ class CogEngine_Application_GtkSDL:
 	import CogEngine_Utilities
 
 	from CogObjects import *
-	from CogEngine_Modules import *
-	from CogEngine_GtkSDL_Modules import *
-
 
 	glade_filename = "CogEngine_Application_GtkSDL.glade"
 	database_filename = ""
 	data_loaded = 0
 	debug_mode = 0
+	
+
+	#####################################################################
 
 	def __init__(self):
 		# Create the main window and the widget store.
@@ -68,6 +69,8 @@ class CogEngine_Application_GtkSDL:
 		self.gtk.mainloop()
 
 
+	#####################################################################
+
 	def readglade(self, name, o=None):
 		# Read in a Glade tree. Signals are attached to methods on the
 		# supplied object o; if o is omitted, this object is used.
@@ -78,19 +81,22 @@ class CogEngine_Application_GtkSDL:
 		return obj
 
 
-#####################################################################
+	#####################################################################
 
 	# Begin Menubar Handler Fuctions
 
 	def on_new_file_activate(self, obj):
 		self.restore_default_game_settings()
-
 		
+	
+	#####################################################################
+
 	def on_open_activate(self, obj):
 		# Opens a GTK File Selection Dialog
 		dialog = self.readglade("open_fileselection")
 		self.openFileselection = self.CogEngine_Utilities.WidgetStore(dialog)
 
+	#####################################################################
 
 	def on_save_activate(self, obj):
 		if (self.database_filename == ""):
@@ -100,7 +106,9 @@ class CogEngine_Application_GtkSDL:
 										self.gameInformation, self.playerInformation, \
 										self.directionData, self.roomData, \
 										self.itemData, self.obstructionData, self.verbData)
+                                                                        
 
+   #####################################################################
 
 	def on_save_as_activate(self, obj):
 		# Opens a GTK File Selection Dialog
@@ -108,18 +116,26 @@ class CogEngine_Application_GtkSDL:
 		self.saveAsFileselection = self.CogEngine_Utilities.WidgetStore(dialog)
 
 
-	def on_quit(self, obj):
-		self.sys.exit(0)
+	#####################################################################
 
+	def on_quit(self, obj):
+		self.exit_cog_engine()
+
+	
+	#####################################################################
 
 	def on_about_activate(self, obj):
 		# This handler opens the about dialog
 		about = self.readglade("about")
 
 
+	#####################################################################
+
 	def destroy_about_box(self, obj):
 		obj.destroy()
 
+
+   #####################################################################
 
 	def display_dialog_box(self, title, message):
 
@@ -148,10 +164,14 @@ class CogEngine_Application_GtkSDL:
 		dialog_box.show_all()
 
 
+	#####################################################################
+
 	def destroy_dialog_box(self, obj, box):
 		box.destroy()
 
 
+	#####################################################################
+	
 	def on_open_fileselection_ok_button_clicked(self, obj):
 		filename = self.openFileselection.open_fileselection.get_filename()
 		# The following section verifies that a valid file was selected
@@ -173,10 +193,14 @@ class CogEngine_Application_GtkSDL:
 		self.openFileselection.open_fileselection.destroy()
 
 
+	#####################################################################
+	
 	def on_open_fileselection_cancel_button_clicked(self, obj):
 		self.openFileselection.open_fileselection.destroy()
 
 
+	#####################################################################
+	
 	def on_save_as_fileselection_ok_button_clicked(self, obj):
 		filename = self.saveAsFileselection.save_as_fileselection.get_filename()
 		# The following section verifies that a valid file was entered
@@ -205,20 +229,24 @@ class CogEngine_Application_GtkSDL:
 		self.saveAsFileselection.save_as_fileselection.destroy()
 
 
+	#####################################################################
+
 	def on_save_as_fileselection_cancel_button_clicked(self, obj):
 		self.saveAsFileselection.save_as_fileselection.destroy()
 
 
-#####################################################################
+	#####################################################################
 
 	def initialize_new_game(self):
 
 		self.initialize_widgets()
 		self.initialize_sdl_graphic_area()
+		self.initialize_sdl_compass_area()
+		self.initialize_speech()
 		self.initialize_engine()
 
 
-#####################################################################
+	#####################################################################
 
 	def initialize_widgets(self):
 
@@ -228,10 +256,25 @@ class CogEngine_Application_GtkSDL:
 		self.inventory_textbox = self.widget.inventory_textbox
 
 
-#####################################################################
+	#####################################################################
+
+	def on_commandline_entry_activate(self, obj):
+
+		# This method is called whenever a user hits enter after typing a command onto the command line
+
+		command = self.commandline_entry.get_text()
+		self.commandline_entry.set_text("")
+		self.parse_command_line(command)
+
+
+	#####################################################################
 
 	def exit_cog_engine(self):
 
+		import os
+
+		if ('speech' in dir(self)) and (os.name == "posix"):
+			del (self.speech)
 		self.sys.exit(0)
 
 
@@ -248,5 +291,4 @@ if __name__ == '__main__':
 		pass
 
 
-
-	CogEngine_Application_GtkSDL()
+	CogEngine_Application = CogEngine_Application_GtkSDL()

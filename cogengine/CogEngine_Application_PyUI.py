@@ -1,3 +1,4 @@
+#!/usr/bin/env python2
 #!/usr/bin/env python2.1
 #
 #####################################################################
@@ -52,7 +53,7 @@ class CogEngine_PyUI:
 		# This methond loads the Game Data File specified on the command
 		# line (refer to the calling example in the header notes
 
-		import sys, utils
+		import sys, CogEngine_Utilities
 
 		self.game_database_filename = sys.argv[1]
 

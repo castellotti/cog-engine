@@ -8,7 +8,7 @@
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2002.05.16
+# Last Update: 2002.05.31
 #
 #####################################################################
 
@@ -17,14 +17,13 @@ from java.awt.event import ActionListener
 from java.io import FileInputStream, ObjectInputStream
 import java.net.URL
 
+from CogEngine_Jython_Modules import CogEngine_Jython
 
 #####################################################################
 
-class CogEngine_Applet_Jython(Applet, ActionListener):
+class CogEngine_Applet_Jython(Applet, ActionListener, CogEngine_Jython):
 
 	from CogObjects import *
-	from CogEngine_Modules import *
-	from CogEngine_Jython_Modules import *
 
 	def init(self):
 
@@ -32,6 +31,7 @@ class CogEngine_Applet_Jython(Applet, ActionListener):
 		#self.scrub_objects()
 		self.initialize_gui()
 		self.initialize_engine()
+		self.text_to_speech_enabled = 0 # TTS not yet available for Jython CogEngine
 
 
 #####################################################################
