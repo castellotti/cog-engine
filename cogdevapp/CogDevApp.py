@@ -2,11 +2,11 @@
 #
 # COG Engine Development Application
 #
-# Copyright Steven M. Castellotti (2001)
+# Copyright Steven M. Castellotti (2001, 2002)
 # This code is released under the GNU Pulic License (GPL) version 2
 # For more information please refer to http://www.gnu.org/copyleft/gpl.html
 #
-# Last Update: 2001.12.25
+# Last Update: 2002.04.29
 #
 #####################################################################
 # To Do List:
@@ -23,22 +23,32 @@
 #####################################################################
 
 # Import windows gtk module if os is windows
-import os, sys
+import os
 if (os.name == "nt") or (os.name == "dos"):
+	import sys
 	sys.path.append('win32')
 
 
 import gtk
-#import gnome.ui
 import libglade
 import utils
+#import gnome.ui
+#import GDK
+#import gtkhtml
+
+# Quick hack to supress warnings introduced in Python 2.1
+try:
+	import warnings
+	warnings.filterwarnings(action="ignore", message='.*import.*', category=SyntaxWarning)
+except:
+	pass
 
 
 #####################################################################
 # Classes
 #####################################################################
 
-class CogDevAppReader:
+class CogDevApp:
 
 	gladefilename = "CogDevApp.glade"
 	database_filename = ""
@@ -366,9 +376,28 @@ class CogDevAppReader:
 			self.eventEditor.event_editor.hide()
 
 
+	def on_play_togglebutton_toggled(self, obj):
+		# this handler launches or closes a running game,
+		# depending on the status of the togglebutton
+		# (when the togglebutton's activity is set to "1" then it was just depressed)
+		if (self.widget.play_togglebutton.get_active() == 1):
+			import CogEngine
+			CogEngine.initialize_engine(self)
+		else:
+			import CogEngine
+			CogEngine.hide_windows(self)
+
+
+	def on_commandline_entry_activate(self, obj):
+		import CogEngine
+		command = self.io.commandline_entry.get_text()
+		self.io.commandline_entry.set_text("")
+		CogEngine.parse_command_line(self, command)
+
+
 #####################################################################
 # Main
 #####################################################################
 
 if __name__ == '__main__':
-	CogDevAppReader()
+	CogDevApp()

@@ -56,8 +56,8 @@ def read_verb_editor_data_into_memory(self):
 			self.verbData[current_verb_number].number = current_verb_number
 			self.verbData[current_verb_number].name = self.verbEditor.name_textentry.get_text()
 
-			self.verbData[current_verb_number].aliases = gtk.GtkEntry.get_chars(self.verbEditor.aliases_textbox, 0, -1)
-			self.verbData[current_verb_number].notes = gtk.GtkEntry.get_chars(self.verbEditor.notes_textbox, 0, -1)
+			self.verbData[current_verb_number].aliases = gtk.GtkEditable.get_chars(self.verbEditor.aliases_textbox, 0, -1)
+			self.verbData[current_verb_number].notes = gtk.GtkEditable.get_chars(self.verbEditor.notes_textbox, 0, -1)
 
 	else:
 		self.display_dialog_box("Error", "No name entered for this verb! verb will be skipped.")

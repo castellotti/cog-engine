@@ -1,8 +1,8 @@
-README - Cog Development Application 1.0.1
+README - Cog Development Application 1.1.0
 
                        The Cog Development Application
 
-                                Version 1.0.1
+                                Version 1.1.0
 
                    Copyright (C) 2001,2002 Steven M. Castellotti
                             <SteveC@innocent.com>
@@ -16,10 +16,10 @@ No Warranty
 -----------
 
 The Cog Development Application comes with ABSOLUTELY NO WARRANTY.  See
-the COPYING file for details. The Cog Development Application is Beta
-software. This means that while it will work most of the time, it will not
-work all of the time. See the section "Reporting Bugs" Below for more
-information.
+the COPYING file for details. This version of the Cog Development 
+Application is Developmental software. This means that while it will work 
+most of the time, it will not work all of the time. See the section 
+"Reporting Bugs" Below for more information.
 
 
 INSTALLATION INSTRUCTIONS
@@ -28,19 +28,16 @@ INSTALLATION INSTRUCTIONS
 
 	Windows:
 
-	As of version 1.0.1 of the Cog Development Application,
-a Windows binary executable (win32) is available. This program is
-currently available as a zip file, although an automated installer
-is under development. Simply unzip the zip file (being certain
-to maintain the archived directory structure) and double-click
-the "CogDevApp.exe" file to run the program.
+	A windows executable version of the Cog Development Application is 
+now available. Simply download and execute the CogDevApp setup.exe file 
+and select a destination for installation. An shortcut for the Cog 
+Development Application will be added to your desktop and Start Menu.
 
 	You will still need to instal Java and Jython in order to convert
 game files developed with the Development Application into a
 format which can be read by the Java Applet version of the Cog Engine.
-A new version of the Cog Engine is currently under development, which
-features the ability to run games on the local machine with any
-additional software.
+This new version of the Cog Engine is currently features the ability to 
+run games on the local machine with any additional software.
 
 	See the Execute-From-Source Installation Tips below for more
 information.
@@ -71,6 +68,12 @@ http://theopenlab.uml.edu/pygtools/
 Jython information is available at:
 http://jython.sourceforge.net/
 
+Pygame information is available at:
+http://www.pygame.org/
+
+SDL information is available at:
+http://www.libsdl.org/
+
 (You also need the Python/Gnome Libraries, and the Glade Libraries)
 
 Python/Gnome information is available at:
@@ -87,25 +90,21 @@ pygtk
 pygnome
 pygtk-libglade
 pygnome-libglade
+SDL
+SDL_image
 
 	All of these packages are included on the RedHat install cds,
 as of version 7.2. If I have missed any packages, please email me.
 
-If you are using Debian Linux, the following debs (and their own
-prerequisits) should be installed:
-python-base
-python-gtk
-python-gnome
-python-glade
-libglade
-libglade-gnome
-
-	Again, all of these packages are available as part of the base
-install, as of version 2.2 (potato).
+You will also need to install the Pygame rpm, available at www.pygame.org
 
 
 Execute-From-Source Installation Tips
 -------------------------------------
+
+(Note, if you are attempting to run the Cycon Odyssey version 0.96 or 
+earlier, you will need to use the covert the data file to the 1.x 
+CogDevApp format first)
 
 For Linux:
 
@@ -131,10 +130,10 @@ replace these class files with the new ones.
 
 
 Example (Under Linux):
-tar xvzf CogDevApp-1.0.1-source.tar.gz
-tar xvzf CyconOdyssey-0.96-data.tar.gz
-cp CyconOdyssey-0.96/Cycon-COG.dat CogDevApp-1.0.1
-cd CogDevApp-1.0.1
+tar xvzf CogDevApp-1.1.0-source.tar.gz
+tar xvzf CyconOdyssey-0.97-data.tar.gz
+cp CyconOdyssey-0.97/Cycon-COG.dat CogDevApp-1.1.0
+cd CogDevApp-1.1.0
 ./import_cog_data.py Cycon-COG.dat Cycon-COG.dev
 ./CogDevApp.py Cycon-COG.dev
 ./export_cog_data.py Cycon-COG.dev Cycon-COG.dat
@@ -142,13 +141,16 @@ cd CogDevApp-1.0.1
 
 For Windows:
 
-1) Down the installation program for Python from python.org.
-The current supported version is 2.1.
+1) Download the installation program for Python from python.org.
+The current supported version is 2.1. 
 
 2) Run the installation program, and take note of the installtion
 directory you choose. (The default installation directory is
 "C:\Python21". We shall assume this to be the directory you choose to
 install into for the remainder of this document.)
+
+3) Download and install Pygame for Windows (http://www.pygame.org/) and 
+the SDL runtime libraries (http://www.libsdl.org/).
 
 3) Download the current CogDevApp source zip file, if you haven't done so
 already, and unzip the files into a new folder. If you don't already have
@@ -164,13 +166,13 @@ entering the appropriate command into the run dialog box (cmd for windows
 nt, command for windows 9x/ME).
 
 6) Load the CogDevApp.py according to this example:
-cd CogDevApp-1.0.1
+cd CogDevApp-1.1.0
 C:\python21\python CogDevApp.py
 
 7) Enjoy!
 
 
-Converting From CogDevApp files to CogEngine files:
+Converting From CogDevApp files to CogEngine Java Applet files:
 
 	Currently you'll need to install a JVM and Jython
 (jython.sourceforge.net) to do this. A program is under development to

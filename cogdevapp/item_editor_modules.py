@@ -152,14 +152,14 @@ def read_item_editor_data_into_memory(self):
 			if (self.itemData[current_item_number].equipped_graphic_url == ""):
 				self.itemData[current_item_number].equipped_graphic_url = None
 
-			self.itemData[current_item_number].description = gtk.GtkEntry.get_chars(self.itemEditor.description_textbox, 0, -1)
+			self.itemData[current_item_number].description = gtk.GtkEditable.get_chars(self.itemEditor.description_textbox, 0, -1)
 
 			self.itemData[current_item_number].equipped =  self.itemEditor.equipped_true_radiobutton.get_active()
 
 			self.itemData[current_item_number].weight = string.atoi( self.itemEditor.weight_textentry.get_text() )
 			self.itemData[current_item_number].bulk = string.atoi( self.itemEditor.bulk_textentry.get_text() )
 
-			self.itemData[current_item_number].notes = gtk.GtkEntry.get_chars(self.itemEditor.notes_textbox, 0, -1)
+			self.itemData[current_item_number].notes = gtk.GtkEditable.get_chars(self.itemEditor.notes_textbox, 0, -1)
 
 
 	else:

@@ -165,10 +165,10 @@ class VerbObject:
 		self.number = -1
 		self.name = ""
 		self.aliases = ""
-		self.events = {}
+		self.events = {} # Why not a list?
 		self.total_events = 0
 		self.notes = ""
-		# self.events_filled # I forget what this is used for
+
 
 class EventObject:
 	def __init__(self):

@@ -126,13 +126,13 @@ def read_obstruction_editor_data_into_memory(self):
 			if (self.obstructionData[current_obstruction_number].closeup_graphic_url == ""):
 				self.obstructionData[current_obstruction_number].closeup_graphic_url = None
 
-			self.obstructionData[current_obstruction_number].description = gtk.GtkEntry.get_chars(self.obstructionEditor.description_textbox, 0, -1)
+			self.obstructionData[current_obstruction_number].description = gtk.GtkEditable.get_chars(self.obstructionEditor.description_textbox, 0, -1)
 
 #			self.obstructionData[current_obstruction_number].type = self.obstructionEditor.type_textentry.get_text()
 
 			self.obstructionData[current_obstruction_number].visible =  self.obstructionEditor.visible_true_radiobutton.get_active()
 
-			self.obstructionData[current_obstruction_number].notes = gtk.GtkEntry.get_chars(self.obstructionEditor.notes_textbox, 0, -1)
+			self.obstructionData[current_obstruction_number].notes = gtk.GtkEditable.get_chars(self.obstructionEditor.notes_textbox, 0, -1)
 
 
 	else:

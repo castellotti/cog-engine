@@ -257,14 +257,14 @@ def read_room_editor_data_into_memory(self):
 		self.roomData[current_room_number].name = self.roomEditor.name_textentry.get_text()
 		self.roomData[current_room_number].graphic_url = self.roomEditor.graphic_url_textentry.get_text()
 
-		self.roomData[current_room_number].description_long = gtk.GtkEntry.get_chars(self.roomEditor.text_description_long_textbox, 0, -1)
-		self.roomData[current_room_number].description_short = gtk.GtkEntry.get_chars(self.roomEditor.text_description_short_textbox, 0, -1)
-		self.roomData[current_room_number].direction_description = gtk.GtkEntry.get_chars(self.roomEditor.direction_description_text, 0, -1)
+		self.roomData[current_room_number].description_long = gtk.GtkEditable.get_chars(self.roomEditor.text_description_long_textbox, 0, -1)
+		self.roomData[current_room_number].description_short = gtk.GtkEditable.get_chars(self.roomEditor.text_description_short_textbox, 0, -1)
+		self.roomData[current_room_number].direction_description = gtk.GtkEditable.get_chars(self.roomEditor.direction_description_text, 0, -1)
 
 		self.roomData[current_room_number].visited = self.roomEditor.visited_true_radiobutton.get_active()
 
 		# Collect items - Divide up into individual items, convert to integers, and store.
-		item_entry = gtk.GtkEntry.get_chars(self.roomEditor.item_text, 0, -1)
+		item_entry = gtk.GtkEditable.get_chars(self.roomEditor.item_text, 0, -1)
 		if (item_entry != ""):
 			item_list = string.split(item_entry, '\n')
 			item_entry = ""
@@ -286,7 +286,7 @@ def read_room_editor_data_into_memory(self):
 		self.read_direction_object_information_data_into_memory(current_room_number)
 
 		# Collect this room's notes
-		self.roomData[current_room_number].notes = gtk.GtkEntry.get_chars(self.roomEditor.notes_textbox, 0, -1)
+		self.roomData[current_room_number].notes = gtk.GtkEditable.get_chars(self.roomEditor.notes_textbox, 0, -1)
 
 
 #####################################################################
@@ -309,7 +309,7 @@ def read_direction_object_information_data_into_memory(self, room_number):
 			self.roomData[room_number].direction[self.room_direction_displayed].has_moved_this_way = self.roomEditor.player_moved_this_way_true_radiobutton.get_active()
 
 			# Collect Obstructions - Divide up into individual obstructions, convert to integers, and store.
-			obstruction_entry = gtk.GtkEntry.get_chars(self.roomEditor.obstruction_text, 0, -1)
+			obstruction_entry = gtk.GtkEditable.get_chars(self.roomEditor.obstruction_text, 0, -1)
 
 			if (obstruction_entry != ""):
 				obstruction_list = string.split(obstruction_entry, '\n')
@@ -438,7 +438,7 @@ def on_room_editor_add_item_button_clicked(self, obj):
 		selected_item = selected_item[5:]
 		selected_item = "Item[%s]" % selected_item
 
-		current_item_display = gtk.GtkEntry.get_chars(self.roomEditor.item_text, 0, -1)
+		current_item_display = gtk.GtkEditable.get_chars(self.roomEditor.item_text, 0, -1)
 
 		if (current_item_display == ""):
 
@@ -462,7 +462,7 @@ def on_room_editor_add_obstruction_button_clicked(self, obj):
 		selected_obstruction = selected_obstruction[12:]
 		selected_obstruction = "Obstruction[%s]" % selected_obstruction
 
-		current_obstruction_display = gtk.GtkEntry.get_chars(self.roomEditor.obstruction_text, 0, -1)
+		current_obstruction_display = gtk.GtkEditable.get_chars(self.roomEditor.obstruction_text, 0, -1)
 
 		if (current_obstruction_display == ""):
 

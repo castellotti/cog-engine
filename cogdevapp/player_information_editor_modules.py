@@ -109,7 +109,7 @@ def read_player_editor_data_into_memory(self):
 
 	# Collect items - Divide up into individual items, convert to integers, and store.
 	inventory_list = []
-	inventory_data = gtk.GtkEntry.get_chars(self.playerInformationEditor.inventory_text, 0, -1)
+	inventory_data = gtk.GtkEditable.get_chars(self.playerInformationEditor.inventory_text, 0, -1)
 	if (inventory_data != ""):
 		item_list = string.split(inventory_data, '\n')
 		for each in item_list:
@@ -152,7 +152,7 @@ def on_player_editor_add_item_button_clicked(self, obj):
 		selected_item = selected_item[5:]
 		selected_item = "Item[%s]" % selected_item
 
-		current_item_display = gtk.GtkEntry.get_chars(self.playerInformationEditor.inventory_text, 0, -1)
+		current_item_display = gtk.GtkEditable.get_chars(self.playerInformationEditor.inventory_text, 0, -1)
 
 		if (current_item_display == ""):
 

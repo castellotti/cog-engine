@@ -1,11 +1,19 @@
-Changelog - Cog Development Application 1.0.1
+Changelog - Cog Development Application 1.1.0
 
                        The Cog Development Application
 
-                                Version 1.0.1
+                                Version 1.1.0
 
                    Copyright (C) 2001,2002 Steven M. Castellotti
                             <SteveC@innocent.com>
+
+Version (1.1.0):
+Released 2002.04.29
+
+	- Full Implementation of the Cog Engine included
+	- Debugging output enhanced
+	- Minor Bugfixes
+
 
 Version (1.0.1):
 Released 2002.04.05

@@ -76,7 +76,7 @@ def read_game_editor_data_into_memory(self):
 	self.gameInformation.image_loading_graphic_url = self.gameInformationEditor.image_loading_graphic_textentry.get_text()
 	self.gameInformation.introduction_graphic_url = self.gameInformationEditor.introduction_graphic_textentry.get_text()
 
-	self.gameInformation.introduction_text = gtk.GtkEntry.get_chars(self.gameInformationEditor.introduction_text_textbox, 0, -1)
+	self.gameInformation.introduction_text = gtk.GtkEditable.get_chars(self.gameInformationEditor.introduction_text_textbox, 0, -1)
 
 	self.gameInformation.debug_mode =  self.gameInformationEditor.debug_mode_true_radiobutton.get_active()
 
@@ -89,7 +89,7 @@ def read_game_editor_data_into_memory(self):
 	self.gameInformation.center_button_indicates_items = self.gameInformationEditor.center_button_indicates_items_checkbutton.get_active()
 	self.gameInformation.load_all_compass_images = self.gameInformationEditor.load_all_compass_images_checkbutton.get_active()
 
-	self.gameInformation.game_information_notes = gtk.GtkEntry.get_chars(self.gameInformationEditor.game_information_notes_textbox, 0, -1)
+	self.gameInformation.game_information_notes = gtk.GtkEditable.get_chars(self.gameInformationEditor.game_information_notes_textbox, 0, -1)
 
 
 # EOF

@@ -72,7 +72,11 @@ class Callback:
 def load_data_file(filename):
 # 	if (self.debug_mode):
 # 		print "Loading: " + filename + "...",
-	import cPickle
+	try:
+		import cPickle
+	except:
+		import pickle
+		cPickle = pickle
 	from CogObjects import *
 	file = open(filename, 'r')
 	gameInformation = cPickle.load(file)
@@ -95,7 +99,11 @@ def save_data_file(filename, \
                    itemData, obstructionData, verbData):
 # 	if (self.debug_mode):
 # 		print "Saving: " + filename + "...",
-	import cPickle
+	try:
+		import cPickle
+	except:
+		import pickle
+		cPickle = pickle
 	from CogObjects import *
 	file = open(filename, 'w')
 	cPickle.dump(gameInformation, file)

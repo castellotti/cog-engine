@@ -254,7 +254,7 @@ def read_event_editor_data_into_memory(self):
 		self.verbData[each].events = {}
 
 	# Now read in the buffer and split the events into a list
-	event_buffer = gtk.GtkEntry.get_chars(self.eventEditor.event_editor_textbox, 0, -1)
+	event_buffer = gtk.GtkEditable.get_chars(self.eventEditor.event_editor_textbox, 0, -1)
 	#event_buffer = self.clean_event_buffer(event_buffer)
  	event_list = string.split(event_buffer, ';')
 
@@ -431,7 +431,7 @@ def on_export_event_script_fileselection_ok_button_clicked(self, obj):
 			self.event_script_filename = filename
 
 			output = open(filename, 'w')
-			event_buffer = gtk.GtkEntry.get_chars(self.eventEditor.event_editor_textbox, 0, -1)
+			event_buffer = gtk.GtkEditable.get_chars(self.eventEditor.event_editor_textbox, 0, -1)
 			#event_buffer = self.clean_event_buffer(event_buffer)
 			output.write(event_buffer)
 			self.display_dialog_box("Export File", "File exported successfully")
@@ -444,7 +444,7 @@ def on_export_event_script_fileselection_ok_button_clicked(self, obj):
 				self.database_filename = filename
 
 				output = open(filename, 'w')
-				event_buffer = gtk.GtkEntry.get_chars(self.eventEditor.event_editor_textbox, 0, -1)
+				event_buffer = gtk.GtkEditable.get_chars(self.eventEditor.event_editor_textbox, 0, -1)
 				#event_buffer = self.clean_event_buffer(event_buffer)
 				output.write(event_buffer)
 				self.display_dialog_box("Export File", "File exported successfully")
