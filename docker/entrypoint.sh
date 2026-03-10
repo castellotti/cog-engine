@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Remove stale X lock files left by a previous container run
+rm -f /tmp/.X1-lock /tmp/.X11-unix/X1
+
 # Start virtual framebuffer display sized to match CogEngine's game window (640x595)
 Xvfb :1 -screen 0 640x595x24 &
 
@@ -21,16 +24,19 @@ if [ -z "$PULSE_SERVER" ]; then
 fi
 export SDL_AUDIODRIVER=pulse
 
-# Start VNC server sharing the Xvfb display (no password, local access only)
-x11vnc -display :1 -forever -nopw -quiet -localhost &
+# Start VNC server. -afteraccept creates a flag file the moment a browser
+# connects, which is used below to delay the game until the user clicks Start.
+rm -f /tmp/cogengine_ready
+x11vnc -display :1 -forever -nopw -quiet -localhost \
+    -afteraccept "touch /tmp/cogengine_ready" &
 
 # Start NoVNC websocket proxy so the display is accessible via browser
 websockify --web=/usr/share/novnc/ 6080 localhost:5900 &
 
 echo ""
 echo "================================================"
-echo "  CogEngine is starting..."
 echo "  Open your browser to: http://localhost:6080/cogengine.html"
+echo "  The game will start once you click START."
 echo "================================================"
 echo ""
 
@@ -43,6 +49,12 @@ echo "0" > /usr/share/novnc/audio/counter.txt
 
 APP="${1:-engine}"
 GAMEFILE="${2:-}"
+
+# Wait for the browser to connect to VNC (triggered by the user clicking START).
+# This ensures TTS does not begin before the browser audio context is ready.
+echo "Waiting for browser connection..."
+until [ -f /tmp/cogengine_ready ]; do sleep 0.1; done
+echo "Browser connected — starting game."
 
 case "$APP" in
     engine)
