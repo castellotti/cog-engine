@@ -3102,7 +3102,7 @@ def on_append_event_button_clicked(self, obj):
 	if( self.eventEditor.event_editor_display_reference_names_radiobutton.get_active() ):
 		event_text = self.convert_reference_numbers_to_names(event_text)
 
-	self.eventEditor.event_editor_textbox.insert_defaults(event_text)
+	self.eventEditor.event_editor_textbox.get_buffer().insert_at_cursor(event_text)
 
 
 #####################################################################

@@ -49,17 +49,17 @@ def insert_data_into_verb_editor(self, current_verb_number):
 	self.verbEditor.number_textentry.set_text("%i" % self.verbData[self.verb_displayed].number)
 	self.verbEditor.name_textentry.set_text(self.verbData[self.verb_displayed].name)
 
-	self.verbEditor.aliases_textbox.set_word_wrap(self.gtk.TRUE)
-	self.verbEditor.aliases_textbox.delete_text(0, -1)
+	self.verbEditor.aliases_textbox.set_wrap_mode(gtk.WRAP_WORD)
+	self.verbEditor.aliases_textbox.get_buffer().delete(self.verbEditor.aliases_textbox.get_buffer().get_start_iter(), self.verbEditor.aliases_textbox.get_buffer().get_end_iter())
 	if (self.verbData[self.verb_displayed].aliases != None):
-		self.verbEditor.aliases_textbox.insert_defaults(self.verbData[self.verb_displayed].aliases)
+		self.verbEditor.aliases_textbox.get_buffer().insert_at_cursor(self.verbData[self.verb_displayed].aliases)
 
 	self.verbEditor.mouse_pointer_graphic_textentry.set_text(self.verbData[self.verb_displayed].mouse_pointer_graphic)
 
-	self.verbEditor.notes_textbox.set_word_wrap(self.gtk.TRUE)
-	self.verbEditor.notes_textbox.delete_text(0, -1)
+	self.verbEditor.notes_textbox.set_wrap_mode(gtk.WRAP_WORD)
+	self.verbEditor.notes_textbox.get_buffer().delete(self.verbEditor.notes_textbox.get_buffer().get_start_iter(), self.verbEditor.notes_textbox.get_buffer().get_end_iter())
 	if (self.verbData[self.verb_displayed].notes != None):
-		self.verbEditor.notes_textbox.insert_defaults(self.verbData[self.verb_displayed].notes)
+		self.verbEditor.notes_textbox.get_buffer().insert_at_cursor(self.verbData[self.verb_displayed].notes)
 
 #####################################################################
 

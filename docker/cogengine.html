@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CogEngine</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #111;
+      font-family: 'Courier New', monospace;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #vnc-frame {
+      width: 100%;
+      height: 100vh;
+      border: none;
+      display: block;
+    }
+
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 20, 0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .card {
+      background: #1a1a2e;
+      border: 1px solid #3a3a6e;
+      border-radius: 8px;
+      padding: 40px 48px;
+      text-align: center;
+      max-width: 380px;
+    }
+
+    .card h1 {
+      color: #e0d0a0;
+      font-size: 28px;
+      letter-spacing: 4px;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #8888aa;
+      font-size: 13px;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    #start-btn {
+      background: #4a7a4a;
+      color: #d0f0d0;
+      border: 1px solid #6aaa6a;
+      border-radius: 4px;
+      padding: 12px 32px;
+      font-size: 15px;
+      font-family: inherit;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    #start-btn:hover { background: #5a8a5a; }
+
+    #audio-indicator {
+      position: fixed;
+      bottom: 12px;
+      right: 16px;
+      color: #446644;
+      font-size: 11px;
+      font-family: monospace;
+      z-index: 50;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    #audio-indicator.active {
+      color: #88cc88;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="overlay">
+    <div class="card">
+      <h1>COG ENGINE</h1>
+      <p>Click to connect to the game and<br>enable in-browser text-to-speech audio.</p>
+      <button id="start-btn" onclick="start()">&#9654; START</button>
+    </div>
+  </div>
+
+  <div id="audio-indicator">&#9834; speaking</div>
+
+  <iframe id="vnc-frame" src="about:blank"></iframe>
+
+  <script>
+    var lastCounter = null;
+    var audioCtx = null;
+    var currentSource = null;
+    var indicator = document.getElementById('audio-indicator');
+    var indicatorTimer = null;
+
+    function start() {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      document.getElementById('overlay').style.display = 'none';
+      document.getElementById('vnc-frame').src = 'vnc_auto.html';
+      poll();
+    }
+
+    function showIndicator() {
+      indicator.classList.add('active');
+      clearTimeout(indicatorTimer);
+      indicatorTimer = setTimeout(function() {
+        indicator.classList.remove('active');
+      }, 3000);
+    }
+
+    function poll() {
+      fetch('/audio/counter.txt?' + Date.now())
+        .then(function(r) { return r.ok ? r.text() : null; })
+        .then(function(counter) {
+          if (counter) {
+            counter = counter.trim();
+            if (counter && counter !== lastCounter) {
+              lastCounter = counter;
+              playLatest();
+            }
+          }
+        })
+        .catch(function() {})
+        .then(function() {
+          setTimeout(poll, 300);
+        });
+    }
+
+    function playLatest() {
+      fetch('/audio/latest.wav?' + Date.now())
+        .then(function(r) { return r.ok ? r.arrayBuffer() : null; })
+        .then(function(buf) {
+          if (!buf) return;
+          return audioCtx.decodeAudioData(buf);
+        })
+        .then(function(decoded) {
+          if (!decoded) return;
+          if (currentSource) {
+            try { currentSource.stop(); } catch(e) {}
+            currentSource = null;
+          }
+          var src = audioCtx.createBufferSource();
+          src.buffer = decoded;
+          src.connect(audioCtx.destination);
+          src.start(0);
+          src.onended = function() { if (currentSource === src) currentSource = null; };
+          currentSource = src;
+          showIndicator();
+        })
+        .catch(function(e) { console.warn('Audio error:', e); });
+    }
+  </script>
+
+</body>
+</html>

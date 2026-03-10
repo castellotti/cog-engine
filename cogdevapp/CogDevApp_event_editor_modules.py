@@ -37,8 +37,8 @@ def insert_data_into_event_editor(self):
 
 	events_written = 0
 
-	self.eventEditor.event_editor_textbox.set_word_wrap(self.gtk.TRUE)	
-	self.eventEditor.event_editor_textbox.delete_text(0, -1)
+	self.eventEditor.event_editor_textbox.set_wrap_mode(gtk.WRAP_WORD)
+	self.eventEditor.event_editor_textbox.get_buffer().delete(self.eventEditor.event_editor_textbox.get_buffer().get_start_iter(), self.eventEditor.event_editor_textbox.get_buffer().get_end_iter())
 
 	textbox_output = ''
 
@@ -56,7 +56,7 @@ def insert_data_into_event_editor(self):
 				textbox_output = self.convert_reference_numbers_to_names(textbox_output)
 
 			events_written = events_written + 1
-			self.eventEditor.event_editor_textbox.insert_defaults(textbox_output)
+			self.eventEditor.event_editor_textbox.get_buffer().insert_at_cursor(textbox_output)
 
 
 #####################################################################
@@ -210,8 +210,8 @@ def on_import_event_script_fileselection_ok_button_clicked(self, obj):
 
 			input = open(filename, 'r')
 			event_buffer = input.read()
-			self.eventEditor.event_editor_textbox.delete_text(0, -1)
-			self.eventEditor.event_editor_textbox.insert_defaults(event_buffer)
+			self.eventEditor.event_editor_textbox.get_buffer().delete(self.eventEditor.event_editor_textbox.get_buffer().get_start_iter(), self.eventEditor.event_editor_textbox.get_buffer().get_end_iter())
+			self.eventEditor.event_editor_textbox.get_buffer().insert_at_cursor(event_buffer)
 
 			self.display_dialog_box("Import File", "File imported successfully")
 

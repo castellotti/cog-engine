@@ -53,9 +53,9 @@ def insert_data_into_player_editor(self):
 	for each in self.playerInformation.items:
 		inventory_display = "%sItem[%i - %s]\n" % (inventory_display, each, self.itemData[each].name)
 
-	self.playerInformationEditor.inventory_text.set_word_wrap(self.gtk.TRUE)
-	self.playerInformationEditor.inventory_text.delete_text(0, -1)
-	self.playerInformationEditor.inventory_text.insert_defaults(inventory_display)
+	self.playerInformationEditor.inventory_text.set_wrap_mode(gtk.WRAP_WORD)
+	self.playerInformationEditor.inventory_text.get_buffer().delete(self.playerInformationEditor.inventory_text.get_buffer().get_start_iter(), self.playerInformationEditor.inventory_text.get_buffer().get_end_iter())
+	self.playerInformationEditor.inventory_text.get_buffer().insert_at_cursor(inventory_display)
 
 
 	# Setup Available Item List
@@ -157,13 +157,13 @@ def on_player_editor_add_item_button_clicked(self, obj):
 
 		if (current_item_display == ""):
 
-			self.playerInformationEditor.inventory_text.insert_defaults(selected_item)
+			self.playerInformationEditor.inventory_text.get_buffer().insert_at_cursor(selected_item)
 
 		elif ( string.find(current_item_display, selected_item) == -1 ):
 			# We don't want to add the same item twice
-			self.playerInformationEditor.inventory_text.delete_text(0, -1)
+			self.playerInformationEditor.inventory_text.get_buffer().delete(self.playerInformationEditor.inventory_text.get_buffer().get_start_iter(), self.playerInformationEditor.inventory_text.get_buffer().get_end_iter())
 			new_item_display = "%s\n%s" % (current_item_display, selected_item)
-			self.playerInformationEditor.inventory_text.insert_defaults(new_item_display)
+			self.playerInformationEditor.inventory_text.get_buffer().insert_at_cursor(new_item_display)
 
 
 #####################################################################
