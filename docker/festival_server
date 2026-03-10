@@ -1,0 +1,15 @@
+#!/bin/bash
+# Compatibility wrapper: the old standalone festival_server binary is now
+# 'festival --server'. The original calling convention was:
+#   festival_server -c config_file
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -c) CONFIG_FILE="$2"; shift 2 ;;
+        *)  shift ;;
+    esac
+done
+if [ -n "$CONFIG_FILE" ]; then
+    exec festival --server "$CONFIG_FILE"
+else
+    exec festival --server
+fi

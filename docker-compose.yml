@@ -1,0 +1,26 @@
+services:
+  # CogEngine player - runs a .cog game file
+  cogengine:
+    build: .
+    ports:
+      - "6080:6080"
+    volumes:
+      - ${GAME_DIR:-../cycon-odyssey}:/game:ro
+    environment:
+      # Uncomment to stream audio to a macOS host.
+      # Run docker/setup-macos-audio.sh first to configure PulseAudio on the host.
+      - PULSE_SERVER=${PULSE_SERVER:-}
+    command: ["engine", "/game/CyconOdyssey.cog"]
+
+  # CogDevApp - game development IDE
+  cogdevapp:
+    build: .
+    ports:
+      - "6080:6080"
+    volumes:
+      - ${GAME_DIR:-../cycon-odyssey}:/game
+    environment:
+      - PULSE_SERVER=${PULSE_SERVER:-}
+    command: ["devapp", "/game/CyconOdyssey.cog"]
+    profiles:
+      - devapp
