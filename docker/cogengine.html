@@ -105,6 +105,7 @@
   <script>
     var lastCounter = null;
     var audioCtx = null;
+    var currentSource = null;
     var indicator = document.getElementById('audio-indicator');
     var indicatorTimer = null;
 
@@ -150,10 +151,16 @@
         })
         .then(function(decoded) {
           if (!decoded) return;
+          if (currentSource) {
+            try { currentSource.stop(); } catch(e) {}
+            currentSource = null;
+          }
           var src = audioCtx.createBufferSource();
           src.buffer = decoded;
           src.connect(audioCtx.destination);
           src.start(0);
+          src.onended = function() { if (currentSource === src) currentSource = null; };
+          currentSource = src;
           showIndicator();
         })
         .catch(function(e) { console.warn('Audio error:', e); });
