@@ -2,7 +2,13 @@
 
 The **Cog Engine** is an open-source adventure game engine designed to make video game creation accessible to users without programming knowledge — targeting "a range from children to gurus." It provides a point-and-click graphical interface with photo-realistic room graphics, a clickable compass for navigation, and text-to-speech output, with a companion visual IDE for authoring game content.
 
-Originally developed by [Steve Castellotti](https://github.com/castellotti) starting in 1999, the engine reached its v1.0 stable release in January 2002 after three years of development. This repository modernizes the codebase to run on contemporary systems via Docker.
+Originally developed starting in 1999, the engine reached its v1.0 stable release in January 2002 after three years of development. This repository modernizes the codebase to run on contemporary systems via Docker.
+
+---
+
+## Screenshots
+
+<img width="901" height="847" alt="Screenshot 2026-03-10 at 6 20 05 AM" src="https://github.com/user-attachments/assets/e16d36ee-ff6d-4973-b375-e950189279b5" />
 
 ---
 
