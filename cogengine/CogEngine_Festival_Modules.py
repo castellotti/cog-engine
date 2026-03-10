@@ -41,18 +41,18 @@ class Festival_TTS:
 		if not self.test_server_connection:
 			self.test_server_connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			try:
-				self.test_server_connection.connect("localhost", 1314)
+				self.test_server_connection.connect(("localhost", 1314))
 			except:
 				try:
 					print "Waiting for Festival server to initialize"
 					import time
 					time.sleep(3)
-					self.test_server_connection.connect("localhost", 1314)
+					self.test_server_connection.connect(("localhost", 1314))
 				except:
 					try:
 						print "Waiting (longer) for Festival server to initialize"
 						time.sleep(7)
-						self.test_server_connection.connect("localhost", 1314)
+						self.test_server_connection.connect(("localhost", 1314))
 					except:
 						print "Festival intialization timed out. Error connecting to port 1314."
 
@@ -78,14 +78,9 @@ class Festival_TTS:
 								self.text_output_filepath)
 
 				else:
-					childpid, exit_code = os.wait(result)
+					childpid, exit_code = os.waitpid(result, 0)
 					if (not exit_code):
-						try:
-							mixer.music.load(self.wav_output_filepath)
-							mixer.music.play()
-						except:
-							if(self.debug_mode):
-								print "Error playing audio file:", self.wav_output_filepath
+						self.notify_web_audio()
 
 			else:
 				if (self.debug_mode):
@@ -95,7 +90,30 @@ class Festival_TTS:
 				print "File Access Error - File is not writable:", self.text_output_filepath
 
 
-   #####################################################################
+	#####################################################################
+
+	def notify_web_audio(self):
+
+		# Publish the generated WAV to the NoVNC web root so the browser
+		# can play it via the Web Audio API (no host audio setup required).
+		import shutil
+		web_audio_dir = '/usr/share/novnc/audio'
+		if not os.path.isdir(web_audio_dir):
+			return
+		try:
+			shutil.copy2(self.wav_output_filepath, os.path.join(web_audio_dir, 'latest.wav'))
+			counter_path = os.path.join(web_audio_dir, 'counter.txt')
+			try:
+				count = int(open(counter_path).read().strip()) + 1
+			except:
+				count = 1
+			open(counter_path, 'w').write(str(count))
+		except:
+			if self.debug_mode:
+				print "Error updating web audio"
+
+
+	#####################################################################
 
 	def stop(self):
 		pass
