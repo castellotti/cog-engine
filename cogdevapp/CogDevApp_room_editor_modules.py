@@ -50,17 +50,17 @@ def insert_data_into_room_editor(self, current_room_number):
 	self.roomEditor.name_textentry.set_text(self.roomData[self.room_displayed].name)
 	self.roomEditor.graphic_url_textentry.set_text(self.roomData[self.room_displayed].graphic_url)
 
-	self.roomEditor.text_description_long_textbox.set_word_wrap(self.gtk.TRUE)
-	self.roomEditor.text_description_long_textbox.delete_text(0, -1)
-	self.roomEditor.text_description_long_textbox.insert_defaults(self.roomData[self.room_displayed].description_long)
+	self.roomEditor.text_description_long_textbox.set_wrap_mode(gtk.WRAP_WORD)
+	self.roomEditor.text_description_long_textbox.get_buffer().delete(self.roomEditor.text_description_long_textbox.get_buffer().get_start_iter(), self.roomEditor.text_description_long_textbox.get_buffer().get_end_iter())
+	self.roomEditor.text_description_long_textbox.get_buffer().insert_at_cursor(self.roomData[self.room_displayed].description_long)
 
-	self.roomEditor.text_description_short_textbox.set_word_wrap(self.gtk.TRUE)
-	self.roomEditor.text_description_short_textbox.delete_text(0, -1)
-	self.roomEditor.text_description_short_textbox.insert_defaults(self.roomData[self.room_displayed].description_short)
+	self.roomEditor.text_description_short_textbox.set_wrap_mode(gtk.WRAP_WORD)
+	self.roomEditor.text_description_short_textbox.get_buffer().delete(self.roomEditor.text_description_short_textbox.get_buffer().get_start_iter(), self.roomEditor.text_description_short_textbox.get_buffer().get_end_iter())
+	self.roomEditor.text_description_short_textbox.get_buffer().insert_at_cursor(self.roomData[self.room_displayed].description_short)
 
-	self.roomEditor.direction_description_text.set_word_wrap(self.gtk.TRUE)
-	self.roomEditor.direction_description_text.delete_text(0, -1)
-	self.roomEditor.direction_description_text.insert_defaults(self.roomData[self.room_displayed].direction_description)
+	self.roomEditor.direction_description_text.set_wrap_mode(gtk.WRAP_WORD)
+	self.roomEditor.direction_description_text.get_buffer().delete(self.roomEditor.direction_description_text.get_buffer().get_start_iter(), self.roomEditor.direction_description_text.get_buffer().get_end_iter())
+	self.roomEditor.direction_description_text.get_buffer().insert_at_cursor(self.roomData[self.room_displayed].direction_description)
 
 
 	if (self.roomData[self.room_displayed].visited):
@@ -77,9 +77,9 @@ def insert_data_into_room_editor(self, current_room_number):
 		for each in item_list:
 			item_display = "%sItem[%s - %s]\n" % (item_display, each, self.itemData[string.atoi(each)].name)
 
-	self.roomEditor.item_text.set_word_wrap(self.gtk.TRUE)
-	self.roomEditor.item_text.delete_text(0, -1)
-	self.roomEditor.item_text.insert_defaults(item_display)
+	self.roomEditor.item_text.set_wrap_mode(gtk.WRAP_WORD)
+	self.roomEditor.item_text.get_buffer().delete(self.roomEditor.item_text.get_buffer().get_start_iter(), self.roomEditor.item_text.get_buffer().get_end_iter())
+	self.roomEditor.item_text.get_buffer().insert_at_cursor(item_display)
 
 
 	# Setup Available Item List
@@ -100,11 +100,11 @@ def insert_data_into_room_editor(self, current_room_number):
 	setup_directional_object_optionmenu(self, 1)
 
 	# Add this room's notes to the notes_textbox
-	self.roomEditor.notes_textbox.set_word_wrap(self.gtk.TRUE)
-	self.roomEditor.notes_textbox.delete_text(0, -1)
+	self.roomEditor.notes_textbox.set_wrap_mode(gtk.WRAP_WORD)
+	self.roomEditor.notes_textbox.get_buffer().delete(self.roomEditor.notes_textbox.get_buffer().get_start_iter(), self.roomEditor.notes_textbox.get_buffer().get_end_iter())
 	if (self.roomData[self.room_displayed].notes == None):
 		self.roomData[self.room_displayed].notes = ""
-	self.roomEditor.notes_textbox.insert_defaults(self.roomData[self.room_displayed].notes)
+	self.roomEditor.notes_textbox.get_buffer().insert_at_cursor(self.roomData[self.room_displayed].notes)
 
 
 #####################################################################
@@ -218,9 +218,9 @@ def setup_directional_objects(self, obj, new_direction):
 
 			obstruction_display = "%sObstruction[%s - %s]\n" % (obstruction_display, each, self.obstructionData[string.atoi(each)].name)
 
-	self.roomEditor.obstruction_text.set_word_wrap(self.gtk.TRUE)	
-	self.roomEditor.obstruction_text.delete_text(0, -1)
-	self.roomEditor.obstruction_text.insert_defaults(obstruction_display)
+	self.roomEditor.obstruction_text.set_wrap_mode(gtk.WRAP_WORD)
+	self.roomEditor.obstruction_text.get_buffer().delete(self.roomEditor.obstruction_text.get_buffer().get_start_iter(), self.roomEditor.obstruction_text.get_buffer().get_end_iter())
+	self.roomEditor.obstruction_text.get_buffer().insert_at_cursor(obstruction_display)
 
 
 	# Setup Available Obstruction List
@@ -487,13 +487,13 @@ def on_room_editor_add_item_button_clicked(self, obj):
 
 		if (current_item_display == ""):
 
-			self.roomEditor.item_text.insert_defaults(selected_item)
+			self.roomEditor.item_text.get_buffer().insert_at_cursor(selected_item)
 
 		elif ( string.find(current_item_display, selected_item) == -1 ):
 			# We don't want to add the same item twice
-			self.roomEditor.item_text.delete_text(0, -1)
+			self.roomEditor.item_text.get_buffer().delete(self.roomEditor.item_text.get_buffer().get_start_iter(), self.roomEditor.item_text.get_buffer().get_end_iter())
 			new_item_display = "%s\n%s" % (current_item_display, selected_item)
-			self.roomEditor.item_text.insert_defaults(new_item_display)
+			self.roomEditor.item_text.get_buffer().insert_at_cursor(new_item_display)
 
 
 #####################################################################
@@ -511,13 +511,13 @@ def on_room_editor_add_obstruction_button_clicked(self, obj):
 
 		if (current_obstruction_display == ""):
 
-			self.roomEditor.obstruction_text.insert_defaults(selected_obstruction)
+			self.roomEditor.obstruction_text.get_buffer().insert_at_cursor(selected_obstruction)
 
 		elif ( string.find(current_obstruction_display, selected_obstruction) == -1 ):
 			# We don't want to add the same Obstruction twice
-			self.roomEditor.obstruction_text.delete_text(0, -1)
+			self.roomEditor.obstruction_text.get_buffer().delete(self.roomEditor.obstruction_text.get_buffer().get_start_iter(), self.roomEditor.obstruction_text.get_buffer().get_end_iter())
 			new_obstruction_display = "%s\n%s" % (current_obstruction_display, selected_obstruction)
-			self.roomEditor.obstruction_text.insert_defaults(new_obstruction_display)
+			self.roomEditor.obstruction_text.get_buffer().insert_at_cursor(new_obstruction_display)
 
 
 #####################################################################

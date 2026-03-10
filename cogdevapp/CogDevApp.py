@@ -475,15 +475,15 @@ class CogDevApp(CogEngine_GtkSDL):
 	def initialize_widgets(self):
 
 		self.output_textbox = self.cogengine.output_textbox
-		self.output_textbox.set_word_wrap(self.gtk.TRUE)
+		self.output_textbox.set_wrap_mode(gtk.WRAP_WORD)
 
 		self.commandline_entry = self.cogengine.commandline_entry
 
 		self.statistics_textbox = self.cogengine.statistics_textbox
-		self.statistics_textbox.set_word_wrap(self.gtk.TRUE)
+		self.statistics_textbox.set_wrap_mode(gtk.WRAP_WORD)
 
 		self.inventory_textbox = self.cogengine.inventory_textbox
-		self.inventory_textbox.set_word_wrap(self.gtk.TRUE)
+		self.inventory_textbox.set_wrap_mode(gtk.WRAP_WORD)
 
 
 	#####################################################################

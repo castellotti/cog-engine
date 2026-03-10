@@ -611,7 +611,7 @@ class Background_TTS(threading.Thread):
 
 	#####################################################################
 
-	def Speak(self, text, None):
+	def Speak(self, text, flags=None):
 		self.text_queue.put(text)		
 
 		
@@ -999,7 +999,7 @@ class CogEngine_GtkSDL(CogEngine):
 
 		# This method is used to append text to the text output area
 		if (self.gameInformation.show_text_output_area):
-			self.output_textbox.insert_defaults(text)
+			self.output_textbox.get_buffer().insert_at_cursor(text)
 
 
 	#####################################################################
@@ -1360,8 +1360,9 @@ class CogEngine_GtkSDL(CogEngine):
 
 		if (self.gameInformation.show_stats):
 
-			self.statistics_textbox.delete_text(0, -1)
-			self.statistics_textbox.insert_defaults(text)
+			buf = self.statistics_textbox.get_buffer()
+			buf.delete(buf.get_start_iter(), buf.get_end_iter())
+			buf.insert_at_cursor(text)
 
 
 	#####################################################################
@@ -1372,8 +1373,9 @@ class CogEngine_GtkSDL(CogEngine):
 
 		if (self.gameInformation.show_inventory):
 
-			self.inventory_textbox.delete_text(0, -1)
-			self.inventory_textbox.insert_defaults(text)
+			buf = self.inventory_textbox.get_buffer()
+			buf.delete(buf.get_start_iter(), buf.get_end_iter())
+			buf.insert_at_cursor(text)
 
 		
 #		if (self.gameInformation.show_graphic_area) and \

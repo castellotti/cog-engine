@@ -80,10 +80,10 @@ def insert_data_into_item_editor(self, current_item_number):
 		self.itemData[self.item_displayed].equipped_graphic_url = ""
 	self.itemEditor.equipped_graphic_textentry.set_text(self.itemData[self.item_displayed].equipped_graphic_url)
 
-	self.itemEditor.description_textbox.set_word_wrap(self.gtk.TRUE)
-	self.itemEditor.description_textbox.delete_text(0, -1)
+	self.itemEditor.description_textbox.set_wrap_mode(gtk.WRAP_WORD)
+	self.itemEditor.description_textbox.get_buffer().delete(self.itemEditor.description_textbox.get_buffer().get_start_iter(), self.itemEditor.description_textbox.get_buffer().get_end_iter())
 	if (self.itemData[self.item_displayed].description != None):
-		self.itemEditor.description_textbox.insert_defaults(self.itemData[self.item_displayed].description)
+		self.itemEditor.description_textbox.get_buffer().insert_at_cursor(self.itemData[self.item_displayed].description)
 
 
 	# Setup Location Display
@@ -102,9 +102,9 @@ def insert_data_into_item_editor(self, current_item_number):
 	for each in room_list:
 		location_display = "%sRoom[%i - %s]\n" % (location_display, each, self.roomData[each].name)
 
-	self.itemEditor.location_text.set_word_wrap(self.gtk.TRUE)
-	self.itemEditor.location_text.delete_text(0, -1)
-	self.itemEditor.location_text.insert_defaults(location_display)
+	self.itemEditor.location_text.set_wrap_mode(gtk.WRAP_WORD)
+	self.itemEditor.location_text.get_buffer().delete(self.itemEditor.location_text.get_buffer().get_start_iter(), self.itemEditor.location_text.get_buffer().get_end_iter())
+	self.itemEditor.location_text.get_buffer().insert_at_cursor(location_display)
 
 
 	if (self.itemData[self.item_displayed].equipped):
@@ -115,10 +115,10 @@ def insert_data_into_item_editor(self, current_item_number):
 	self.itemEditor.weight_textentry.set_text("%i" % self.itemData[self.item_displayed].weight)
 	self.itemEditor.bulk_textentry.set_text("%i" % self.itemData[self.item_displayed].bulk)
 
-	self.itemEditor.notes_textbox.delete_text(0, -1)
+	self.itemEditor.notes_textbox.get_buffer().delete(self.itemEditor.notes_textbox.get_buffer().get_start_iter(), self.itemEditor.notes_textbox.get_buffer().get_end_iter())
 	if (self.itemData[self.item_displayed].notes != None):
-		self.itemEditor.notes_textbox.set_word_wrap(self.gtk.TRUE)
-		self.itemEditor.notes_textbox.insert_defaults(self.itemData[self.item_displayed].notes)
+		self.itemEditor.notes_textbox.set_wrap_mode(gtk.WRAP_WORD)
+		self.itemEditor.notes_textbox.get_buffer().insert_at_cursor(self.itemData[self.item_displayed].notes)
 
 
 #####################################################################

@@ -305,7 +305,7 @@ class CogEngine_Application_SDL(CogEngine_GtkSDL):
 		if ('gameInformation' in dir(self)):
 			self.display_game_statistics()
 			self.display_player_inventory()
-			self.output_textbox.insert_defaults(self.gameInformation.output_history)
+			self.output_textbox.get_buffer().insert_at_cursor(self.gameInformation.output_history)
 
 			if (self.gameInformation.show_graphic_area):
 				self.gtk.mainloop()
@@ -359,15 +359,15 @@ class CogEngine_Application_SDL(CogEngine_GtkSDL):
 	def initialize_widgets(self):
 
 		self.output_textbox = self.mainwindow.output_textbox
-		self.output_textbox.set_word_wrap(self.gtk.TRUE)
+		self.output_textbox.set_wrap_mode(self.gtk.WRAP_WORD)
 
 		self.commandline_entry = self.mainwindow.commandline_entry
 
 		self.statistics_textbox = self.mainwindow.statistics_textbox
-		self.statistics_textbox.set_word_wrap(self.gtk.TRUE)
+		self.statistics_textbox.set_wrap_mode(self.gtk.WRAP_WORD)
 
 		self.inventory_textbox = self.mainwindow.inventory_textbox
-		self.inventory_textbox.set_word_wrap(self.gtk.TRUE)
+		self.inventory_textbox.set_wrap_mode(self.gtk.WRAP_WORD)
 
 
 	#####################################################################
@@ -397,6 +397,7 @@ class CogEngine_Application_SDL(CogEngine_GtkSDL):
 				self.mixer.music.stop()
 
 			self.mixer.quit()
+			del self.mixer
 
 
 		if ('speech' in dir(self)):

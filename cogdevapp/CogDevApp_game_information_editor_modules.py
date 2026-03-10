@@ -38,9 +38,9 @@ def insert_data_into_game_editor(self):
 	self.gameInformationEditor.image_loading_graphic_textentry.set_text(self.gameInformation.image_loading_graphic_url)
 	self.gameInformationEditor.introduction_graphic_textentry.set_text(self.gameInformation.introduction_graphic_url)
 
-	self.gameInformationEditor.introduction_text_textbox.set_word_wrap(self.gtk.TRUE)
-	self.gameInformationEditor.introduction_text_textbox.delete_text(0, -1)
-	self.gameInformationEditor.introduction_text_textbox.insert_defaults(self.gameInformation.introduction_text)
+	self.gameInformationEditor.introduction_text_textbox.set_wrap_mode(gtk.WRAP_WORD)
+	self.gameInformationEditor.introduction_text_textbox.get_buffer().delete(self.gameInformationEditor.introduction_text_textbox.get_buffer().get_start_iter(), self.gameInformationEditor.introduction_text_textbox.get_buffer().get_end_iter())
+	self.gameInformationEditor.introduction_text_textbox.get_buffer().insert_at_cursor(self.gameInformation.introduction_text)
 
  	if (self.gameInformation.debug_mode):
  		self.gameInformationEditor.debug_mode_true_radiobutton.set_active(1)
@@ -49,9 +49,9 @@ def insert_data_into_game_editor(self):
 
 	self.gameInformationEditor.text_to_speech_enabled_checkbutton.set_active(self.gameInformation.text_to_speech_enabled)
 
-	self.gameInformationEditor.game_information_notes_textbox.set_word_wrap(self.gtk.TRUE)
-	self.gameInformationEditor.game_information_notes_textbox.delete_text(0, -1)
-	self.gameInformationEditor.game_information_notes_textbox.insert_defaults(self.gameInformation.game_information_notes)
+	self.gameInformationEditor.game_information_notes_textbox.set_wrap_mode(gtk.WRAP_WORD)
+	self.gameInformationEditor.game_information_notes_textbox.get_buffer().delete(self.gameInformationEditor.game_information_notes_textbox.get_buffer().get_start_iter(), self.gameInformationEditor.game_information_notes_textbox.get_buffer().get_end_iter())
+	self.gameInformationEditor.game_information_notes_textbox.get_buffer().insert_at_cursor(self.gameInformation.game_information_notes)
 
 
 #####################################################################

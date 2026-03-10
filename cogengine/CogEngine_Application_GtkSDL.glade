@@ -1,522 +1,525 @@
-<?xml version="1.0"?>
-<GTK-Interface>
+<?xml version="1.0" standalone="no"?> <!--*- mode: nxml -*-->
+<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd" >
 
-<project>
-  <name>CogDevApp</name>
-  <program_name>cogdevapp</program_name>
-  <directory></directory>
-  <source_directory></source_directory>
-  <pixmaps_directory></pixmaps_directory>
-  <language>C</language>
-  <gnome_support>False</gnome_support>
-  <gettext_support>True</gettext_support>
-  <output_main_file>False</output_main_file>
-</project>
+<glade-interface>
+  <widget class="GtkFileSelection" id="open_fileselection">
+    <property name="border_width">10</property>
+    <property name="title" translatable="yes">Open Cog Engine Game Module</property>
+    <property name="type">GTK_WINDOW_TOPLEVEL</property>
+    <property name="modal">no</property>
+    <property name="allow_shrink">no</property>
+    <property name="allow_grow">yes</property>
+    <property name="show-fileops">yes</property>
+    <property name="visible">yes</property>
+    <property name="window-position">GTK_WIN_POS_NONE</property>
 
-<widget>
-  <class>GtkFileSelection</class>
-  <name>open_fileselection</name>
-  <border_width>10</border_width>
-  <title>Open Cog Engine Game Module</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
-  <allow_shrink>False</allow_shrink>
-  <allow_grow>True</allow_grow>
-  <auto_shrink>False</auto_shrink>
-  <show_file_op_buttons>True</show_file_op_buttons>
+    <child internal-child="ok_button">
+      <widget class="GtkButton" id="open_fileselection_ok_button">
+        <property name="can_default">yes</property>
+        <property name="can_focus">yes</property>
+        <property name="label" translatable="yes">OK</property>
+        <property name="relief">GTK_RELIEF_NORMAL</property>
+        <property name="visible">yes</property>
 
-  <widget>
-    <class>GtkButton</class>
-    <child_name>FileSel:ok_button</child_name>
-    <name>open_fileselection_ok_button</name>
-    <can_default>True</can_default>
-    <can_focus>True</can_focus>
-    <signal>
-      <name>clicked</name>
-      <handler>on_open_fileselection_ok_button_clicked</handler>
-      <last_modification_time>Fri, 19 Jan 2001 06:03:28 GMT</last_modification_time>
-    </signal>
-    <label>OK</label>
-    <relief>GTK_RELIEF_NORMAL</relief>
+        <signal name="clicked" handler="on_open_fileselection_ok_button_clicked" />
+      </widget>
+    </child>
+
+    <child internal-child="cancel_button">
+      <widget class="GtkButton" id="open_fileselection_cancel_button">
+        <property name="can_default">yes</property>
+        <property name="can_focus">yes</property>
+        <property name="label" translatable="yes">Cancel</property>
+        <property name="relief">GTK_RELIEF_NORMAL</property>
+        <property name="visible">yes</property>
+
+        <signal name="clicked" handler="on_open_fileselection_cancel_button_clicked" />
+      </widget>
+    </child>
   </widget>
+  <widget class="GtkFileSelection" id="save_as_fileselection">
+    <property name="border_width">10</property>
+    <property name="title" translatable="yes">Save Cog Engine Game Module As File</property>
+    <property name="type">GTK_WINDOW_TOPLEVEL</property>
+    <property name="modal">no</property>
+    <property name="allow_shrink">no</property>
+    <property name="allow_grow">yes</property>
+    <property name="show-fileops">yes</property>
+    <property name="visible">yes</property>
+    <property name="window-position">GTK_WIN_POS_NONE</property>
 
-  <widget>
-    <class>GtkButton</class>
-    <child_name>FileSel:cancel_button</child_name>
-    <name>open_fileselection_cancel_button</name>
-    <can_default>True</can_default>
-    <can_focus>True</can_focus>
-    <signal>
-      <name>clicked</name>
-      <handler>on_open_fileselection_cancel_button_clicked</handler>
-      <last_modification_time>Fri, 19 Jan 2001 06:01:07 GMT</last_modification_time>
-    </signal>
-    <label>Cancel</label>
-    <relief>GTK_RELIEF_NORMAL</relief>
+    <child internal-child="ok_button">
+      <widget class="GtkButton" id="save_as_fileselection_ok_button">
+        <property name="can_default">yes</property>
+        <property name="can_focus">yes</property>
+        <property name="label" translatable="yes">OK</property>
+        <property name="relief">GTK_RELIEF_NORMAL</property>
+        <property name="visible">yes</property>
+
+        <signal name="clicked" handler="on_save_as_fileselection_ok_button_clicked" />
+      </widget>
+    </child>
+
+    <child internal-child="cancel_button">
+      <widget class="GtkButton" id="save_as_fileselection_cancel_button">
+        <property name="can_default">yes</property>
+        <property name="can_focus">yes</property>
+        <property name="label" translatable="yes">Cancel</property>
+        <property name="relief">GTK_RELIEF_NORMAL</property>
+        <property name="visible">yes</property>
+
+        <signal name="clicked" handler="on_save_as_fileselection_cancel_button_clicked" />
+      </widget>
+    </child>
   </widget>
-</widget>
+  <widget class="GtkWindow" id="CogEngine">
+    <property name="title" translatable="yes">The Cog Engine</property>
+    <property name="type">GTK_WINDOW_TOPLEVEL</property>
+    <property name="modal">no</property>
+    <property name="default_width">800</property>
+    <property name="default_height">350</property>
+    <property name="allow_shrink">no</property>
+    <property name="allow_grow">yes</property>
+    <property name="window-position">GTK_WIN_POS_NONE</property>
+    <property name="visible">yes</property>
 
-<widget>
-  <class>GtkFileSelection</class>
-  <name>save_as_fileselection</name>
-  <border_width>10</border_width>
-  <title>Save Cog Engine Game Module As File</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
-  <allow_shrink>False</allow_shrink>
-  <allow_grow>True</allow_grow>
-  <auto_shrink>False</auto_shrink>
-  <show_file_op_buttons>True</show_file_op_buttons>
+    <signal name="destroy" handler="on_quit" />
 
-  <widget>
-    <class>GtkButton</class>
-    <child_name>FileSel:ok_button</child_name>
-    <name>save_as_fileselection_ok_button</name>
-    <can_default>True</can_default>
-    <can_focus>True</can_focus>
-    <signal>
-      <name>clicked</name>
-      <handler>on_save_as_fileselection_ok_button_clicked</handler>
-      <last_modification_time>Fri, 19 Jan 2001 06:05:46 GMT</last_modification_time>
-    </signal>
-    <label>OK</label>
-    <relief>GTK_RELIEF_NORMAL</relief>
+    <child>
+      <widget class="GtkVBox" id="vbox56">
+        <property name="homogeneous">no</property>
+        <property name="spacing">0</property>
+        <property name="visible">yes</property>
+
+        <child>
+          <widget class="GtkHandleBox" id="handlebox7">
+            <property name="handle_position">GTK_POS_LEFT</property>
+            <property name="snap_edge">GTK_POS_TOP</property>
+            <property name="shadow">GTK_SHADOW_OUT</property>
+            <property name="visible">yes</property>
+
+            <child>
+              <widget class="GtkMenuBar" id="menubar3">
+                <property name="visible">yes</property>
+
+                <child>
+                  <widget class="GtkMenuItem" id="file">
+                    <property name="label" translatable="yes">_File</property>
+                    <property name="visible">yes</property>
+                    <property name="use_underline">yes</property>
+
+                    <child>
+                      <widget class="GtkMenu" id="file_menu">
+                        <property name="visible">yes</property>
+
+                        <child>
+                          <widget class="GtkMenuItem" id="new_file">
+                            <property name="label" translatable="yes">_New</property>
+                            <property name="visible">yes</property>
+                            <property name="use_underline">yes</property>
+
+                            <signal name="activate" handler="on_new_file_activate" />
+                          </widget>
+                        </child>
+
+                        <child>
+                          <widget class="GtkMenuItem" id="open">
+                            <property name="label" translatable="yes">_Open</property>
+                            <property name="visible">yes</property>
+                            <property name="use_underline">yes</property>
+
+                            <signal name="activate" handler="on_open_activate" />
+                          </widget>
+                        </child>
+
+                        <child>
+                          <widget class="GtkMenuItem" id="save">
+                            <property name="label" translatable="yes">_Save</property>
+                            <property name="visible">yes</property>
+                            <property name="use_underline">yes</property>
+
+                            <signal name="activate" handler="on_save_activate" />
+                          </widget>
+                        </child>
+
+                        <child>
+                          <widget class="GtkMenuItem" id="save_as">
+                            <property name="label" translatable="yes">Save _As</property>
+                            <property name="visible">yes</property>
+                            <property name="use_underline">yes</property>
+
+                            <signal name="activate" handler="on_save_as_activate" />
+                          </widget>
+                        </child>
+
+                        <child>
+                          <widget class="GtkMenuItem" id="separator6">
+                            <property name="visible">yes</property>
+                          </widget>
+                        </child>
+
+                        <child>
+                          <widget class="GtkMenuItem" id="continue_game">
+                            <property name="label" translatable="yes">Continue Game</property>
+                            <property name="visible">yes</property>
+
+                            <signal name="activate" handler="on_continue_game_activate" />
+                          </widget>
+                        </child>
+
+                        <child>
+                          <widget class="GtkMenuItem" id="separator5">
+                            <property name="visible">yes</property>
+                          </widget>
+                        </child>
+
+                        <child>
+                          <widget class="GtkMenuItem" id="exit">
+                            <property name="label" translatable="yes">E_xit</property>
+                            <property name="visible">yes</property>
+                            <property name="use_underline">yes</property>
+
+                            <signal name="activate" handler="on_quit" />
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                  </widget>
+                </child>
+
+                <child>
+                  <widget class="GtkMenuItem" id="help">
+                    <property name="label" translatable="yes">_Help</property>
+                    <property name="visible">yes</property>
+                    <property name="use_underline">yes</property>
+
+                    <child>
+                      <widget class="GtkMenu" id="help_menu">
+                        <property name="visible">yes</property>
+
+                        <child>
+                          <widget class="GtkMenuItem" id="about">
+                            <property name="label" translatable="yes">_About</property>
+                            <property name="visible">yes</property>
+                            <property name="use_underline">yes</property>
+
+                            <signal name="activate" handler="on_about_activate" />
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                  </widget>
+                </child>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="padding">0</property>
+            <property name="expand">no</property>
+            <property name="fill">yes</property>
+          </packing>
+        </child>
+
+        <child>
+          <widget class="GtkNotebook" id="notebook1">
+            <property name="can_focus">yes</property>
+            <property name="show_tabs">yes</property>
+            <property name="show_border">yes</property>
+            <property name="tab_pos">GTK_POS_TOP</property>
+            <property name="scrollable">no</property>
+            <property name="tab_hborder">2</property>
+            <property name="tab_vborder">2</property>
+            <property name="enable-popup">no</property>
+            <property name="visible">yes</property>
+
+            <child>
+              <widget class="GtkScrolledWindow" id="scrolledwindow31">
+                <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
+                <property name="vscrollbar_policy">GTK_POLICY_ALWAYS</property>
+                <property name="shadow_type">GTK_SHADOW_IN</property>
+                <property name="visible">yes</property>
+
+                <child>
+                  <widget class="GtkTextView" id="output_textbox">
+                    <property name="can_focus">yes</property>
+                    <property name="editable">no</property>
+                    <property name="text" translatable="yes"></property>
+                    <property name="wrap_mode">GTK_WRAP_WORD</property>
+                    <property name="visible">yes</property>
+                  </widget>
+                </child>
+
+                <child internal-child="hscrollbar">
+                  <widget class="GtkHScrollbar" id="convertwidget1">
+                    <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
+                    <property name="visible">yes</property>
+                  </widget>
+                </child>
+
+                <child internal-child="vscrollbar">
+                  <widget class="GtkVScrollbar" id="convertwidget2">
+                    <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
+                    <property name="visible">yes</property>
+                  </widget>
+                </child>
+              </widget>
+            </child>
+
+            <child>
+              <widget class="GtkLabel" id="text_output_label">
+                <property name="label" translatable="yes">Text Output</property>
+                <property name="justify">GTK_JUSTIFY_CENTER</property>
+                <property name="wrap">no</property>
+                <property name="xalign">0.5</property>
+                <property name="yalign">0.5</property>
+                <property name="xpad">0</property>
+                <property name="ypad">0</property>
+                <property name="visible">yes</property>
+              </widget>
+              <packing>
+                <property name="type">tab</property>
+              </packing>
+            </child>
+
+            <child>
+              <widget class="GtkScrolledWindow" id="scrolledwindow32">
+                <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
+                <property name="vscrollbar_policy">GTK_POLICY_ALWAYS</property>
+                <property name="shadow_type">GTK_SHADOW_IN</property>
+                <property name="visible">yes</property>
+
+                <child>
+                  <widget class="GtkTextView" id="inventory_textbox">
+                    <property name="can_focus">yes</property>
+                    <property name="editable">no</property>
+                    <property name="text" translatable="yes"></property>
+                    <property name="wrap_mode">GTK_WRAP_WORD</property>
+                    <property name="visible">yes</property>
+                  </widget>
+                </child>
+
+                <child internal-child="hscrollbar">
+                  <widget class="GtkHScrollbar" id="convertwidget3">
+                    <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
+                    <property name="visible">yes</property>
+                  </widget>
+                </child>
+
+                <child internal-child="vscrollbar">
+                  <widget class="GtkVScrollbar" id="convertwidget4">
+                    <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
+                    <property name="visible">yes</property>
+                  </widget>
+                </child>
+              </widget>
+            </child>
+
+            <child>
+              <widget class="GtkLabel" id="inventory_label">
+                <property name="label" translatable="yes">Inventory</property>
+                <property name="justify">GTK_JUSTIFY_CENTER</property>
+                <property name="wrap">no</property>
+                <property name="xalign">0.5</property>
+                <property name="yalign">0.5</property>
+                <property name="xpad">0</property>
+                <property name="ypad">0</property>
+                <property name="visible">yes</property>
+              </widget>
+              <packing>
+                <property name="type">tab</property>
+              </packing>
+            </child>
+
+            <child>
+              <widget class="GtkScrolledWindow" id="scrolledwindow33">
+                <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
+                <property name="vscrollbar_policy">GTK_POLICY_ALWAYS</property>
+                <property name="shadow_type">GTK_SHADOW_IN</property>
+                <property name="visible">yes</property>
+
+                <child>
+                  <widget class="GtkTextView" id="statistics_textbox">
+                    <property name="can_focus">yes</property>
+                    <property name="editable">no</property>
+                    <property name="text" translatable="yes"></property>
+                    <property name="wrap_mode">GTK_WRAP_WORD</property>
+                    <property name="visible">yes</property>
+                  </widget>
+                </child>
+
+                <child internal-child="hscrollbar">
+                  <widget class="GtkHScrollbar" id="convertwidget5">
+                    <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
+                    <property name="visible">yes</property>
+                  </widget>
+                </child>
+
+                <child internal-child="vscrollbar">
+                  <widget class="GtkVScrollbar" id="convertwidget6">
+                    <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
+                    <property name="visible">yes</property>
+                  </widget>
+                </child>
+              </widget>
+            </child>
+
+            <child>
+              <widget class="GtkLabel" id="statistics_label">
+                <property name="label" translatable="yes">Statistics</property>
+                <property name="justify">GTK_JUSTIFY_CENTER</property>
+                <property name="wrap">no</property>
+                <property name="xalign">0.5</property>
+                <property name="yalign">0.5</property>
+                <property name="xpad">0</property>
+                <property name="ypad">0</property>
+                <property name="visible">yes</property>
+              </widget>
+              <packing>
+                <property name="type">tab</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="padding">0</property>
+            <property name="expand">yes</property>
+            <property name="fill">yes</property>
+          </packing>
+        </child>
+
+        <child>
+          <widget class="GtkEntry" id="commandline_entry">
+            <property name="can_focus">yes</property>
+            <property name="editable">yes</property>
+            <property name="text" translatable="yes"></property>
+            <property name="max-length">0</property>
+            <property name="visibility">yes</property>
+            <property name="visible">yes</property>
+
+            <signal name="activate" handler="on_commandline_entry_activate" />
+          </widget>
+          <packing>
+            <property name="padding">0</property>
+            <property name="expand">no</property>
+            <property name="fill">no</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
   </widget>
+  <widget class="GtkDialog" id="about">
+    <property name="title" translatable="yes">About the Cog Development Application</property>
+    <property name="type">GTK_WINDOW_TOPLEVEL</property>
+    <property name="modal">no</property>
+    <property name="default_width">428</property>
+    <property name="default_height">400</property>
+    <property name="allow_shrink">yes</property>
+    <property name="allow_grow">yes</property>
+    <property name="visible">yes</property>
+    <property name="window-position">GTK_WIN_POS_NONE</property>
 
-  <widget>
-    <class>GtkButton</class>
-    <child_name>FileSel:cancel_button</child_name>
-    <name>save_as_fileselection_cancel_button</name>
-    <can_default>True</can_default>
-    <can_focus>True</can_focus>
-    <signal>
-      <name>clicked</name>
-      <handler>on_save_as_fileselection_cancel_button_clicked</handler>
-      <last_modification_time>Fri, 19 Jan 2001 06:05:52 GMT</last_modification_time>
-    </signal>
-    <label>Cancel</label>
-    <relief>GTK_RELIEF_NORMAL</relief>
-  </widget>
-</widget>
+    <child internal-child="vbox">
+      <widget class="GtkVBox" id="dialog-vbox2">
+        <property name="homogeneous">no</property>
+        <property name="spacing">0</property>
+        <property name="visible">yes</property>
 
-<widget>
-  <class>GtkWindow</class>
-  <name>CogEngine</name>
-  <signal>
-    <name>destroy</name>
-    <handler>on_quit</handler>
-    <last_modification_time>Thu, 09 May 2002 23:15:03 GMT</last_modification_time>
-  </signal>
-  <title>The Cog Engine</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
-  <default_width>800</default_width>
-  <default_height>350</default_height>
-  <allow_shrink>False</allow_shrink>
-  <allow_grow>True</allow_grow>
-  <auto_shrink>False</auto_shrink>
+        <child internal-child="action_area">
+          <widget class="GtkHButtonBox" id="dialog-action_area2">
+            <property name="border_width">10</property>
+            <property name="homogeneous">yes</property>
+            <property name="spacing">5</property>
+            <property name="visible">yes</property>
 
-  <widget>
-    <class>GtkVBox</class>
-    <name>vbox56</name>
-    <homogeneous>False</homogeneous>
-    <spacing>0</spacing>
+            <child>
+              <widget class="GtkButton" id="about_ok_button">
+                <property name="border_width">6</property>
+                <property name="can_focus">yes</property>
+                <property name="label" translatable="yes">     OK     </property>
+                <property name="relief">GTK_RELIEF_NORMAL</property>
+                <property name="visible">yes</property>
 
-    <widget>
-      <class>GtkHandleBox</class>
-      <name>handlebox7</name>
-      <shadow_type>GTK_SHADOW_OUT</shadow_type>
-      <handle_position>GTK_POS_LEFT</handle_position>
-      <snap_edge>GTK_POS_TOP</snap_edge>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>True</fill>
-      </child>
+                <signal name="clicked" handler="destroy_about_box" object="about" />
+              </widget>
+              <packing>
+                <property name="padding">0</property>
+                <property name="expand">no</property>
+                <property name="fill">no</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="padding">0</property>
+            <property name="expand">no</property>
+            <property name="fill">yes</property>
+            <property name="pack_type">GTK_PACK_END</property>
+          </packing>
+        </child>
 
-      <widget>
-	<class>GtkMenuBar</class>
-	<name>menubar3</name>
-	<shadow_type>GTK_SHADOW_OUT</shadow_type>
+        <child>
+          <widget class="GtkVBox" id="vbox45">
+            <property name="homogeneous">no</property>
+            <property name="spacing">0</property>
+            <property name="visible">yes</property>
 
-	<widget>
-	  <class>GtkMenuItem</class>
-	  <name>file</name>
-	  <label>_File</label>
-	  <right_justify>False</right_justify>
+            <child>
+              <widget class="GtkImage" id="pixmap1">
+                <property name="xalign">0.5</property>
+                <property name="yalign">0.5</property>
+                <property name="xpad">0</property>
+                <property name="ypad">0</property>
+                <property name="pixbuf">icon-cycon.xpm</property>
+                <property name="visible">yes</property>
+              </widget>
+              <packing>
+                <property name="padding">0</property>
+                <property name="expand">yes</property>
+                <property name="fill">yes</property>
+              </packing>
+            </child>
 
-	  <widget>
-	    <class>GtkMenu</class>
-	    <name>file_menu</name>
+            <child>
+              <widget class="GtkHSeparator" id="hseparator11">
+                <property name="visible">yes</property>
+              </widget>
+              <packing>
+                <property name="padding">0</property>
+                <property name="expand">no</property>
+                <property name="fill">no</property>
+              </packing>
+            </child>
 
-	    <widget>
-	      <class>GtkMenuItem</class>
-	      <name>new_file</name>
-	      <signal>
-		<name>activate</name>
-		<handler>on_new_file_activate</handler>
-		<last_modification_time>Sat, 15 Sep 2001 20:16:56 GMT</last_modification_time>
-	      </signal>
-	      <label>_New</label>
-	      <right_justify>False</right_justify>
-	    </widget>
+            <child>
+              <widget class="GtkLabel" id="Application Title">
+                <property name="label" translatable="yes">Cog Engine Application v1.1.6</property>
+                <property name="justify">GTK_JUSTIFY_CENTER</property>
+                <property name="wrap">no</property>
+                <property name="xalign">0.5</property>
+                <property name="yalign">0.5</property>
+                <property name="xpad">0</property>
+                <property name="ypad">0</property>
+                <property name="visible">yes</property>
+              </widget>
+              <packing>
+                <property name="padding">0</property>
+                <property name="expand">no</property>
+                <property name="fill">no</property>
+              </packing>
+            </child>
 
-	    <widget>
-	      <class>GtkMenuItem</class>
-	      <name>open</name>
-	      <signal>
-		<name>activate</name>
-		<handler>on_open_activate</handler>
-		<last_modification_time>Sat, 15 Sep 2001 20:16:56 GMT</last_modification_time>
-	      </signal>
-	      <label>_Open</label>
-	      <right_justify>False</right_justify>
-	    </widget>
+            <child>
+              <widget class="GtkHSeparator" id="hseparator10">
+                <property name="visible">yes</property>
+              </widget>
+              <packing>
+                <property name="padding">0</property>
+                <property name="expand">no</property>
+                <property name="fill">no</property>
+              </packing>
+            </child>
 
-	    <widget>
-	      <class>GtkMenuItem</class>
-	      <name>save</name>
-	      <signal>
-		<name>activate</name>
-		<handler>on_save_activate</handler>
-		<last_modification_time>Sat, 15 Sep 2001 20:16:56 GMT</last_modification_time>
-	      </signal>
-	      <label>_Save</label>
-	      <right_justify>False</right_justify>
-	    </widget>
-
-	    <widget>
-	      <class>GtkMenuItem</class>
-	      <name>save_as</name>
-	      <signal>
-		<name>activate</name>
-		<handler>on_save_as_activate</handler>
-		<last_modification_time>Sat, 15 Sep 2001 20:16:56 GMT</last_modification_time>
-	      </signal>
-	      <label>Save _As</label>
-	      <right_justify>False</right_justify>
-	    </widget>
-
-	    <widget>
-	      <class>GtkMenuItem</class>
-	      <name>separator6</name>
-	      <right_justify>False</right_justify>
-	    </widget>
-
-	    <widget>
-	      <class>GtkMenuItem</class>
-	      <name>continue_game</name>
-	      <signal>
-		<name>activate</name>
-		<handler>on_continue_game_activate</handler>
-		<last_modification_time>Fri, 21 Jun 2002 00:55:36 GMT</last_modification_time>
-	      </signal>
-	      <label>Continue Game</label>
-	      <right_justify>False</right_justify>
-	    </widget>
-
-	    <widget>
-	      <class>GtkMenuItem</class>
-	      <name>separator5</name>
-	      <right_justify>False</right_justify>
-	    </widget>
-
-	    <widget>
-	      <class>GtkMenuItem</class>
-	      <name>exit</name>
-	      <signal>
-		<name>activate</name>
-		<handler>on_quit</handler>
-		<last_modification_time>Sat, 15 Sep 2001 20:16:56 GMT</last_modification_time>
-	      </signal>
-	      <label>E_xit</label>
-	      <right_justify>False</right_justify>
-	    </widget>
-	  </widget>
-	</widget>
-
-	<widget>
-	  <class>GtkMenuItem</class>
-	  <name>help</name>
-	  <label>_Help</label>
-	  <right_justify>False</right_justify>
-
-	  <widget>
-	    <class>GtkMenu</class>
-	    <name>help_menu</name>
-
-	    <widget>
-	      <class>GtkMenuItem</class>
-	      <name>about</name>
-	      <signal>
-		<name>activate</name>
-		<handler>on_about_activate</handler>
-		<last_modification_time>Sat, 15 Sep 2001 20:16:56 GMT</last_modification_time>
-	      </signal>
-	      <label>_About</label>
-	      <right_justify>False</right_justify>
-	    </widget>
-	  </widget>
-	</widget>
-      </widget>
-    </widget>
-
-    <widget>
-      <class>GtkNotebook</class>
-      <name>notebook1</name>
-      <can_focus>True</can_focus>
-      <show_tabs>True</show_tabs>
-      <show_border>True</show_border>
-      <tab_pos>GTK_POS_TOP</tab_pos>
-      <scrollable>False</scrollable>
-      <tab_hborder>2</tab_hborder>
-      <tab_vborder>2</tab_vborder>
-      <popup_enable>False</popup_enable>
-      <child>
-	<padding>0</padding>
-	<expand>True</expand>
-	<fill>True</fill>
-      </child>
-
-      <widget>
-	<class>GtkScrolledWindow</class>
-	<name>scrolledwindow31</name>
-	<hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
-	<vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
-	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
-
-	<widget>
-	  <class>GtkText</class>
-	  <name>output_textbox</name>
-	  <can_focus>True</can_focus>
-	  <editable>False</editable>
-	  <text></text>
-	</widget>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<child_name>Notebook:tab</child_name>
-	<name>text_output_label</name>
-	<label>Text Output</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-      </widget>
-
-      <widget>
-	<class>GtkScrolledWindow</class>
-	<name>scrolledwindow32</name>
-	<hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
-	<vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
-	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
-
-	<widget>
-	  <class>GtkText</class>
-	  <name>inventory_textbox</name>
-	  <can_focus>True</can_focus>
-	  <editable>False</editable>
-	  <text></text>
-	</widget>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<child_name>Notebook:tab</child_name>
-	<name>inventory_label</name>
-	<label>Inventory</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-      </widget>
-
-      <widget>
-	<class>GtkScrolledWindow</class>
-	<name>scrolledwindow33</name>
-	<hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
-	<vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
-	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
-
-	<widget>
-	  <class>GtkText</class>
-	  <name>statistics_textbox</name>
-	  <can_focus>True</can_focus>
-	  <editable>False</editable>
-	  <text></text>
-	</widget>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<child_name>Notebook:tab</child_name>
-	<name>statistics_label</name>
-	<label>Statistics</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-      </widget>
-    </widget>
-
-    <widget>
-      <class>GtkEntry</class>
-      <name>commandline_entry</name>
-      <can_focus>True</can_focus>
-      <signal>
-	<name>activate</name>
-	<handler>on_commandline_entry_activate</handler>
-	<last_modification_time>Mon, 06 May 2002 21:49:34 GMT</last_modification_time>
-      </signal>
-      <editable>True</editable>
-      <text_visible>True</text_visible>
-      <text_max_length>0</text_max_length>
-      <text></text>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>False</fill>
-      </child>
-    </widget>
-  </widget>
-</widget>
-
-<widget>
-  <class>GtkDialog</class>
-  <name>about</name>
-  <title>About the Cog Development Application</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
-  <default_width>428</default_width>
-  <default_height>400</default_height>
-  <allow_shrink>True</allow_shrink>
-  <allow_grow>True</allow_grow>
-  <auto_shrink>False</auto_shrink>
-
-  <widget>
-    <class>GtkVBox</class>
-    <child_name>Dialog:vbox</child_name>
-    <name>dialog-vbox2</name>
-    <homogeneous>False</homogeneous>
-    <spacing>0</spacing>
-
-    <widget>
-      <class>GtkHBox</class>
-      <child_name>Dialog:action_area</child_name>
-      <name>dialog-action_area2</name>
-      <border_width>10</border_width>
-      <homogeneous>True</homogeneous>
-      <spacing>5</spacing>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>True</fill>
-	<pack>GTK_PACK_END</pack>
-      </child>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>about_ok_button</name>
-	<border_width>6</border_width>
-	<can_focus>True</can_focus>
-	<signal>
-	  <name>clicked</name>
-	  <handler>destroy_about_box</handler>
-	  <object>about</object>
-	  <last_modification_time>Sun, 16 Sep 2001 01:07:50 GMT</last_modification_time>
-	</signal>
-	<label>     OK     </label>
-	<relief>GTK_RELIEF_NORMAL</relief>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-      </widget>
-    </widget>
-
-    <widget>
-      <class>GtkVBox</class>
-      <name>vbox45</name>
-      <homogeneous>False</homogeneous>
-      <spacing>0</spacing>
-      <child>
-	<padding>0</padding>
-	<expand>True</expand>
-	<fill>True</fill>
-      </child>
-
-      <widget>
-	<class>GtkPixmap</class>
-	<name>pixmap1</name>
-	<filename>icon-cycon.xpm</filename>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<build_insensitive>True</build_insensitive>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkHSeparator</class>
-	<name>hseparator11</name>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<name>Application Title</name>
-	<label>Cog Engine Application v1.1.6</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkHSeparator</class>
-	<name>hseparator10</name>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<name>Application Information</name>
-	<label>
+            <child>
+              <widget class="GtkLabel" id="Application Information">
+                <property name="label" translatable="yes">
 Copyright (2001, 2002)
 Author: Steven M. Castellotti
 
@@ -525,21 +528,29 @@ The Cog Engine Application plays game databases modules created with the Cog Dev
 For more information, please visit:
 http://cogengine.sourceforge.net
 
-</label>
-	<justify>GTK_JUSTIFY_LEFT</justify>
-	<wrap>True</wrap>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
+</property>
+                <property name="justify">GTK_JUSTIFY_LEFT</property>
+                <property name="wrap">yes</property>
+                <property name="xalign">0.5</property>
+                <property name="yalign">0.5</property>
+                <property name="xpad">0</property>
+                <property name="ypad">0</property>
+                <property name="visible">yes</property>
+              </widget>
+              <packing>
+                <property name="padding">0</property>
+                <property name="expand">no</property>
+                <property name="fill">no</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="padding">0</property>
+            <property name="expand">yes</property>
+            <property name="fill">yes</property>
+          </packing>
+        </child>
       </widget>
-    </widget>
+    </child>
   </widget>
-</widget>
-
-</GTK-Interface>
+</glade-interface>
